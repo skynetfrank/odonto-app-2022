@@ -1,0 +1,685 @@
+/*  powered by: Franklin Bolivar, noviembre-2021 */
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  list-style: none;
+}
+
+body {
+  background: white;
+  font-family: 'Poppins', sans-serif;
+  line-height: 19px;
+  overflow-x: hidden;
+}
+
+#floating-images {
+  display: none;
+}
+
+/* CUSTOM FEBB INPUTS */
+.input__div {
+  height: 35px;
+  width: 100%;
+  margin: 20px 0px;
+  position: relative;
+}
+
+.input__div.pw {
+  margin-bottom: 0;
+}
+
+.input__div.pw a {
+  font-size: 12px;
+  color: bisque;
+}
+
+.input__div input {
+  width: 100%;
+  outline: none;
+  font-size: 18px;
+  padding: 10px 5px 0px 15px;
+  border: none;
+  border-bottom: 1px solid white;
+  background-color: #0361df;
+  transition: all 0.3s ease;
+  color: antiquewhite;
+}
+
+.input__div input:focus {
+  border-color: black;
+}
+
+.input__div label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.input__div input:focus ~ label,
+.input__div input:valid ~ label {
+  top: 0%;
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  transform: translateY(-50%);
+}
+
+/* FIN DE CUSTOM FEBB INPUTS */
+
+/*------ PRE LOADER SPINNER ---------*/
+
+.spinner {
+  display: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  z-index: 999999;
+  color: black;
+}
+
+.spinner:before {
+  content: '';
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid #575757;
+  border-top-color: #ffffff;
+  animation: spinner 0.9s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*------ FIN DE PRE LOADER SPINNER ---------*/
+
+/*-------- NAV BAR -------------*/
+.img-logo {
+  padding: 10px;
+  border-radius: 50%;
+}
+
+nav {
+  height: 70px;
+  width: 100%;
+  background-color: #0361df;
+  line-height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+label.logo {
+  color: black;
+  font-size: 35px;
+  font-weight: bold;
+  padding: 0 25px;
+}
+
+nav ul {
+  float: right;
+  margin-right: 40px;
+}
+nav li {
+  display: inline-block;
+}
+
+nav a {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin: 0 10px;
+}
+nav a:hover {
+  transition: 0.2s;
+  color: rgb(255, 94, 0);
+}
+
+nav #hamburguesa {
+  height: 40px;
+  cursor: pointer;
+  float: right;
+  margin: 8px 40px;
+  display: none;
+}
+
+/*-------- FIN NAV BAR -------------*/
+
+section {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+#seccion__agenda,
+#seccion__dashboard {
+  display: none;
+}
+
+#seccion__inicio {
+  background: url('../images/admin.jpg') no-repeat top center;
+  background-size: 100% 100%;
+}
+
+#usuario {
+  position: relative;
+  top: -30px;
+  font-size: 1rem;
+  max-width: 100px;
+  color: blanchedalmond;
+}
+
+#sesion {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  top: 200px;
+  justify-content: center;
+}
+
+#form-sesion a {
+  font-size: 10px;
+  color: rgb(207, 206, 204);
+}
+
+.login__container {
+  position: relative;
+  max-width: 300px;
+  width: 100%;
+  max-height: 300px;
+  height: 100%;
+  background: #0361df;
+  padding: 30px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+
+.login__container .title {
+  text-align: center;
+  position: relative;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 35px;
+}
+
+.btn {
+  display: block;
+  padding: 0.6rem 1.3rem;
+  background-color: #fff;
+  border: 2px solid #fafafa;
+  font-size: 1rem;
+  font-weight: bolder;
+  color: #0361df;
+  line-height: 1;
+  border-radius: 25px;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 20px 0px;
+}
+
+.btn:hover {
+  color: orangered;
+}
+
+.img-logout {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+/*------MEDIA QUERIES -------*/
+
+/* TABLA RESPONSIVE PACIENTES */
+
+.tabla-container {
+  text-align: center;
+}
+
+.table {
+  width: 90%;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.table td,
+.table th {
+  padding: 5px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 1rem;
+  vertical-align: middle;
+  min-height: 40px;
+}
+
+.table th {
+  background-color: orange;
+  color: black;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #d4d1d1ab;
+}
+table.highlight > tbody > tr:hover {
+  background-color: #4dd0e1;
+}
+
+table.vhighlight > tbody > tr > td:hover {
+  background-color: #4dd0e1;
+  font-weight: 700;
+}
+
+#td-id-hidden,
+#th-id-hidden,
+#td-titulo {
+  display: none;
+}
+
+.info-container {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+button.volver-info {
+  position: absolute;
+  width: 50px;
+  height: 25px;
+  font-size: 13px;
+  padding: 5px;
+  top: 10px;
+  right: 185px;
+  z-index: 9;
+  background-color: #0361df;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+}
+
+/* FIN DE TABLA PACIENTES */
+
+/*INPUT SEARCH CUSTOM DE FEBB   */
+#buscador {
+  display: flex;
+  justify-content: center;
+}
+
+.search__div {
+  position: relative;
+  background-color: white;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  transition: all ease 0.5s;
+  overflow: hidden;
+  border: 2px solid #0457c3;
+  margin-bottom: 5px;
+  margin-right: 10px;
+}
+
+.search__input {
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+  font-size: 1.2rem;
+  height: 100%;
+  width: 0px;
+  transition: all ease 0.5s;
+  pointer-events: all;
+  margin: 0;
+  line-height: 40px;
+}
+
+.search__div:hover > .search__input {
+  width: 175px;
+}
+
+.search__div:hover {
+  width: 225px;
+  background-color: #0361df;
+}
+
+.img-search {
+  position: absolute;
+  cursor: pointer;
+  top: 2px;
+  right: 2px;
+  padding: 5px;
+}
+
+.search__input::placeholder {
+  color: rgb(167, 164, 164);
+  font-size: 1rem;
+}
+
+.btn-add-paciente {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #0457c3;
+}
+
+.btn-add-paciente > img {
+  padding: 5px;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.td-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  outline: none;
+  border: 2px solid #0457c3;
+  background-color: bisque;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.td-btn.offset {
+  top: 5px;
+}
+
+.symbol {
+  top: -2px;
+  left: 5px;
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  pointer-events: none;
+}
+
+.img-btn {
+  width: 20px;
+  height: 27px;
+  pointer-events: none;
+}
+
+/* FIN DE INPUT SEARCH CUSTOM DE FEBB   */
+
+/*==========================
+  MY CUSTOM TOOLTIPS 
+============================*/
+.t-tip {
+  position: relative;
+}
+.t-tip:before {
+  position: absolute;
+  z-index: 99;
+  display: none;
+  padding: 0.3rem;
+  font-size: 12px;
+  min-width: 120px;
+  max-width: 100%;
+  border-radius: 0.3rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0.9;
+  color: white;
+  content: attr(tip);
+  text-align: center;
+}
+.t-tip:after {
+  position: absolute;
+  z-index: 1;
+  display: none;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  content: '';
+}
+.t-tip:hover:before,
+.t-tip:hover:after {
+  display: inline-block;
+}
+
+.t-tip.top:before {
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.t-tip.top:after {
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-width: 0;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.t-tip.bottom:before {
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.t-tip.bottom:after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+
+.t-tip.left:before {
+  top: 50%;
+  right: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+.t-tip.left:after {
+  top: 50%;
+  right: calc(100% + 5px);
+  transform: translateY(-50%);
+  border-right-width: 0;
+  border-left-color: rgba(0, 0, 0, 0.8);
+}
+
+/*left para mover el cuadro de contenido */
+.t-tip.right:before {
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+/*left para mover la flecha */
+.t-tip.right:after {
+  top: 50%;
+  left: calc(100% + 5px);
+  transform: translateY(-50%);
+  border-left-width: 0;
+  border-right-color: rgba(0, 0, 0, 0.8);
+}
+
+#info-container {
+  display: none;
+}
+
+/*Desplegar Informacion de tabla Verticamente por Defecto */
+
+table.info {
+  width: 65%;
+}
+
+.table.info thead {
+  display: none;
+}
+
+.table.info,
+.table.info tbody,
+.table.info tr,
+.table.info td {
+  display: block;
+}
+.table.info tr {
+  margin-bottom: 15px;
+}
+
+#td-titulo-info {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 0;
+  background-color: orange;
+}
+
+.table.info td {
+  text-align: right;
+  position: relative;
+  padding: 10px 15px 10px 220px;
+  word-wrap: break-word;
+}
+
+.table.info td::before {
+  content: attr(data-label);
+  position: absolute;
+  left: 0;
+  /* width: 50%; */
+  padding-left: 15px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+}
+
+/*FIN DE Desplegar Informacion de tabla Verticamente por Defecto */
+
+/*==========================
+  FIN DE MY CUSTOM TOOLTIPS 
+============================*/
+/************************** MEDIA QUERIES *****************************************************/
+
+@media (max-width: 760px) {
+  nav #hamburguesa {
+    display: block;
+  }
+
+  nav ul {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: #575757;
+    top: 70px;
+    left: -100%;
+    margin: 0;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+    opacity: 0.9;
+  }
+
+  nav a {
+    color: black;
+    font-size: 1.5rem;
+    margin: 0;
+    z-index: 99;
+  }
+
+  nav ul.mostrar {
+    left: 0;
+  }
+
+  nav li {
+    display: block;
+    margin: 20px 0px;
+  }
+
+  #usuario {
+    font-size: 12px;
+  }
+
+  .table.info {
+    width: 95%;
+  }
+
+  .tabla-container {
+    padding: 10px;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+  }
+  .table tr {
+    margin-bottom: 15px;
+  }
+
+  #td-titulo {
+    display: block;
+    text-align: center;
+    font-size: 25px;
+    color: black;
+    background-color: orange;
+    font-weight: bold;
+    padding-top: 8px;
+  }
+  .table td {
+    text-align: right;
+    position: relative;
+  }
+  .table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .table.info td::before {
+    width: 50%;
+    font-size: 12px;
+  }
+
+  .table.info td {
+    padding: 5px 5px 5px 180px;
+    font-size: 12px;
+    word-wrap: break-word;
+  }
+
+  button.volver-info {
+    right: 20px;
+  }
+  #td-titulo-info {
+    font-size: 15px;
+  }
+  #buscador {
+    margin-bottom: 15px;
+  }
+  .td-btn {
+    margin-left: 10px;
+  }
+  #btn-eliminar-paciente {
+    margin-right: 15px;
+  }
+}
+
+/*------FIN DE MEDIA QUERIES -------*/

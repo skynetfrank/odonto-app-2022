@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Administrador-Web para consultorio virtual de odontologia">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <title>Consultorio Virtual: Admin</title>
+</head>
+
+<body>
+  <div id="floating-images">
+    <img src="images/odograma-icon.png" alt="odograma">
+    <img src="images/control-asist-icon.png" alt="control">
+    <img src="images/edit-icon.png" alt="edit">
+    <img src="images/delete-icon.png" alt="delete">
+    <img src="images/paciente-info-icon.png" alt="info">
+  </div>
+  <div class="spinner">
+    <span class="spinner-rotate"></span>
+  </div>
+
+  <nav>
+    <a href="#seccion__inicio"><img class="img-logo" src="images/admin-logo.png" alt="logo-img"></a>
+
+    <span id="usuario"></span>
+    <ul id="barra__menu">
+      <li><a href="#seccion__pacientes">Pacientes</a></li>
+      <li><a href="#seccion__agenda">Agenda</a></li>
+      <li><a href="#seccion__dashboard">Dashboard</a></li>
+      <li id="logout-link"><a href="#">Salir</a></li>
+    </ul>
+
+    <label id="hamburguesa">
+      <img src="images/burger-icon.png" alt="">
+    </label>
+
+  </nav>
+
+
+  <section id="seccion__inicio">
+    <div id="sesion">
+      <div class="login__container">
+        <div class="title">Iniciar Sesion</div>
+        <form action="#" id="form-sesion">
+          <div class="input__div">
+            <input type="text" name="email" autocomplete="off" required>
+            <label> Email</label>
+          </div>
+          <div class="input__div pw">
+            <input type="password" name="password" autocomplete="off" required>
+            <label> Password</label>
+          </div>
+          <a href="#" id="forgot-pw">Olvidaste tu password?</a>
+          <input type="submit" class="btn" value="Entrar">
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="seccion__pacientes">
+    <div class="tabla-container">
+
+      <div id="buscador">
+        <div class="search__div">
+          <input class="search__input" type="text" name="" placeholder="Buscar">
+          <span class="icono"><img class="img-search" src="images/search-icon.png" alt=""></i></span>
+        </div>
+        <a class="btn-add-paciente t-tip right" tip="Agregar Nuevo Paciente" href="historia.html">
+          <img class="img-add-paciente" src="images/add-paciente-icon.png" alt=""></a>
+      </div>
+      <table class="table highlight" id="tabla-paciente">
+        <thead>
+          <tr>
+            <th id="th-id-hidden">id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Edad</th>
+            <th>Tel&eacutefono</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody id="pacientes-tbody">
+        </tbody>
+      </table>
+    </div>
+    <div class="info-container">
+      <button class="volver-info">volver</a></button>
+      <table class="table info vhighlight" id="tabla-info-paciente">
+        <thead>
+          <th></th>
+          <tr>
+            <th>Cedula</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>fnacimiento</th>
+            <th>Edad</th>
+            <th>Celular</th>
+            <th>Tlf Local</th>
+            <th>Direccion</th>
+            <th>Contacto</th>
+            <th>Email</th>
+            <th>Genero</th>
+            <th>Estado Civil</th>
+            <th>Estatura</th>
+            <th>Peso</th>
+            <th>Tratado por Medico?</th>
+            <th>Es Tratado por Alguna Enfermedad?</th>
+            <th>Toma algun Medicamento?</th>
+            <th>Cuales Medicamentos</th>
+            <th>Dosis de esos medicamentos</th>
+            <th>Alergias</th>
+            <th>Alergia (otros)</th>
+            <th>Antecedentes Personles</th>
+            <th>Antecedentes Familiares</th>
+            <th>Padece Alguna otra Enfermedad?</th>
+            <th>Habitos</th>
+          </tr>
+        </thead>
+        <tbody id="info-pacientes-tbody">
+        </tbody>
+      </table>
+
+    </div>
+  </section>
+
+  <section id="seccion__agenda">
+
+  </section>
+
+  <section id="seccion__dashboard">
+
+  </section>
+
+
+
+</body>
+
+</html>

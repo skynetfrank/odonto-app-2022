@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "app-odonto-web"
+  },
+  "targets": {
+    "app-odonto-web": {
+      "hosting": {
+        "admin": [
+          "od-admin"
+        ]
+      }
+    }
+  }
+}
