@@ -6,6 +6,12 @@ var inputs;
 
 const test = [100, 200, 300, 400];
 
+const eventoFocus = new FocusEvent('focus', {
+  view: window,
+  bubbles: true,
+  cancelable: true,
+});
+
 test.forEach(n => {
   addElement(n);
 });
@@ -30,10 +36,6 @@ btns.forEach((btn, i) => {
 });
 
 //codigo para los custom inputs de la seccion contacto
-inputs.forEach(input => {
-  input.addEventListener('focus', focusFunc);
-  input.addEventListener('blur', blurFunc);
-});
 
 function focusFunc() {
   let parent = this.parentNode;
@@ -248,4 +250,10 @@ function addElement(nx) {
 
   slides = document.querySelectorAll('.slide');
   inputs = document.querySelectorAll('.input');
+  inputs.forEach(input => {
+    input.addEventListener('focus', focusFunc);
+    input.addEventListener('blur', blurFunc);
+  });
+
+  input2.dispatchEvent(eventoFocus);
 }
