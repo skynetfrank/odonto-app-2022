@@ -8,55 +8,27 @@
   text-decoration: none;
 }
 
-.paciente-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: inherit;
-  padding: 10px;
-}
-
-.banner {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  left: 0;
-  z-index: 999999;
-  text-align: center;
-  margin-bottom: 30px;
-  border-radius: 5px;
-}
-
-.banner.nuevo {
-  background-color: #00b8d4;
-}
-
-h1 {
-  font-size: 32px;
-  color: #fff;
-  padding: 10px 0;
-}
-
-h5 {
-  margin: 20px 0;
-  color: #265a6e;
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.paciente-container > form {
-  width: 65%;
-  padding: 10px 15px;
-  border-radius: 6px;
-  background: #fff;
-  box-shadow: 0 0 5px 0 #047e91;
+div {
+  margin-bottom: 3px;
   position: relative;
 }
 
-.paciente-container button {
-  width: 250px;
-  padding: 10px;
+.historia-container {
+  width: 65%;
+  margin: 10px auto;
+  box-shadow: 0 0 5px 0 #047e91;
+  border-radius: 5px;
+}
+
+.historia-container > form {
+  background: #fff;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.historia-container button {
+  width: 200px;
+  padding: 5px;
   border: none;
   border-radius: 5px;
   background: #047e91;
@@ -65,14 +37,46 @@ h5 {
   cursor: pointer;
 }
 
+.banner {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 999999;
+  border-radius: 5px 5px 0px 0px;
+  background-color: #00b8d4;
+}
+
+h1 {
+  font-size: 32px;
+  color: #fff;
+  margin: 10px;
+}
+
+h1.blue {
+  color: #265a6e;
+}
+
+h5 {
+  width: fit-content;
+  color: #265a6e;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 10px auto;
+}
+
 button.volver {
-  width: 50px;
-  font-size: 13px;
-  padding: 5px;
-  position: relative;
-  top: -38px;
-  left: 150px;
+  width: 60px;
+  height: 100%;
+  position: absolute;
+  left: 0px;
   z-index: 9999;
+}
+
+button.volver:hover {
+  background: #069ab1;
+  text-decoration: underline;
 }
 
 .selector-conceptos {
@@ -100,11 +104,14 @@ option {
 
 /*  input customs   */
 
+.checkbox-item label {
+  margin: 5px 15px 10px 0;
+}
+
 .inputs-collection {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  align-items: center;
+  justify-content: space-between;
 }
 
 .questions-collection {
@@ -121,7 +128,16 @@ option {
 .input-container {
   position: relative;
   margin: 0 0 5px 0;
-  width: 50%;
+  min-width: 203px;
+}
+
+.input-container.large {
+  min-width: 50%;
+}
+
+.input-container.pagos {
+  width: 150px;
+  min-width: 150px;
 }
 
 .input {
@@ -137,15 +153,6 @@ option {
   border-radius: 10px;
   transition: 0.3s;
   margin-bottom: 5px;
-}
-
-.input.right {
-  width: 170px;
-}
-
-.input.short {
-  width: 120px;
-  margin-left: 5px;
 }
 
 textarea.input {
@@ -224,9 +231,10 @@ textarea.input {
 }
 
 .input-container label.label-fnac {
-  top: 30%;
-  left: 0;
-  transform: translateX(125%);
+  top: 20%;
+  /*transform: translateX(125%);*/
+  font-size: 10px;
+  left: 10px;
 }
 
 .input-container.focus span.span-fnac {
@@ -258,19 +266,11 @@ textarea.input {
 
 /* fin de input custom */
 
-.question {
-  margin-top: 15px;
-}
-
-.question p {
-  margin: 0 15px 7px 0;
+p {
+  display: inline-block;
+  margin: 0 5px 7px 0;
   font-weight: bold;
   color: #265a6e;
-  min-width: 300px;
-}
-
-.question .question-answer span {
-  margin-left: 22px;
 }
 
 .margin-span {
@@ -283,17 +283,6 @@ label.check.no-margin {
 
 p.no-margin {
   margin: 0;
-}
-
-.item {
-  position: relative;
-}
-
-.item.flexx {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 25px;
 }
 
 .flexor {
@@ -309,19 +298,13 @@ p.no-margin {
 }
 
 h6 {
-  padding-top: 5px;
+  display: inline-block;
+  padding: 0 10px 0 0;
   color: #265a6e;
   font-size: 1.3rem;
   font-weight: 700;
 }
-.item:not(.item.tipoInput, .item.dir) p {
-  font-weight: bold;
-  color: #265a6e;
-}
 
-.div-h5 {
-  text-align: center;
-}
 .question .question-answer span:hover {
   color: orangered;
 }
@@ -329,11 +312,6 @@ h6 {
 .btn-block {
   margin-top: 10px;
   text-align: center;
-}
-
-.div-selects-pago,
-.div-inputs-pago {
-  display: flex;
 }
 
 .fechacontrolasistencia {
@@ -346,7 +324,7 @@ h6 {
 /* reingenieria hasta aqui */
 
 select {
-  width: 100%;
+  width: 200px;
   padding: 5px 0;
   border-radius: 5px;
   border: 1px solid rgb(6, 173, 173);
@@ -382,12 +360,8 @@ label.radio,
 label.check {
   position: relative;
   display: inline-block;
-  margin: 5px 20px 15px 0;
+  margin: 5px;
   cursor: pointer;
-}
-
-.checkbox-item label {
-  margin: 5px 15px 10px 0;
 }
 
 label.radio:before,
@@ -395,6 +369,7 @@ label.check:before {
   content: '';
   position: absolute;
   left: 0;
+  bottom: 1px;
 }
 
 label.radio:before {
@@ -429,7 +404,7 @@ label.radio:after,
 label.check:after {
   content: '';
   position: absolute;
-  top: 6px;
+  top: 2px;
   width: 8px;
   height: 4px;
   background: transparent;
@@ -439,70 +414,110 @@ label.check:after {
   opacity: 0;
 }
 
+label.radio > span,
+label.check > span {
+  margin-left: 22px;
+}
+
 input[type='radio']:checked + label:after,
 input[type='checkbox']:checked + label:after {
   opacity: 1;
 }
 
-.btn-block.control {
-  margin-top: 0;
+/*SLIDER de Control de Asistencias  */
+
+.img-slider {
+  position: relative;
+  width: 760px;
+  height: 100vh;
+  margin: 10px;
 }
+
+.img-slider .slide {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  clip-path: circle(0% at 0 50%);
+}
+
+.img-slider .slide.active {
+  clip-path: circle(150% at 0 50%);
+  transition: 1.5s;
+  transition-property: clip-path;
+}
+
+.img-slider .slide .info {
+  position: absolute;
+  padding: 0px 30px 10px 30px;
+  border: 1px teal solid;
+  width: 100%;
+}
+
+.img-slider .slide .info h1 {
+  color: black;
+  font-size: 45px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.img-slider .slide .info p {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  width: 60%;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.img-slider .navigation {
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+}
+
+.img-slider .navigation .btn {
+  background: black;
+  width: 12px;
+  height: 12px;
+  margin: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.img-slider .navigation .btn.active {
+  background: #116eb6;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/*FIN DEL SLIDER de Control de Asistencias  */
 
 /********* MEDIA QUERIES **********************/
 
-/*INICIO DEL MEDIA QUERIES PROPIETARIO FEBB */
 @media (max-width: 760px) {
-  .input-container {
-    width: 100%;
+  .input-container,
+  .input-container.pagos,
+  select:not(.selector-conceptos) {
+    min-width: 100%;
   }
-  .paciente-container > form {
-    width: 95%;
+
+  .historia-container {
+    width: 90%;
   }
 
   h1 {
     font-size: 20px;
   }
 
-  .banner {
-    height: 40px;
-  }
-
-  button.volver {
-    top: -35px;
-    left: 110px;
-  }
-
-  .div-inputs-pago,
-  .div-selects-pago {
-    flex-direction: column;
-  }
-  .input.right {
-    width: 90%;
-    margin-bottom: 10px;
-  }
-
   .input-container label.label-fnac {
     top: 0;
     left: 0;
     transform: translateX(14px);
-  }
-  .input.myWidth {
-    width: 200px;
-  }
-
-  .input.right {
-    margin-bottom: 5px;
-  }
-
-  .flexor {
-    justify-content: space-between;
-  }
-  .flexor > h5 {
-    font-size: 1.5rem;
-  }
-  .flexor > .fechacontrolasistencia {
-    font-size: 15px;
-    width: 130px;
   }
 
   label.check.head {
@@ -515,24 +530,40 @@ input[type='checkbox']:checked + label:after {
 
   label.radio,
   label.check {
-    margin: 5px 10px 15px 0;
+    margin: 5px 5px 10px 0;
   }
 
-  .question {
-    margin-top: 0;
+  /* MEDIA QUERIES DEL SLIDER CONTROL DE ASISTENCIAS*/
+  .img-slider {
+    width: 100%;
+    height: 100vh;
   }
 
-  h6 {
-    padding-top: 5px;
+  .img-slider .slide {
+    height: auto;
   }
 
-  .question p {
-    margin: 5px 0px 5px 0;
+  .img-slider .slide .info {
+    padding: 0;
+    position: static;
+  }
+
+  .img-slider .slide .info h2 {
+    font-size: 25px;
+  }
+
+  .img-slider .slide .info p {
+    width: 90%;
+    font-size: 11px;
+  }
+
+  .img-slider .navigation {
+    bottom: 10px;
+  }
+
+  .img-slider .navigation {
+    top: 50px;
   }
 }
 
 /*FIN MEDIA QUERIES FEBB */
-
-/* CRUD CONTROL DE ASISTENCIAS */
-
-/* CRUD CONTROL DE ASISTENCIAS */

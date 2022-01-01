@@ -1,4 +1,3 @@
-import asistencias from '../css/control-asistencias.css';
 import historias from '../css/historia.css';
 var slides;
 var btns = document.querySelectorAll('.btn');
@@ -12,8 +11,20 @@ const eventoFocus = new FocusEvent('focus', {
   cancelable: true,
 });
 
-test.forEach(n => {
+test.forEach((n, idx) => {
   addElement(n);
+  console.log('idx:', idx);
+  if (idx == 0) {
+    var navigation = document.createElement('div');
+    navigation.classList.add('navigation');
+    document.getElementById('control-slider').appendChild(navigation);
+  }
+  var btnNavigation = document.createElement('div');
+  btnNavigation.classList.add('btn');
+  navigation.appendChild(btnNavigation);
+  if (idx == 0) {
+    btnNavigation.classList.add('active');
+  }
 });
 
 // Javascript for image slider manual navigation
@@ -49,7 +60,7 @@ function blurFunc() {
   }
 }
 //fin del codigo para los custom inputs de la seccion contacto
-function addElement(nx) {
+function addElement(datos) {
   // crea un nuevo div
   var controlSliderDiv = document.getElementById('control-slider');
   var slideDiv = document.createElement('div');
@@ -84,8 +95,8 @@ function addElement(nx) {
   var textTratamiento = document.createElement('textarea');
 
   var selectEval = document.createElement('select');
-  var selectTrat = document.createElement('select');
   selectEval.classList.add('selector-conceptos');
+  selectEval.classList.add('selector-evaluacion');
   var opcion1 = document.createElement('option');
   var opcion2 = document.createElement('option');
   var opcion3 = document.createElement('option');
@@ -107,9 +118,30 @@ function addElement(nx) {
   selectEval.add(opcion5);
   selectEval.add(opcion6);
 
+  var selectTrat = document.createElement('select');
   selectTrat.classList.add('selector-conceptos');
-  selectEval.classList.add('selector-evaluacion');
   selectTrat.classList.add('selector-tratamiento');
+
+  var opcion11 = document.createElement('option');
+  var opcion12 = document.createElement('option');
+  var opcion13 = document.createElement('option');
+  var opcion14 = document.createElement('option');
+  var opcion15 = document.createElement('option');
+  var opcion16 = document.createElement('option');
+
+  opcion11.text = 'concepto de tratamiento de paciente #1';
+  opcion12.text = 'concepto de tratamiento de paciente #1';
+  opcion13.text = 'concepto de tratamiento de paciente #1';
+  opcion14.text = 'concepto de tratamiento de paciente #1';
+  opcion15.text = 'concepto de tratamiento de paciente #1';
+  opcion16.text = 'concepto de tratamiento de paciente #1';
+
+  selectTrat.add(opcion11);
+  selectTrat.add(opcion12);
+  selectTrat.add(opcion13);
+  selectTrat.add(opcion14);
+  selectTrat.add(opcion15);
+  selectTrat.add(opcion16);
 
   controlSliderDiv.appendChild(slideDiv).classList.add('slide');
   slideDiv.appendChild(infoDiv).classList.add('info');
@@ -190,7 +222,7 @@ function addElement(nx) {
   input2.classList.add('right');
   input2.classList.add('short');
   input2.classList.add('montopagado');
-  input2.value = nx;
+  input2.value = datos;
 
   var labelcontent2 = document.createTextNode('Monto US$');
   var spanContent2 = document.createTextNode('Monto US$');
@@ -253,7 +285,6 @@ function addElement(nx) {
   inputs.forEach(input => {
     input.addEventListener('focus', focusFunc);
     input.addEventListener('blur', blurFunc);
+    input.dispatchEvent(eventoFocus);
   });
-
-  input2.dispatchEvent(eventoFocus);
 }

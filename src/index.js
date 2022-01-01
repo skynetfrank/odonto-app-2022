@@ -67,7 +67,9 @@ formSesion.addEventListener('submit', e => {
       formSesion.reset();
     })
     .catch(err => {
-      alert(err.message);
+      if (err.message == 'auth/network-request-failed') {
+        alert('No esta conectado a Internet...conectese');
+      } else alert(err.message);
     });
 });
 
@@ -199,7 +201,7 @@ const populateTabla = () => {
           }
 
           if (e.target.id == 'btn-ver-paciente') {
-            window.open('editar-historia.html','_self');
+            window.open('editar-historia.html', '_self');
           }
           if (e.target.id == 'btn-control-paciente') {
             window.open('control-asistencias.html');

@@ -152,9 +152,6 @@ window.addEventListener('DOMContentLoaded', () => {
       alergia == 'Latex' ? document.getElementById('checklatex').setAttribute('checked', 'true') : '';
     });
 
-    data.checkalergicootros == 'true'
-      ? document.getElementById('checkalergicootros').setAttribute('checked', 'true')
-      : '';
     document.getElementById('textalergicootros').value = data.textalergicootros;
 
     data.checkcirugias == 'true' ? document.getElementById('checkalergicootros').setAttribute('checked', 'true') : '';
@@ -378,6 +375,7 @@ btnCerrar.addEventListener('click', e => {
 inputs.forEach(input => {
   input.addEventListener('focus', focusFunc);
   input.addEventListener('blur', blurFunc);
+  input.dispatchEvent(eventoFocus);
 });
 
 function focusFunc() {

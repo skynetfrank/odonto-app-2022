@@ -13,6 +13,7 @@ const selectorEvaluacion = document.getElementById('selector-evaluacion');
 const selectorTratamiento = document.getElementById('selector-tratamiento');
 const textboxEvaluacion = document.getElementById('evaluaciongeneral');
 const textboxTratamiento = document.getElementById('tratamientoaplicado');
+const fechaNacimiento = document.getElementById('fnacimiento');
 //trigger focus event on element
 const eventoFocus = new FocusEvent('focus', {
   view: window,
@@ -35,6 +36,35 @@ function dolarToday() {
       alert('La api de Dolar Today No esta disponible');
     });
 }
+
+fechaNacimiento.addEventListener('blur', e => {
+  e.preventDefault();
+  const fechaActual = new Date();
+  const anoActual = parseInt(fechaActual.getFullYear());
+  const mesActual = parseInt(fechaActual.getMonth() + 1);
+  const diaActual = parseInt(fechaActual.getDate());
+
+  const anoNacimiento = parseInt(String(fechaNacimiento.value).substring(0, 4));
+  const mesNacimiento = parseInt(String(fechaNacimiento.value).substring(5, 7));
+  const diaNacimiento = parseInt(String(fechaNacimiento.value).substring(8, 10));
+
+  let edad = 0;
+
+  console.log('actual:', diaActual, mesActual, anoActual);
+  console.log('Nacimiento:', diaNacimiento, mesNacimiento, anoNacimiento);
+  console.log('edad en input', document.getElementById('fnacimiento').value);
+
+  edad = anoActual - anoNacimiento;
+  if (mesActual < mesNacimiento) {
+    edad--;
+  } else if (mesActual == mesNacimiento) {
+    if (diaActual < diaNacimiento) {
+      edad--;
+    }
+  }
+  console.log('edad=>:', parseInt(edad));
+  document.getElementById('edad').value = edad;
+});
 
 inputDolares.addEventListener('blur', e => {
   e.preventDefault();
@@ -82,7 +112,6 @@ historia.addEventListener('submit', async e => {
   const checkcodeina = historia['checkcodeina'].checked ? 'codeina' : '';
   const checklatex = historia['checklatex'].checked ? 'Latex' : '';
   const checkacrilico = historia['checkacrilico'].checked ? 'Acrilico' : '';
-  const checkalergicootros = historia['checkalergicootros'].checked ? 'true' : '';
   const textalergicootros = historia['textalergicootros'].value;
   const checkcirugias = historia['checkcirugias'].checked ? 'Cirugias' : '';
   const checklesiones = historia['checklesiones'].checked ? 'Lesion-Cabeza' : '';
@@ -140,7 +169,6 @@ historia.addEventListener('submit', async e => {
     cualesmedicamentos,
     dosismeds,
     alergias: [checkaspirina, checkpenicilina, checkanestecialocal, checkcodeina, checklatex, checkacrilico],
-    checkalergicootros,
     textalergicootros,
     antecedentesPersonales: [
       checkcirugias,
