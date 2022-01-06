@@ -66,6 +66,13 @@ h5 {
   margin: 10px auto;
 }
 
+h3 {
+  font-size: 1.6rem;
+  color: #265a6e;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
 button.volver {
   width: 60px;
   height: 100%;
@@ -144,7 +151,7 @@ option {
   width: calc(100% - 40px);
   outline: none;
   border: 1px solid rgb(6, 173, 173);
-  background-color: rgb(218, 216, 216);
+  background-color: rgb(228, 226, 226);
   padding: 0.6rem 1.2rem;
   color: orangered;
   font-weight: 500;
@@ -271,6 +278,7 @@ p {
   margin: 0 5px 7px 0;
   font-weight: bold;
   color: #265a6e;
+  width: fit-content;
 }
 
 .margin-span {
@@ -289,6 +297,7 @@ p.no-margin {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  align-items: center;
 }
 
 .input.myWidth {
@@ -428,16 +437,16 @@ input[type='checkbox']:checked + label:after {
 
 .img-slider {
   position: relative;
-  width: 760px;
-  height: 100vh;
-  margin: 10px;
+  width: 70%;
+  height: 80vh;
+  margin: 0px auto 10px auto;
 }
 
 .img-slider .slide {
   z-index: 1;
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   clip-path: circle(0% at 0 50%);
 }
 
@@ -451,39 +460,21 @@ input[type='checkbox']:checked + label:after {
   position: absolute;
   padding: 0px 30px 10px 30px;
   border: 1px teal solid;
-  width: 100%;
-}
-
-.img-slider .slide .info h1 {
-  color: black;
-  font-size: 45px;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.img-slider .slide .info p {
-  color: #fff;
-  background: rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  width: 60%;
-  padding: 10px;
-  border-radius: 4px;
 }
 
 .img-slider .navigation {
   z-index: 2;
   position: absolute;
   display: flex;
-  bottom: 30px;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
 }
 
 .img-slider .navigation .btn {
   background: black;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   margin: 10px;
   border-radius: 50%;
   cursor: pointer;
@@ -497,8 +488,144 @@ input[type='checkbox']:checked + label:after {
 
 /*FIN DEL SLIDER de Control de Asistencias  */
 
-/********* MEDIA QUERIES **********************/
+.flexor > button {
+  width: 50px;
+  height: 25px;
+  background-color: #265a6e;
+  color: white;
+  margin-top: 5px;
+  border-radius: 5px;
+}
 
+.cambiodia,
+.montopagado,
+.montopagadobs,
+.referenciapago {
+  text-align: center;
+}
+
+.menu-control {
+  display: flex;
+  justify-content: center;
+  bottom: 15px;
+}
+
+.btn-menu-control {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  outline: none;
+  border: 2px solid black;
+  background-color: bisque;
+  pointer-events: all;
+  cursor: pointer;
+  z-index: 9;
+  right: 0;
+  margin: 5px;
+}
+
+.btn-menu-control:hover {
+  background-color: #28bbac;
+}
+
+.btn-menu-control > img {
+  pointer-events: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/*==========================
+  MY CUSTOM TOOLTIPS 
+============================*/
+.t-tip {
+  position: relative;
+}
+.t-tip:before {
+  position: absolute;
+  z-index: 99;
+  display: none;
+  padding: 0.3rem;
+  font-size: 12px;
+  min-width: 120px;
+  max-width: 100%;
+  border-radius: 0.3rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0.9;
+  color: white;
+  content: attr(tip);
+  text-align: center;
+}
+.t-tip:after {
+  position: absolute;
+  z-index: 1;
+  display: none;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  content: '';
+}
+.t-tip:hover:before,
+.t-tip:hover:after {
+  display: inline-block;
+}
+
+.t-tip.top:before {
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.t-tip.top:after {
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-width: 0;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.t-tip.bottom:before {
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.t-tip.bottom:after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+
+.t-tip.left:before {
+  top: 50%;
+  right: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+.t-tip.left:after {
+  top: 50%;
+  right: calc(100% + 5px);
+  transform: translateY(-50%);
+  border-right-width: 0;
+  border-left-color: rgba(0, 0, 0, 0.8);
+}
+
+/*left para mover el cuadro de contenido */
+.t-tip.right:before {
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+/*left para mover la flecha */
+.t-tip.right:after {
+  top: 50%;
+  left: calc(100% + 5px);
+  transform: translateY(-50%);
+  border-left-width: 0;
+  border-right-color: rgba(0, 0, 0, 0.8);
+}
+
+/********* MEDIA QUERIES **********************/
 @media (max-width: 760px) {
   .input-container,
   .input-container.pagos,
@@ -510,8 +637,12 @@ input[type='checkbox']:checked + label:after {
     width: 90%;
   }
 
-  h1 {
-    font-size: 20px;
+  h1,
+  .fechacontrolasistencia,
+  h5,
+  h3,
+  h6 {
+    font-size: 1rem;
   }
 
   .input-container label.label-fnac {
@@ -532,10 +663,14 @@ input[type='checkbox']:checked + label:after {
   label.check {
     margin: 5px 5px 10px 0;
   }
-
+  .flexor {
+    align-items: baseline;
+    justify-content: center;
+    margin-top: 15px;
+  }
   /* MEDIA QUERIES DEL SLIDER CONTROL DE ASISTENCIAS*/
   .img-slider {
-    width: 100%;
+    width: 95%;
     height: 100vh;
   }
 
@@ -544,25 +679,28 @@ input[type='checkbox']:checked + label:after {
   }
 
   .img-slider .slide .info {
-    padding: 0;
+    padding: 10px;
     position: static;
   }
 
-  .img-slider .slide .info h2 {
-    font-size: 25px;
-  }
-
-  .img-slider .slide .info p {
-    width: 90%;
-    font-size: 11px;
-  }
-
   .img-slider .navigation {
-    bottom: 10px;
+    bottom: 110px;
   }
 
-  .img-slider .navigation {
-    top: 50px;
+  .menu-control {
+    bottom: 140px;
+  }
+
+  textarea {
+    height: 4em;
+  }
+
+  select {
+    margin-bottom: 5px;
+  }
+
+  h1 {
+    margin-bottom: 0;
   }
 }
 

@@ -1,6 +1,6 @@
 import historias from '../css/historia.css';
 import { db } from '../js/firebaseconfig';
-import { collection, addDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const historia = document.getElementById('historia-form');
 const inputs = document.querySelectorAll('.input');
@@ -62,7 +62,6 @@ fechaNacimiento.addEventListener('blur', e => {
       edad--;
     }
   }
-  console.log('edad=>:', parseInt(edad));
   document.getElementById('edad').value = edad;
 });
 
@@ -141,11 +140,11 @@ historia.addEventListener('submit', async e => {
   const tratamientoaplicado = historia['tratamientoaplicado'].value;
   const formadepago = historia['formadepago'].value;
   const banco = historia['select-banco'].value;
-  const tipopago = historia['tipo-pago'].value;
+  const tipopago = parseInt(historia['tipo-pago'].value).toFixed(2);
   const referenciapago = historia['referenciapago'].value;
-  const montopagado = historia['montopagado'].value;
-  const montopagadobs = historia['montopagadobs'].value;
-  const cambiodia = historia['cambiodia'].value;
+  const montopagado = parseInt(historia['montopagado'].value).toFixed(2);
+  const montopagadobs = parseInt(historia['montopagadobs'].value).toFixed(2);
+  const cambiodia = parseInt(historia['cambiodia'].value).toFixed(2);
   //Crear Objeto para enviar a firebase con todos los campos
 
   const historiaPaciente = {

@@ -105,7 +105,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tlflocal').value = data.tlflocal;
     document.getElementById('email').value = data.email;
     document.getElementById('edad').value = data.edad;
-
+ 
     data.genero == 'hombre' ? document.getElementById('checkgenero1').setAttribute('checked', 'true') : '';
     data.genero == 'mujer' ? document.getElementById('checkgenero2').setAttribute('checked', 'true') : '';
     data.genero == 'diverso' ? document.getElementById('checkgenero3').setAttribute('checked', 'true') : '';

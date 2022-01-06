@@ -9,6 +9,8 @@ module.exports = {
     historia: './src/js/historia.js',
     editarhistoria: './src/js/editar-historia.js',
     controles: './src/js/control-asistencias.js',
+    agregarcontrol: './src/js/agregar-control.js',
+    editarcontrol: './src/js/editar-control.js',
   },
   // The location of the build folder described above
   output: {
@@ -73,6 +75,16 @@ module.exports = {
       template: './src/html/editar-historia.html',
       filename: './editar-historia.html',
       chunks: ['editarhistoria'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/html/agregar-control.html',
+      filename: './agregar-control.html',
+      chunks: ['agregarcontrol'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/html/editar-control.html',
+      filename: './editar-control.html',
+      chunks: ['editarcontrol'],
     }),
     new MiniCssExtractPlugin(),
   ],

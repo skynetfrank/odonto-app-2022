@@ -23,17 +23,17 @@ const tablaContainer = document.querySelector('.tabla-container');
 const infoContainer = document.querySelector('.info-container');
 const tablaInfo = document.getElementById('tabla-info-paciente');
 const btnCerrarInfo = document.querySelector('.volver-info');
-/* 
+
 window.addEventListener('load', () => {
-  spinner.style.display = 'none';
+  /*  spinner.style.display = 'none';
   seccionInicio.style.display = 'none';
   imgLogo.click();
   console.log('Loaded window Auth:', auth?.currentUser);
   //seccionPacientes.style.display = 'block';
   menuLinks[0].style.color = 'lime';
   infoContainer.style.display = 'none';
-});
  */
+});
 
 onAuthStateChanged(auth, user => {
   if (user) {
@@ -44,7 +44,8 @@ onAuthStateChanged(auth, user => {
       link.style.pointerEvents = 'all';
       link.style.color = 'white';
     });
-    imgLogo.click();
+    //    imgLogo.click();
+    menuLinks[0].click();
     populateTabla();
   } else {
     imgLogo.click();
@@ -204,7 +205,7 @@ const populateTabla = () => {
             window.open('editar-historia.html', '_self');
           }
           if (e.target.id == 'btn-control-paciente') {
-            window.open('control-asistencias.html');
+            window.open('control-asistencias.html', '_self');
           }
           if (e.target.id == 'btn-odograma') {
             window.open('odograma.html');

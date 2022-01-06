@@ -280,7 +280,7 @@ section {
 }
 
 .table tbody tr:nth-child(even) {
-  background-color: #d4d1d1ab;
+  background-color: #f5f0f0e7;
 }
 table.highlight > tbody > tr:hover {
   background-color: #4dd0e1;

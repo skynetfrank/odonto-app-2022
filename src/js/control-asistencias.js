@@ -1,52 +1,65 @@
 import historias from '../css/historia.css';
-var slides;
-var btns = document.querySelectorAll('.btn');
-var inputs;
+import { db } from '../js/firebaseconfig';
+import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 
-const test = [100, 200, 300, 400];
+const btnCerrar = document.querySelector('.flexor > button');
+const idPacienteLocal = JSON.parse(localStorage.getItem('pacienteActual'));
+const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
+const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
+var slides;
+var btns;
+var inputs;
+var navigation = document.querySelector('.navigation');
+const controlesRef = collection(db, 'controlasistencias');
+const myQuery = query(controlesRef, where('idPaciente', '==', idPacienteLocal), where('esCita1', '==', true));
+const btnAgregar = document.getElementById('btn-agregar');
+const btnEditar = document.getElementById('btn-editar');
+const btnEliminar = document.getElementById('btn-eliminar');
+var controlActivo;
+
+const slidesObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.target.classList.contains('active')) {
+      console.log('observer entry:', entry.target.childNodes[0].value);
+      controlActivo = entry.target.childNodes[0].value;
+    }
+  });
+});
+
+window.addEventListener('load', () => {
+  document.getElementById('paciente-local').innerText = nombrePaciente + ' ' + apellidoPaciente;
+  getControl();
+});
+
+btnAgregar.addEventListener('click', () => {
+  window.open('agregar-control.html', '_self');
+});
+
+btnEliminar.addEventListener('click', () => {
+  console.log('Eliminar el control actual:', controlActivo);
+  deleteAsistencia(controlActivo);
+});
+
+btnEditar.addEventListener('click', () => {
+  localStorage.setItem('controltoupdate', JSON.stringify(controlActivo));
+  window.open('editar-control.html', '_self');
+});
+
+function getControl() {
+  getDocs(myQuery).then(res => {
+    res.forEach(doc => {
+      const myData = doc.data();
+      const idControl = doc.id;
+      addSlide(myData, idControl);
+    });
+  });
+}
 
 const eventoFocus = new FocusEvent('focus', {
   view: window,
   bubbles: true,
   cancelable: true,
 });
-
-test.forEach((n, idx) => {
-  addElement(n);
-  console.log('idx:', idx);
-  if (idx == 0) {
-    var navigation = document.createElement('div');
-    navigation.classList.add('navigation');
-    document.getElementById('control-slider').appendChild(navigation);
-  }
-  var btnNavigation = document.createElement('div');
-  btnNavigation.classList.add('btn');
-  navigation.appendChild(btnNavigation);
-  if (idx == 0) {
-    btnNavigation.classList.add('active');
-  }
-});
-
-// Javascript for image slider manual navigation
-var manualNav = function (manual) {
-  slides.forEach(slide => {
-    slide.classList.remove('active');
-    btns.forEach(btn => {
-      btn.classList.remove('active');
-    });
-  });
-  slides[manual].classList.add('active');
-  btns[manual].classList.add('active');
-};
-btns.forEach((btn, i) => {
-  let currentSlide = 1;
-  btn.addEventListener('click', () => {
-    manualNav(i);
-    currentSlide = i;
-  });
-});
-
-//codigo para los custom inputs de la seccion contacto
 
 function focusFunc() {
   let parent = this.parentNode;
@@ -60,39 +73,37 @@ function blurFunc() {
   }
 }
 //fin del codigo para los custom inputs de la seccion contacto
-function addElement(datos) {
-  // crea un nuevo div
+
+function addSlide(datos, id) {
   var controlSliderDiv = document.getElementById('control-slider');
   var slideDiv = document.createElement('div');
-  var newContent = document.createTextNode('Control de Asistencia ');
+  var idInput = document.createElement('input');
+  idInput.classList.add('hidden');
+  idInput.value = id;
   var infoDiv = document.createElement('div');
   var flexorDiv = document.createElement('div');
   var controlDiv = document.createElement('div');
-  var titulo = document.createElement('h5');
   var inputFecha = document.createElement('input');
-  var divh5 = document.createElement('div');
-  var h52 = document.createElement('h5');
-  var h52Content = document.createTextNode('Informacion del Pago');
-  h52.appendChild(h52Content);
-  divh5.classList.add('div-h5');
-  divh5.appendChild(h52);
+
+  var h5 = document.createElement('h5');
+  var h5Content = document.createTextNode('Informacion del Pago');
+  h5.appendChild(h5Content);
 
   var itemTextArea1 = document.createElement('div');
   var itemTextArea2 = document.createElement('div');
-  itemTextArea1.classList.add('item');
-  itemTextArea1.classList.add('textarea');
-  itemTextArea2.classList.add('item');
-  itemTextArea2.classList.add('textarea');
 
   var h61 = document.createElement('h6');
   var h61Content = document.createTextNode('Evaluacion General');
   var h62 = document.createElement('h6');
   var h62Content = document.createTextNode('Tratamiento Aplicado');
-
   h61.appendChild(h61Content);
   h62.appendChild(h62Content);
+
   var textEvaluacion = document.createElement('textarea');
   var textTratamiento = document.createElement('textarea');
+
+  textEvaluacion.value = datos.evaluaciongeneral;
+  textTratamiento.value = datos.tratamientoaplicado;
 
   var selectEval = document.createElement('select');
   selectEval.classList.add('selector-conceptos');
@@ -143,14 +154,18 @@ function addElement(datos) {
   selectTrat.add(opcion15);
   selectTrat.add(opcion16);
 
-  controlSliderDiv.appendChild(slideDiv).classList.add('slide');
+  selectTrat.setAttribute('disabled', 'disabled');
+  selectEval.setAttribute('disabled', 'disabled');
+  slideDiv.classList.add('slide');
+  controlSliderDiv.insertBefore(slideDiv, navigation);
+  slideDiv.appendChild(idInput);
   slideDiv.appendChild(infoDiv).classList.add('info');
   infoDiv.appendChild(flexorDiv).classList.add('flexor');
   infoDiv.appendChild(controlDiv).classList.add('div-control-asistencia');
-  titulo.appendChild(newContent);
   inputFecha.setAttribute('type', 'date');
   inputFecha.classList.add('fechacontrolasistencia');
-  flexorDiv.appendChild(titulo);
+  inputFecha.value = datos.fecha;
+
   flexorDiv.appendChild(inputFecha);
 
   controlDiv.appendChild(h61);
@@ -161,47 +176,133 @@ function addElement(datos) {
   controlDiv.insertBefore(h62, itemTextArea2);
   itemTextArea2.appendChild(textTratamiento);
   itemTextArea2.appendChild(selectTrat);
-  controlDiv.appendChild(divh5);
+
   textEvaluacion.classList.add('evaluaciongeneral');
   textTratamiento.classList.add('tratamientoaplicado');
 
-  textEvaluacion.setAttribute('rows', '6');
-  textTratamiento.setAttribute('rows', '6');
+  textEvaluacion.setAttribute('rows', '5');
+  textTratamiento.setAttribute('rows', '5');
 
-  var itemDivPago = document.createElement('div');
-  itemDivPago.classList.add('item');
-  itemDivPago.classList.add('div-pago');
-  controlDiv.appendChild(itemDivPago);
+  textEvaluacion.setAttribute('disabled', 'disabled');
+  textTratamiento.setAttribute('disabled', 'disabled');
 
-  var divSelectsPago = document.createElement('div');
-  divSelectsPago.classList.add('div-selects-pago');
+  var divPago = document.createElement('div');
+  divPago.classList.add('inputs-collection');
 
   var selectFormaPago = document.createElement('select');
   selectFormaPago.classList.add('formadepago');
 
+  var fpopcion1 = document.createElement('option');
+  var fpopcion2 = document.createElement('option');
+  var fpopcion3 = document.createElement('option');
+  var fpopcion4 = document.createElement('option');
+  var fpopcion5 = document.createElement('option');
+
+  fpopcion1.text = 'efectivo$';
+  fpopcion2.text = 'Transferencia';
+  fpopcion3.text = 'Pago-Movil';
+  fpopcion4.text = 'Zelle';
+  fpopcion5.text = 'Otro';
+
+  fpopcion1.value = 'Efectivo';
+  fpopcion2.value = 'Transferencia';
+  fpopcion3.value = 'Pago-Movil';
+  fpopcion4.value = 'Zelle';
+  fpopcion5.value = 'Otro';
+
+  selectFormaPago.add(fpopcion1);
+  selectFormaPago.add(fpopcion2);
+  selectFormaPago.add(fpopcion3);
+  selectFormaPago.add(fpopcion4);
+  selectFormaPago.add(fpopcion5);
+
+  selectFormaPago.value = datos.formadepago;
+
   var selectBanco = document.createElement('select');
   selectBanco.classList.add('select-banco');
+
+  var bopcion0 = document.createElement('option');
+  var bopcion1 = document.createElement('option');
+  var bopcion2 = document.createElement('option');
+  var bopcion3 = document.createElement('option');
+  var bopcion4 = document.createElement('option');
+  var bopcion5 = document.createElement('option');
+  var bopcion6 = document.createElement('option');
+  var bopcion7 = document.createElement('option');
+  var bopcion8 = document.createElement('option');
+
+  bopcion0.text = 'BANCO';
+  bopcion1.text = 'Banesco Banco Universal';
+  bopcion2.text = 'Banco de Venezuela';
+  bopcion3.text = 'Banco Mercantil';
+  bopcion4.text = 'Banco del Tesoro';
+  bopcion5.text = 'Banco Vzlno. de Credito';
+  bopcion6.text = 'Banco BOD';
+  bopcion7.text = 'Banco del Caribe';
+  bopcion8.text = 'Otro';
+
+  bopcion0.value = '';
+  bopcion0.selected = 'selected';
+  bopcion0.disabled = true;
+  bopcion1.value = 'Banesco';
+  bopcion2.value = 'Venezuela';
+  bopcion3.value = 'Mercantil';
+  bopcion4.value = 'Tesoro';
+  bopcion5.value = 'BVC';
+  bopcion6.value = 'BOD';
+  bopcion7.value = 'Caribe';
+  bopcion8.value = 'Otro';
+
+  selectBanco.add(bopcion0);
+  selectBanco.add(bopcion1);
+  selectBanco.add(bopcion2);
+  selectBanco.add(bopcion3);
+  selectBanco.add(bopcion4);
+  selectBanco.add(bopcion5);
+  selectBanco.add(bopcion5);
+  selectBanco.add(bopcion7);
+  selectBanco.add(bopcion8);
+
+  selectBanco.value = datos.banco;
 
   var selectTipoPago = document.createElement('select');
   selectTipoPago.classList.add('tipo-pago');
 
-  divSelectsPago.appendChild(selectFormaPago);
-  divSelectsPago.appendChild(selectBanco);
-  divSelectsPago.appendChild(selectTipoPago);
+  var tpopcion1 = document.createElement('option');
+  var tpopcion2 = document.createElement('option');
+  var tpopcion3 = document.createElement('option');
 
-  itemDivPago.appendChild(divSelectsPago);
+  tpopcion1.text = 'Pago Total de Consulta';
+  tpopcion2.text = 'Pago Abono a Cuenta';
+  tpopcion3.text = 'Pago Saldo Pendiente';
 
-  var divInputsPago = document.createElement('div');
-  divInputsPago.classList.add('div-inputs-pago');
+  tpopcion1.value = 'Total-Consulta';
+  tpopcion2.value = 'Abono a Cuenta';
+  tpopcion3.value = 'Saldo Pendiente';
+
+  selectTipoPago.add(tpopcion1);
+  selectTipoPago.add(tpopcion2);
+  selectTipoPago.add(tpopcion3);
+
+  selectTipoPago.value = datos.tipopago;
+
+  selectFormaPago.setAttribute('disabled', 'disabled');
+  selectBanco.setAttribute('disabled', 'disabled');
+  selectTipoPago.setAttribute('disabled', 'disabled');
+
+  divPago.appendChild(selectFormaPago);
+  divPago.appendChild(selectBanco);
+  divPago.appendChild(selectTipoPago);
 
   var inputContainer1 = document.createElement('div');
   inputContainer1.classList.add('input-container');
+  inputContainer1.classList.add('pagos');
 
   var input1 = document.createElement('input');
   input1.classList.add('input');
-  input1.classList.add('right');
-  input1.classList.add('short');
   input1.classList.add('referenciapago');
+  input1.value = datos.referencia;
+  input1.setAttribute('disabled', 'disabled');
 
   var labelcontent1 = document.createTextNode('Referencia');
   var spanContent1 = document.createTextNode('Referencia');
@@ -213,16 +314,15 @@ function addElement(datos) {
   inputContainer1.appendChild(input1);
   inputContainer1.appendChild(label1);
   inputContainer1.appendChild(span1);
-  divInputsPago.appendChild(inputContainer1);
 
   var inputContainer2 = document.createElement('div');
   inputContainer2.classList.add('input-container');
+  inputContainer2.classList.add('pagos');
   var input2 = document.createElement('input');
   input2.classList.add('input');
-  input2.classList.add('right');
-  input2.classList.add('short');
   input2.classList.add('montopagado');
-  input2.value = datos;
+  input2.value = datos.montoUsd;
+  input2.setAttribute('disabled', 'disabled');
 
   var labelcontent2 = document.createTextNode('Monto US$');
   var spanContent2 = document.createTextNode('Monto US$');
@@ -234,16 +334,16 @@ function addElement(datos) {
   inputContainer2.appendChild(input2);
   inputContainer2.appendChild(label2);
   inputContainer2.appendChild(span2);
-  divInputsPago.appendChild(inputContainer2);
 
   var inputContainer3 = document.createElement('div');
   inputContainer3.classList.add('input-container');
+  inputContainer3.classList.add('pagos');
   var input3 = document.createElement('input');
 
   input3.classList.add('input');
-  input3.classList.add('right');
-  input3.classList.add('short');
   input3.classList.add('cambiodia');
+  input3.value = datos.cambiodia;
+  input3.setAttribute('disabled', 'disabled');
 
   var labelcontent3 = document.createTextNode('Cambio Dia');
   var spanContent3 = document.createTextNode('Cambio Dia');
@@ -255,16 +355,16 @@ function addElement(datos) {
   inputContainer3.appendChild(input3);
   inputContainer3.appendChild(label3);
   inputContainer3.appendChild(span3);
-  divInputsPago.appendChild(inputContainer3);
 
   var inputContainer4 = document.createElement('div');
   inputContainer4.classList.add('input-container');
+  inputContainer4.classList.add('pagos');
 
   var input4 = document.createElement('input');
   input4.classList.add('input');
-  input4.classList.add('right');
-  input4.classList.add('short');
   input4.classList.add('montopagadobs');
+  input4.value = datos.montoBs;
+  input4.setAttribute('disabled', 'disabled');
 
   var labelcontent4 = document.createTextNode('Monto Bs.');
   var spanContent4 = document.createTextNode('Monto Bs.');
@@ -276,9 +376,14 @@ function addElement(datos) {
   inputContainer4.appendChild(input4);
   inputContainer4.appendChild(label4);
   inputContainer4.appendChild(span4);
-  divInputsPago.appendChild(inputContainer4);
 
-  itemDivPago.appendChild(divInputsPago);
+  divPago.appendChild(inputContainer1);
+  divPago.appendChild(inputContainer2);
+  divPago.appendChild(inputContainer3);
+  divPago.appendChild(inputContainer4);
+
+  controlDiv.appendChild(h5);
+  controlDiv.appendChild(divPago);
 
   slides = document.querySelectorAll('.slide');
   inputs = document.querySelectorAll('.input');
@@ -287,4 +392,45 @@ function addElement(datos) {
     input.addEventListener('blur', blurFunc);
     input.dispatchEvent(eventoFocus);
   });
+
+  let btnNavigation = document.createElement('div');
+  btnNavigation.classList.add('btn');
+  navigation.appendChild(btnNavigation);
+
+  btns = document.querySelectorAll('.btn');
+  slides[0].classList.add('active');
+  btns.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      slides.forEach(slide => {
+        slide.classList.remove('active');
+        btns.forEach(btn => {
+          btn.classList.remove('active');
+        });
+      });
+      slides[i].classList.add('active');
+      btns[i].classList.add('active');
+    });
+  });
+
+  slides.forEach(slide => {
+    slidesObserver.observe(slide);
+  });
 }
+
+function deleteAsistencia(id) {
+  const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
+  if (eliminar) {
+    const docRef = doc(db, 'controlasistencias', id);
+    deleteDoc(docRef)
+      .then(result => {
+        alert('Registro Eliminado', result);
+      })
+      .catch(error => {
+        alert('Error: ', error.message);
+      });
+  }
+} //FIN DE DELETEASISTENCIA
+
+btnCerrar.addEventListener('click', () => {
+  window.history.back();
+});
