@@ -6,7 +6,7 @@ const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
 const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
 const historia = document.getElementById('historia-form');
 const inputs = document.querySelectorAll('.input');
-const btnCerrar = document.querySelector('.flexor > button');
+const btnCerrar = document.querySelector('.volver');
 const inputDolares = document.getElementById('montopagado');
 const inputCambio = document.getElementById('cambiodia');
 const inputBolivares = document.getElementById('montopagadobs');
@@ -14,14 +14,10 @@ const selectorEvaluacion = document.getElementById('selector-evaluacion');
 const selectorTratamiento = document.getElementById('selector-tratamiento');
 const textboxEvaluacion = document.getElementById('evaluaciongeneral');
 const textboxTratamiento = document.getElementById('tratamientoaplicado');
-const fechaNacimiento = document.getElementById('fnacimiento');
+
 //trigger focus event on element
-const eventoFocus = new FocusEvent('focus', {
-  view: window,
-  bubbles: true,
-  cancelable: true,
-});
-document.getElementById('paciente-local').innerText = nombrePaciente + ' ' + apellidoPaciente;
+
+document.getElementById('paciente').innerText = nombrePaciente + ' ' + apellidoPaciente;
 
 function dolarToday() {
   fetch('https://s3.amazonaws.com/dolartoday/data.json')

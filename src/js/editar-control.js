@@ -3,6 +3,8 @@ import { db } from '../js/firebaseconfig';
 import { collection, doc, query, where, updateDoc, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 
 const idControlLocal = JSON.parse(localStorage.getItem('controltoupdate'));
+const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
+const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
 const historia = document.getElementById('historia-form');
 const inputs = document.querySelectorAll('.input');
 const btnCerrar = document.querySelector('.volver');
@@ -13,8 +15,8 @@ const selectorEvaluacion = document.getElementById('selector-evaluacion');
 const selectorTratamiento = document.getElementById('selector-tratamiento');
 const textboxEvaluacion = document.getElementById('evaluaciongeneral');
 const textboxTratamiento = document.getElementById('tratamientoaplicado');
-console.log('ID control passed through LocalStoraged:', idControlLocal);
 
+document.getElementById('paciente').innerText = nombrePaciente + ' ' + apellidoPaciente;
 
 function formatearFecha(nfecha) {
   var info = nfecha.split('-').reverse().join('/');
@@ -124,26 +126,6 @@ btnCerrar.addEventListener('click', e => {
   e.preventDefault();
   window.history.back();
 });
-
-//codigo para los custom inputs de la seccion contacto
-inputs.forEach(input => {
-  input.addEventListener('focus', focusFunc);
-  input.addEventListener('blur', blurFunc);
-  input.dispatchEvent(eventoFocus);
-});
-
-function focusFunc() {
-  let parent = this.parentNode;
-  parent.classList.add('focus');
-}
-
-function blurFunc() {
-  let parent = this.parentNode;
-  if (this.value == '') {
-    parent.classList.remove('focus');
-  }
-}
-//fin del codigo para los custom inputs de la seccion contacto
 
 selectorEvaluacion.addEventListener('change', () => {
   textboxEvaluacion.value += ' - ' + selectorEvaluacion.value + '\r\n';

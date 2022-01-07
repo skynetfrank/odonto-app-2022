@@ -2,7 +2,7 @@ import historias from '../css/historia.css';
 import { db } from '../js/firebaseconfig';
 import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 
-const btnCerrar = document.querySelector('.flexor > button');
+const btnCerrar = document.querySelector('.volver');
 const idPacienteLocal = JSON.parse(localStorage.getItem('pacienteActual'));
 const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
 const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
@@ -20,14 +20,14 @@ var controlActivo;
 const slidesObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.target.classList.contains('active')) {
-      console.log('observer entry:', entry.target.childNodes[0].value);
+      console.log('watch observer entry:', entry.target.childNodes[0].value);
       controlActivo = entry.target.childNodes[0].value;
     }
   });
 });
 
 window.addEventListener('load', () => {
-  document.getElementById('paciente-local').innerText = nombrePaciente + ' ' + apellidoPaciente;
+  document.getElementById('paciente').innerText = nombrePaciente + ' ' + apellidoPaciente;
   getControl();
 });
 
@@ -55,23 +55,6 @@ function getControl() {
   });
 }
 
-const eventoFocus = new FocusEvent('focus', {
-  view: window,
-  bubbles: true,
-  cancelable: true,
-});
-
-function focusFunc() {
-  let parent = this.parentNode;
-  parent.classList.add('focus');
-}
-
-function blurFunc() {
-  let parent = this.parentNode;
-  if (this.value == '') {
-    parent.classList.remove('focus');
-  }
-}
 //fin del codigo para los custom inputs de la seccion contacto
 
 function addSlide(datos, id) {
@@ -85,9 +68,9 @@ function addSlide(datos, id) {
   var controlDiv = document.createElement('div');
   var inputFecha = document.createElement('input');
 
-  var h5 = document.createElement('h5');
-  var h5Content = document.createTextNode('Informacion del Pago');
-  h5.appendChild(h5Content);
+  var h3 = document.createElement('h3');
+  var h3Content = document.createTextNode('Informacion del Pago');
+  h3.appendChild(h3Content);
 
   var itemTextArea1 = document.createElement('div');
   var itemTextArea2 = document.createElement('div');
@@ -297,6 +280,7 @@ function addSlide(datos, id) {
   var inputContainer1 = document.createElement('div');
   inputContainer1.classList.add('input-container');
   inputContainer1.classList.add('pagos');
+  inputContainer1.classList.add('focus');
 
   var input1 = document.createElement('input');
   input1.classList.add('input');
@@ -318,6 +302,8 @@ function addSlide(datos, id) {
   var inputContainer2 = document.createElement('div');
   inputContainer2.classList.add('input-container');
   inputContainer2.classList.add('pagos');
+  inputContainer2.classList.add('focus');
+
   var input2 = document.createElement('input');
   input2.classList.add('input');
   input2.classList.add('montopagado');
@@ -338,6 +324,8 @@ function addSlide(datos, id) {
   var inputContainer3 = document.createElement('div');
   inputContainer3.classList.add('input-container');
   inputContainer3.classList.add('pagos');
+  inputContainer3.classList.add('focus');
+
   var input3 = document.createElement('input');
 
   input3.classList.add('input');
@@ -359,6 +347,7 @@ function addSlide(datos, id) {
   var inputContainer4 = document.createElement('div');
   inputContainer4.classList.add('input-container');
   inputContainer4.classList.add('pagos');
+  inputContainer4.classList.add('focus');
 
   var input4 = document.createElement('input');
   input4.classList.add('input');
@@ -382,16 +371,10 @@ function addSlide(datos, id) {
   divPago.appendChild(inputContainer3);
   divPago.appendChild(inputContainer4);
 
-  controlDiv.appendChild(h5);
+  controlDiv.appendChild(h3);
   controlDiv.appendChild(divPago);
 
   slides = document.querySelectorAll('.slide');
-  inputs = document.querySelectorAll('.input');
-  inputs.forEach(input => {
-    input.addEventListener('focus', focusFunc);
-    input.addEventListener('blur', blurFunc);
-    input.dispatchEvent(eventoFocus);
-  });
 
   let btnNavigation = document.createElement('div');
   btnNavigation.classList.add('btn');

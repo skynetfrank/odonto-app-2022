@@ -67,10 +67,11 @@ h5 {
 }
 
 h3 {
-  font-size: 1.6rem;
+  width: fit-content;
+  font-size: 1.3rem;
   color: #265a6e;
   font-weight: bold;
-  margin-top: 10px;
+  margin: 10px auto;
 }
 
 button.volver {
@@ -102,7 +103,6 @@ button.volver:hover {
 
 option {
   background-color: #fff;
-  color: #095484;
 }
 
 #btn-registrar-paciente:hover {
@@ -151,7 +151,7 @@ option {
   width: calc(100% - 40px);
   outline: none;
   border: 1px solid rgb(6, 173, 173);
-  background-color: rgb(228, 226, 226);
+  background-color: rgb(250, 246, 246);
   padding: 0.6rem 1.2rem;
   color: orangered;
   font-weight: 500;
@@ -168,7 +168,7 @@ textarea.input {
   border-radius: 22px;
   resize: none;
   overflow-y: auto;
-  background-color: rgb(218, 216, 216);
+  background-color: rgb(250, 246, 246);
 }
 
 .input-container label {
@@ -324,10 +324,12 @@ h6 {
 }
 
 .fechacontrolasistencia {
-  padding-top: 5px;
-  border: none;
+  padding: 5px;
+  border: 1px solid #28bbac;
+  border-radius: 5px;
   font-size: 20px;
   color: #265a6e;
+  margin-top: 10px;
 }
 
 /* reingenieria hasta aqui */
@@ -338,26 +340,20 @@ select {
   border-radius: 5px;
   border: 1px solid rgb(6, 173, 173);
   margin: 0 5px 20px 0;
-  background-color: rgb(218, 216, 216);
+  background-color: rgb(250, 246, 246);
 }
 
 textarea {
   width: calc(100% - 32px);
   padding: 5px 20px 5px 10px;
   position: relative;
-  background-color: rgb(218, 216, 216);
+  background-color: rgb(250, 246, 246);
 }
 
 input:hover,
 select:hover,
 textarea:hover {
   border: 1px solid orangered;
-}
-
-input.fechacontrolasistencia:hover {
-  font-weight: bold;
-  color: orangered;
-  border: none;
 }
 
 input[type='radio'],
@@ -488,13 +484,8 @@ input[type='checkbox']:checked + label:after {
 
 /*FIN DEL SLIDER de Control de Asistencias  */
 
-.flexor > button {
-  width: 50px;
-  height: 25px;
-  background-color: #265a6e;
-  color: white;
-  margin-top: 5px;
-  border-radius: 5px;
+.flexor > button:hover {
+  background-color: #28bbac;
 }
 
 .cambiodia,
@@ -546,9 +537,9 @@ input[type='checkbox']:checked + label:after {
   position: absolute;
   z-index: 99;
   display: none;
-  padding: 0.3rem;
+  padding: 0.3rem 0.6rem;
   font-size: 12px;
-  min-width: 120px;
+  min-width: fit-content;
   max-width: 100%;
   border-radius: 0.3rem;
   background-color: rgba(0, 0, 0, 0.8);
@@ -625,12 +616,41 @@ input[type='checkbox']:checked + label:after {
   border-right-color: rgba(0, 0, 0, 0.8);
 }
 
+#paciente {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+  background-color: #069ab1;
+  padding: 5px 10px;
+  z-index: 9999;
+}
+
+button.volver.control {
+  height: 25px;
+  border-radius: 0px;
+  background-color: #069ab1;
+  color: white;
+  font-weight: bold;
+  border: none;
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 5px;
+}
+
 /********* MEDIA QUERIES **********************/
 @media (max-width: 760px) {
   .input-container,
-  .input-container.pagos,
+  .input-container.pagos {
+    min-width: 50%;
+  }
+
   select:not(.selector-conceptos) {
-    min-width: 100%;
+    width: 100px;
   }
 
   .historia-container {
@@ -671,7 +691,7 @@ input[type='checkbox']:checked + label:after {
   /* MEDIA QUERIES DEL SLIDER CONTROL DE ASISTENCIAS*/
   .img-slider {
     width: 95%;
-    height: 100vh;
+    height: 510px;
   }
 
   .img-slider .slide {
@@ -684,23 +704,23 @@ input[type='checkbox']:checked + label:after {
   }
 
   .img-slider .navigation {
-    bottom: 110px;
-  }
-
-  .menu-control {
-    bottom: 140px;
+    bottom: 0;
   }
 
   textarea {
     height: 4em;
   }
 
-  select {
-    margin-bottom: 5px;
-  }
-
   h1 {
     margin-bottom: 0;
+  }
+  .historia-container.agregar {
+    position: relative;
+    width: 96%;
+  }
+
+  .historia-container.agregar > form {
+    padding: 10px;
   }
 }
 
