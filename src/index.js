@@ -1,5 +1,5 @@
 import { db, auth } from './js/firebaseconfig';
-import { doc, getDoc, query, deleteDoc, onSnapshot, orderBy, collection } from 'firebase/firestore';
+import { doc, getDoc, query, getDocs, deleteDoc, where, onSnapshot, orderBy, collection } from 'firebase/firestore';
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
 
 import estilos from './css/index.css';
@@ -23,6 +23,25 @@ const tablaContainer = document.querySelector('.tabla-container');
 const infoContainer = document.querySelector('.info-container');
 const tablaInfo = document.getElementById('tabla-info-paciente');
 const btnCerrarInfo = document.querySelector('.volver-info');
+var pacientex = [];
+
+//funcion para convertir fecha a formato DD-MM-AAAA
+function formatearFecha(nfecha) {
+  var info = nfecha.split('-').reverse().join('-');
+  return info;
+}
+
+//funcion para convertir fecha a formato AAAA-MM-DD
+function convertirFecha(cfecha) {
+  let year = cfecha.getFullYear(); // YYYY
+  let month = ('0' + (cfecha.getMonth() + 1)).slice(-2); // MM
+  let day = ('0' + cfecha.getDate()).slice(-2); // DD
+  return year + '-' + month + '-' + day;
+}
+
+function autoCapital(cadena) {
+  return cadena.charAt(0).toUpperCase() + cadena.slice(1);
+}
 
 window.addEventListener('load', () => {
   /*  spinner.style.display = 'none';
@@ -110,16 +129,7 @@ menuLinks[0].addEventListener('click', () => {
   menuLinks[1].style.color = 'white';
   menuLinks[2].style.color = 'white';
 });
-//nav menu Agenda
-menuLinks[1].addEventListener('click', () => {
-  seccionInicio.style.display = 'none';
-  seccionPacientes.style.display = 'none';
-  seccionDashboard.style.display = 'none';
-  seccionAgenda.style.display = 'block';
-  menuLinks[1].style.color = 'lime';
-  menuLinks[0].style.color = 'white';
-  menuLinks[2].style.color = 'white';
-});
+
 //nav menu Dashboard
 menuLinks[2].addEventListener('click', () => {
   seccionInicio.style.display = 'none';
@@ -311,3 +321,189 @@ btnCerrarInfo.addEventListener('click', () => {
   infoContainer.style.display = 'none';
   tablaContainer.style.display = 'block';
 });
+
+//***************************AGENDA CODE **************************************** */
+//***************************AGENDA CODE **************************************** */
+//***************************AGENDA CODE **************************************** */
+//***************************AGENDA CODE **************************************** */
+
+const btnUpdateAgenda = document.getElementById('update-agenda');
+
+//FUNCION PARA DESPLEGAR AGENDA POP-UP
+(function () {
+  'use strict';
+  var items = document.querySelectorAll('.timeline li');
+
+  function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  function callbackFunc() {
+    var items = document.querySelectorAll('.timeline li');
+    for (var i = 0; i < items.length; i++) {
+      if (isElementInViewport(items[i])) {
+        items[i].classList.add('in-view');
+      } else {
+        items[i].classList.remove('in-view');
+      }
+      if (i == 0) {
+        items[i].classList.add('in-view');
+      }
+    } //end of for
+  }
+  // listen for events
+  window.addEventListener('load', callbackFunc);
+  window.addEventListener('resize', callbackFunc);
+  window.addEventListener('scroll', callbackFunc);
+})();
+//FIN DE FUNCION PARA DESPLEGAR AGENDA POP-UP
+
+//INICIO DEL LISTENER PARA LA AGENDA
+menuLinks[1].addEventListener('click', () => {
+  seccionInicio.style.display = 'none';
+  seccionPacientes.style.display = 'none';
+  seccionDashboard.style.display = 'none';
+  seccionAgenda.style.display = 'block';
+  menuLinks[1].style.color = 'lime';
+  menuLinks[0].style.color = 'white';
+  menuLinks[2].style.color = 'white';
+  //horario();
+  let timeLista = document.getElementById('ul-timeline');
+  const usersRef = collection(db, 'users');
+
+  getDocs(usersRef)
+    .then(snapshot => {
+      let myData = [];
+      snapshot.docs.forEach(paciente => {
+        let currentID = paciente.id;
+        let appObj = { ...paciente.data(), ['id']: currentID };
+        pacientex.push(appObj);
+      });
+      console.log('Datos de la Coleccion:', myData);
+    })
+    .catch(error => {
+      console.log('Ocurrio un Error: ', error.message);
+    });
+
+  const populateAgenda = () => {
+    let fecha = convertirFecha(new Date());
+    const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
+    const allCitas = onSnapshot(consultaAgenda, snapshot => {
+      //aqui se itera sobre el cursor resultado (snapshot)
+      timeLista.innerHTML = '';
+      snapshot.forEach(doc => {
+        console.log('citas del snapshot', doc.data());
+        let data = doc.data();
+        const f = pacientex.find(p => p.id === data.paciente);
+
+        let fila = `<li>
+          <div> 
+               <span class="header-cita">           
+                 <h1>Dia: ${formatearFecha(data.fecha)}</h1>
+                 <h1>Hora: ${data.hora}</h1>
+               </span>
+
+               <h3>
+               Paciente: ${data.status === 'Bloqueada' ? 'Cita Bloqueda por la Dra.' : f.nombre + ' ' + f.apellido}
+               </h3>
+               <h3>Mensaje: ${data.msg}</h3>   
+               <button class="btn-eliminar-cita t-tip top" tip="Eliminar Esta Cita">Eliminar</button>
+               <span id="id-cita-eliminar">${doc.id}</span>         
+          </div>
+          </li>`;
+        timeLista.innerHTML += fila;
+
+        window.scroll(0, 1);
+        //seleccionar todos los botones eliminar cita
+        //const allButtons = document.querySelectorAll('.btn-eliminar-cita');
+        //loop de botones de la tabla
+
+        /* allButtons.forEach(boton => {
+          boton.addEventListener('click', async e => {
+            let idCita = e.target.parentNode.parentNode.querySelector('span').innerHTML;
+            await db
+              .collection('citas')
+              .doc(idCita)
+              .delete()
+              .then(resp => console.log('Cita Eliminada!'))
+              .catch(error => console.log('error al eliminar cita! verifique...'));
+            agenda.click();
+          });
+        });  */
+
+        //fin del  forEach para loop de todos los botones de la table
+      });
+    });
+  }; //FIN DE POPULATE TABLA
+  populateAgenda();
+}); //FINDE LISTENER PARA AGENDA
+
+//funcion para obtener el resto de horas que quedan sin apartar en el dia
+
+/* async function horario() {
+  const fecha = convertirFecha(new Date()); //fecha de hoy
+  const listaHoras = document.getElementById('listaHoras');
+  //array de horas por defecto de 7 a 7 (formato militar)
+  var horas = ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
+
+  await db
+    .collection('citas')
+    .where('fecha', '==', fecha)
+    .onSnapshot(querySnapshot => {
+      console.log('onSnapshot disparado', querySnapshot);
+      listaHoras.innerHTML = `
+      <div class="titulo-horas">
+      <li>Horas de Citas</li>
+      <li>Disponibles Hoy</li>
+      <li>${formatearFecha(fecha)}</li>
+      </div>     
+      `;
+      querySnapshot.forEach(doc => {
+        let position = horas.indexOf(doc.data().hora);
+        if (position >= 0) {
+          horas.splice(position, 1);
+        }
+      });
+      horas.forEach(item => {
+        if (item.length > 0) {
+          listaHoras.innerHTML += `
+        <li>${item}
+            <button class="td-btn horas" data-tip="Bloquear Hora">
+                 <i class="fas fa-user-alt-slash"></i>
+            </button>                  
+        </li>`;
+        }
+      });
+
+      //seleccionar todos los botones eliminar cita
+      const allHoras = document.querySelectorAll('.td-btn.horas');
+      //loop de botones de la tabla
+      allHoras.forEach(boton => {
+        boton.addEventListener('click', e => {
+          let horaX = e.target.parentNode.innerHTML.substring(0, 5);
+          bloquearHora(fecha, horaX);
+        });
+      }); //fin del  forEach para loop de todos los botones de la table
+    });
+} 
+
+*/ //END OF HORARIO()
+
+/* async function bloquearHora(fechaBloquear, horaBloquear) {
+  await db.collection('citas').doc().set({
+    fecha: fechaBloquear,
+    hora: horaBloquear,
+    telefono: 'Dra. Vanessa',
+    msg: 'Para desbloquear pulsa el boton!',
+    paciente: auth.currentUser.uid,
+    status: 'Bloqueada',
+    createdAt: serverTimestamp(),
+  });
+  window.scroll(0, 2);
+} */
