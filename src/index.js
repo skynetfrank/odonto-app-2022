@@ -41,7 +41,7 @@ const navOverlay = document.querySelector('.nav-overlay');
 const closeNav = document.querySelector('.close');
 const fechaAgenda = document.querySelector('.head > p');
 let nombreCita;
-var pacientex = [];
+var usuarioWeb = [];
 
 //funcion para convertir fecha a formato DD-MM-AAAA
 function formatearFecha(nfecha) {
@@ -84,6 +84,7 @@ onAuthStateChanged(auth, user => {
     //    imgLogo.click();
     menuLinks[0].click();
     populateTabla();
+    getUsuarios();
   } else {
     imgLogo.click();
     sesion.style.display = 'flex';
@@ -394,18 +395,20 @@ menuLinks[1].addEventListener('click', () => {
   let timeLista = document.getElementById('ul-timeline');
   const usersRef = collection(db, 'users');
 
+  /* 
   getDocs(usersRef)
     .then(snapshot => {
       snapshot.docs.forEach(paciente => {
         let currentID = paciente.id;
         let appObj = { ...paciente.data(), ['id']: currentID };
         pacientex.push(appObj);
+        console.log('usuario agregado al array pacientesx');
       });
     })
     .catch(error => {
       console.log('Ocurrio un Error: ', error.message);
     });
-
+ */
   const populateAgenda = () => {
     let fecha = convertirFecha(new Date());
     const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
@@ -414,7 +417,8 @@ menuLinks[1].addEventListener('click', () => {
       timeLista.innerHTML = '';
       snapshot.forEach(doc => {
         let data = doc.data();
-        let found = pacientex.find(p => p.id === data.paciente);
+        let found = usuarioWeb.find(p => p.id === data.paciente);
+        console.log('Pacientex array:', usuarioWeb, 'found:', found);
 
         let fila = `<li>
           <div> 
@@ -429,6 +433,7 @@ menuLinks[1].addEventListener('click', () => {
                }
                </h3>
                <h3><span class="bold">Mensaje:</span> ${data.msg}</h3>   
+                <h3><span class="bold">Telefono:</span> ${data.telefono}</h3>   
                <button class="btn-eliminar-cita t-tip top" tip="Eliminar Esta Cita" data-idcita=${
                  doc.id
                }>Eliminar</button>
@@ -513,7 +518,7 @@ function bloquearHora(fechaBloquear, horaBloquear) {
     status: 'Bloqueada',
     createdAt: serverTimestamp(),
   });
-  menuLinks[1].click();
+  //menuLinks[1].click();
   window.scroll(0, 2);
 }
 
@@ -551,11 +556,24 @@ function deleteCita(id) {
     const docRef = doc(db, 'citas', id);
     deleteDoc(docRef)
       .then(result => {
-        menuLinks[1].click();
+        //menuLinks[1].click();
         alert('Cita Eliminada');
+        window.scroll(0, 2);
       })
       .catch(error => {
         alert('Error: ', error.message);
       });
   }
 } //FIN DE DELETE CITA
+
+function getUsuarios() {
+  onSnapshot(collection(db, 'users'), snapshot => {
+    //aqui se itera sobre el cursor resultado (snapshot)
+    snapshot.forEach(usuario => {
+      let currentID = usuario.id;
+      let appObj = { ...usuario.data(), ['id']: currentID };
+      usuarioWeb.push(appObj);
+      console.log('usuario agregado al array pacientesx');
+    });
+  });
+}
