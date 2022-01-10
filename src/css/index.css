@@ -574,29 +574,33 @@ table.info {
 .timeline {
   color: #fff;
   overflow-x: hidden;
-  padding-bottom: 50px;
   background-color: #ff7979;
 }
 .horario {
-  position: fixed;
   width: 100%;
-  height: 50px;
-  border-bottom: 1px solid white;
   z-index: 999;
+  padding-top: 30px;
 }
-ol {
-  list-style: none;
+#listaHoras {
+  margin: 0 auto;
+  width: 80%;
+}
+
+#listaHoras > div {
   display: flex;
-  height: 100%;
-  justify-content: space-evenly;
   align-items: center;
-  max-width: 1024px;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+
+#listaHoras > div > span {
+  color: orange;
+  font-weight: bold;
 }
 
 .timeline ul {
   height: auto;
   min-height: 100vh;
-  padding-top: 50px;
   z-index: 1;
 }
 
@@ -741,17 +745,19 @@ ol {
 
 .btn-eliminar-cita {
   display: block;
-  width: 60px;
-  padding: 5px;
+  padding: 10px;
   background-color: #ff7979;
   border-radius: 5px;
   color: #fff;
   border: none;
   margin-top: 10px;
+  font-weight: bold;
 }
 
 .titulo-horas {
   font-size: 11px;
+  width: 100%;
+  text-align: center;
 }
 
 .header-cita {
@@ -772,9 +778,129 @@ h3 {
   font-size: 1rem;
 }
 
+.bold {
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.btn-bloquear {
+  padding: 5px;
+  background-color: #ff7979;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
 /*==========================
   FIN DE SECTION AGENDA  
 ============================*/
+
+/*==========================
+  SIDE PANEL HORARIO AGENDA 
+============================*/
+
+.nav-toggle {
+  height: 45px;
+  width: 45px;
+  margin: 15px;
+  background-color: #333333;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+.nav-toggle span {
+  height: 3px;
+  width: 24px;
+  background-color: #ffffff;
+  display: block;
+  position: relative;
+}
+.nav-toggle span:before,
+.nav-toggle span:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+}
+.nav-toggle span:before {
+  top: -8px;
+}
+.nav-toggle span:after {
+  top: 8px;
+}
+/*nav*/
+.nav-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 499;
+  background-color: transparent;
+  /*background-color: rgba(0, 0, 0, 0.5);*/
+  height: 100%;
+  width: 100%;
+  transform: translateX(-100%);
+}
+.nav-overlay.open {
+  transform: translateX(0%);
+}
+
+.nav {
+  position: fixed;
+  left: 0;
+  top: 70px;
+  background-color: black;
+  height: 100%;
+  width: 180px;
+  z-index: 500;
+  transform: translateX(-180px);
+  overflow-y: auto;
+  float: right;
+  opacity: 0.9;
+}
+.nav .head {
+  top: 0;
+  z-index: 501;
+  background-color: #111111;
+  width: 100%;
+  line-height: 2rem;
+  padding: 10px;
+}
+
+.nav .head > h4 {
+  font-size: 12px;
+  color: orange;
+}
+
+.nav .head > p {
+  margin-left: 15px;
+  color: orange;
+}
+.nav.open {
+  transform: translateX(0px);
+}
+
+.nav .close {
+  position: absolute;
+  width: 35px;
+  right: 0;
+  top: 0;
+  font-size: 32px;
+  color: #dddddd;
+  cursor: pointer;
+}
+
+.nav .close:hover {
+  color: #ff7979;
+}
 
 /************************** MEDIA QUERIES *****************************************************/
 
@@ -901,7 +1027,7 @@ h3 {
   .timeline ul li:nth-child(even) div::before {
     left: -15px;
     border-width: 8px 16px 8px 0;
-    border-color: transparent #f45b69 transparent transparent;
+    border-color: transparent #fff transparent transparent;
   }
 
   .header-cita {

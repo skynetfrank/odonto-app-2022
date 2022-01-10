@@ -1,5 +1,17 @@
 import { db, auth } from './js/firebaseconfig';
-import { doc, getDoc, query, getDocs, deleteDoc, where, onSnapshot, orderBy, collection } from 'firebase/firestore';
+import {
+  addDoc,
+  doc,
+  getDoc,
+  query,
+  getDocs,
+  deleteDoc,
+  where,
+  onSnapshot,
+  orderBy,
+  collection,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
 
 import estilos from './css/index.css';
@@ -23,6 +35,12 @@ const tablaContainer = document.querySelector('.tabla-container');
 const infoContainer = document.querySelector('.info-container');
 const tablaInfo = document.getElementById('tabla-info-paciente');
 const btnCerrarInfo = document.querySelector('.volver-info');
+const navToggle = document.querySelector('.nav-toggle');
+const nav = document.querySelector('.nav');
+const navOverlay = document.querySelector('.nav-overlay');
+const closeNav = document.querySelector('.close');
+const fechaAgenda = document.querySelector('.head > p');
+let nombreCita;
 var pacientex = [];
 
 //funcion para convertir fecha a formato DD-MM-AAAA
@@ -262,7 +280,6 @@ buscador.addEventListener('change', e => {
 });
 
 function verInfoPaciente(id) {
-  console.log('Ver Informacion del Paciente ID:', id);
   tablaContainer.style.display = 'none';
   infoContainer.style.display = 'block';
 
@@ -373,19 +390,17 @@ menuLinks[1].addEventListener('click', () => {
   menuLinks[1].style.color = 'lime';
   menuLinks[0].style.color = 'white';
   menuLinks[2].style.color = 'white';
-  //horario();
+  horario();
   let timeLista = document.getElementById('ul-timeline');
   const usersRef = collection(db, 'users');
 
   getDocs(usersRef)
     .then(snapshot => {
-      let myData = [];
       snapshot.docs.forEach(paciente => {
         let currentID = paciente.id;
         let appObj = { ...paciente.data(), ['id']: currentID };
         pacientex.push(appObj);
       });
-      console.log('Datos de la Coleccion:', myData);
     })
     .catch(error => {
       console.log('Ocurrio un Error: ', error.message);
@@ -398,9 +413,8 @@ menuLinks[1].addEventListener('click', () => {
       //aqui se itera sobre el cursor resultado (snapshot)
       timeLista.innerHTML = '';
       snapshot.forEach(doc => {
-        console.log('citas del snapshot', doc.data());
         let data = doc.data();
-        const f = pacientex.find(p => p.id === data.paciente);
+        let found = pacientex.find(p => p.id === data.paciente);
 
         let fila = `<li>
           <div> 
@@ -410,10 +424,14 @@ menuLinks[1].addEventListener('click', () => {
                </span>
 
                <h3>
-               Paciente: ${data.status === 'Bloqueada' ? 'Cita Bloqueda por la Dra.' : f.nombre + ' ' + f.apellido}
+               <span class="bold">Paciente:</span> ${
+                 data.status === 'Bloqueada' ? 'Cita Bloqueda por la Dra.' : found.nombre + ' ' + found.apellido
+               }
                </h3>
-               <h3>Mensaje: ${data.msg}</h3>   
-               <button class="btn-eliminar-cita t-tip top" tip="Eliminar Esta Cita">Eliminar</button>
+               <h3><span class="bold">Mensaje:</span> ${data.msg}</h3>   
+               <button class="btn-eliminar-cita t-tip top" tip="Eliminar Esta Cita" data-idcita=${
+                 doc.id
+               }>Eliminar</button>
                <span id="id-cita-eliminar">${doc.id}</span>         
           </div>
           </li>`;
@@ -421,21 +439,15 @@ menuLinks[1].addEventListener('click', () => {
 
         window.scroll(0, 1);
         //seleccionar todos los botones eliminar cita
-        //const allButtons = document.querySelectorAll('.btn-eliminar-cita');
+        const allButtons = document.querySelectorAll('.btn-eliminar-cita');
         //loop de botones de la tabla
 
-        /* allButtons.forEach(boton => {
-          boton.addEventListener('click', async e => {
-            let idCita = e.target.parentNode.parentNode.querySelector('span').innerHTML;
-            await db
-              .collection('citas')
-              .doc(idCita)
-              .delete()
-              .then(resp => console.log('Cita Eliminada!'))
-              .catch(error => console.log('error al eliminar cita! verifique...'));
-            agenda.click();
+        allButtons.forEach(boton => {
+          boton.addEventListener('click', e => {
+            let idCita = e.target.dataset.idcita;
+            deleteCita(idCita);
           });
-        });  */
+        });
 
         //fin del  forEach para loop de todos los botones de la table
       });
@@ -446,57 +458,53 @@ menuLinks[1].addEventListener('click', () => {
 
 //funcion para obtener el resto de horas que quedan sin apartar en el dia
 
-/* async function horario() {
+function horario() {
   const fecha = convertirFecha(new Date()); //fecha de hoy
   const listaHoras = document.getElementById('listaHoras');
   //array de horas por defecto de 7 a 7 (formato militar)
   var horas = ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
+  const citasRef = collection(db, 'citas');
+  const q = query(citasRef, where('fecha', '==', fecha));
 
-  await db
-    .collection('citas')
-    .where('fecha', '==', fecha)
-    .onSnapshot(querySnapshot => {
-      console.log('onSnapshot disparado', querySnapshot);
-      listaHoras.innerHTML = `
-      <div class="titulo-horas">
-      <li>Horas de Citas</li>
-      <li>Disponibles Hoy</li>
-      <li>${formatearFecha(fecha)}</li>
-      </div>     
-      `;
-      querySnapshot.forEach(doc => {
-        let position = horas.indexOf(doc.data().hora);
-        if (position >= 0) {
-          horas.splice(position, 1);
-        }
-      });
-      horas.forEach(item => {
-        if (item.length > 0) {
-          listaHoras.innerHTML += `
-        <li>${item}
-            <button class="td-btn horas" data-tip="Bloquear Hora">
-                 <i class="fas fa-user-alt-slash"></i>
-            </button>                  
-        </li>`;
-        }
-      });
-
-      //seleccionar todos los botones eliminar cita
-      const allHoras = document.querySelectorAll('.td-btn.horas');
-      //loop de botones de la tabla
-      allHoras.forEach(boton => {
-        boton.addEventListener('click', e => {
-          let horaX = e.target.parentNode.innerHTML.substring(0, 5);
-          bloquearHora(fecha, horaX);
-        });
-      }); //fin del  forEach para loop de todos los botones de la table
+  onSnapshot(q, snapshot => {
+    fechaAgenda.innerHTML = formatearFecha(fecha);
+    //aqui se itera sobre el cursor resultado (snapshot)
+    console.log('se disparo el onsnapshot de citas-horas');
+    snapshot.forEach(doc => {
+      let position = horas.indexOf(doc.data().hora);
+      if (position >= 0) {
+        horas.splice(position, 1);
+      }
     });
-} 
+    listaHoras.innerHTML = '';
+    horas.forEach(item => {
+      if (item.length > 0) {
+        listaHoras.innerHTML += `
+        <div>
+        <span>${item}</span>
+        <button class="btn-bloquear" data-idhora=${item}>Bloquear</button>
+        </div>
+        `;
+      }
+    });
 
-*/ //END OF HORARIO()
+    //seleccionar todos los botones eliminar cita
+    const allHoras = document.querySelectorAll('.btn-bloquear');
+    //loop de botones de la tabla
 
-/* async function bloquearHora(fechaBloquear, horaBloquear) {
-  await db.collection('citas').doc().set({
+    allHoras.forEach(boton => {
+      boton.addEventListener('click', e => {
+        let horaX = e.target.dataset.idhora;
+        bloquearHora(fecha, horaX);
+      });
+    }); //fin del  forEach para loop de todos los botones de la table
+  });
+}
+
+//END OF HORARIO()
+
+function bloquearHora(fechaBloquear, horaBloquear) {
+  addDoc(collection(db, 'citas'), {
     fecha: fechaBloquear,
     hora: horaBloquear,
     telefono: 'Dra. Vanessa',
@@ -505,5 +513,49 @@ menuLinks[1].addEventListener('click', () => {
     status: 'Bloqueada',
     createdAt: serverTimestamp(),
   });
+  menuLinks[1].click();
   window.scroll(0, 2);
-} */
+}
+
+//***********************SIDEBAR AGENDA *****************************************/
+
+navToggle.addEventListener('click', () => {
+  navShow();
+});
+closeNav.addEventListener('click', () => {
+  hideNav();
+});
+
+// hide nav after clicked outside of nav
+navOverlay.addEventListener('click', e => {
+  hideNav();
+});
+
+function navShow() {
+  navOverlay.style.transition = 'all 0.1s ease';
+  navOverlay.classList.add('open');
+  nav.style.transition = 'all 0.3s ease 0.5s';
+  nav.classList.add('open');
+}
+
+function hideNav() {
+  nav.style.transition = 'all 0.3s ease';
+  nav.classList.remove('open');
+  navOverlay.style.transition = 'all 0.2s ease 0.1s';
+  navOverlay.classList.remove('open');
+}
+
+function deleteCita(id) {
+  const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
+  if (eliminar) {
+    const docRef = doc(db, 'citas', id);
+    deleteDoc(docRef)
+      .then(result => {
+        menuLinks[1].click();
+        alert('Cita Eliminada');
+      })
+      .catch(error => {
+        alert('Error: ', error.message);
+      });
+  }
+} //FIN DE DELETE CITA
