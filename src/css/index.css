@@ -803,18 +803,16 @@ h3 {
 ============================*/
 
 .nav-toggle {
-  height: 45px;
-  width: 45px;
   margin: 15px;
-  background-color: #333333;
-  border-radius: 50%;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
   z-index: 499;
 }
+
+.nav-toggle .clock-icon {
+  color: black;
+}
+
 .nav-toggle span {
   height: 3px;
   width: 24px;
@@ -857,22 +855,28 @@ h3 {
   position: fixed;
   left: 0;
   top: 70px;
-  background-color: black;
   height: 100%;
-  width: 180px;
+  width: 190px;
   z-index: 500;
-  transform: translateX(-180px);
+  transform: translateX(-190px);
   overflow-y: auto;
   float: right;
   opacity: 0.9;
+  background-color: black;
 }
 .nav .head {
-  top: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
   z-index: 501;
-  background-color: #111111;
   width: 100%;
-  line-height: 2rem;
-  padding: 10px;
+  line-height: 1.25rem;
+  padding: 20px;
+}
+
+.nav .head > p {
+  color: orange;
 }
 
 .nav .head > h4 {
@@ -880,10 +884,10 @@ h3 {
   color: orange;
 }
 
-.nav .head > p {
-  margin-left: 15px;
+.nav .head > .time-icon {
   color: orange;
 }
+
 .nav.open {
   transform: translateX(0px);
 }
@@ -1016,7 +1020,7 @@ h3 {
   }
 
   .timeline ul li {
-    margin-left: 35px;
+    margin-left: 40px;
     padding-top: 60px;
   }
   .timeline ul li div {
@@ -1038,6 +1042,10 @@ h3 {
   h3 {
     font-size: 12px;
     font-weight: 500;
+  }
+
+  .nav-toggle {
+    margin: 15px 15px 15px 5px;
   }
 }
 

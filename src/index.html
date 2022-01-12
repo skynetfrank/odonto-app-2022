@@ -24,7 +24,6 @@
 
   <nav>
     <a href="#seccion__inicio"><img class="img-logo" src="images/admin-logo.png" alt="logo-img"></a>
-
     <span id="usuario"></span>
     <ul id="barra__menu">
       <li><a href="#seccion__pacientes">Pacientes</a></li>
@@ -126,11 +125,9 @@
   </section>
 
   <section class="timeline" id="seccion__agenda">
-    <div class="nav-toggle">
-      <span></span>
+    <div class="nav-toggle t-tip right" tip="Horas Disponibles">
+      <ion-icon name="alarm" size="large" class="clock-icon t-tip right" tip="Horas Disponibles"></ion-icon>
     </div>
-
-
     <ul id="ul-timeline">
     </ul>
 
@@ -138,6 +135,7 @@
     <div class="nav-overlay"></div>
     <div class="nav">
       <div class="head">
+        <ion-icon name="time" size="large" class="time-icon"></ion-icon>
         <p></p>
         <h4>Horas Disponibles Hoy</h4>
         <div class="close">&times;</div>
@@ -153,7 +151,8 @@
   </section>
 
   <section id="seccion__dashboard"></section>
-
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>
