@@ -113,6 +113,84 @@ body {
 
 /*------ FIN DE PRE LOADER SPINNER ---------*/
 
+/* ----- MY CUSTOM LOADING SPINNER  */
+
+.myspinner-container {
+  /* display: flex; */
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  top: 100px;
+  display: none;
+  z-index: 999;
+}
+
+.myspinner-sector {
+  border-radius: 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 15px solid transparent;
+  border-top: 15px solid green;
+  mix-blend-mode: overlay;
+}
+
+.myspinner-text {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.myspinner-text::before {
+  color: darkred;
+  font-weight: 800;
+  content: attr(data-spintext);
+}
+
+.myspinner-sector-blue {
+  animation: myRotate 1s ease-out infinite;
+  border-top: 15px solid lightseagreen;
+}
+
+.myspinner-sector-red {
+  animation: myRotate 1.5s ease-in infinite;
+  border-top: 15px solid lightcoral;
+}
+
+.myspinner-sector-green {
+  animation: myRotate 0.5s ease-in-out infinite;
+  border-top: 15px solid lightgreen;
+}
+
+@keyframes myRotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes myLoading {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* ----- END OF MY CUSTOM LOADING SPINNER  */
+
 /*-------- NAV BAR -------------*/
 .img-logo {
   padding: 10px;
@@ -813,28 +891,6 @@ h3 {
   color: black;
 }
 
-.nav-toggle span {
-  height: 3px;
-  width: 24px;
-  background-color: orange;
-  display: block;
-  position: relative;
-}
-.nav-toggle span:before,
-.nav-toggle span:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: orange;
-}
-.nav-toggle span:before {
-  top: -8px;
-}
-.nav-toggle span:after {
-  top: 8px;
-}
 /*nav*/
 .nav-overlay {
   position: fixed;

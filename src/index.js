@@ -217,7 +217,7 @@ const populateTabla = () => {
             window.open('control-asistencias.html', '_self');
           }
           if (e.target.id == 'btn-odograma') {
-            window.open('odograma.html');
+            window.open('odograma.html', '_self');
           }
           if (e.target.id == 'btn-eliminar-paciente') {
             deleteAsistencia(pacienteSeleccionado);
@@ -384,7 +384,7 @@ function populateAgenda() {
         });
       });
     }); //fin del  forEach para el snapshot
-    offsetCita();
+    setInViewClass();
   });
 }
 
@@ -528,7 +528,7 @@ function callbackFunc() {
   } //end of for
 }
 
-function offsetCita() {
+function setInViewClass() {
   document.querySelector('#ul-timeline li:first-child').classList.add('in-view');
   window.scroll(0, 5);
 }

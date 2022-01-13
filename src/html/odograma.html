@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+  <title>Odontograma</title>
+</head>
+
+<body>
+  <h2 id="h2-nombre">Examen Clinico Intraoral - Odontograma</h2>
+  <button id="btn-cerrar">X</button>
+  <div id="sidebar">
+
+    <div class="colorButtons">
+      <div>
+        <button id="btncolor-blanco" class="btn-color"></button>
+        <button id="btncolor-negro" class="btn-color"></button>
+        <button id="btncolor-naranja" class="btn-color"></button>
+        <button id="btncolor-rojo" class="btn-color"></button>
+        <button id="btncolor-azul" class="btn-color"></button>
+        <button id="btncolor-verde" class="btn-color"></button>
+      </div>
+      <div class="div-color-actual">
+        <label for="color-actual" id="label-seleccionado">seleccionado</label>
+        <button id="color-actual" class="btn-color"></button>
+      </div>
+
+    </div>
+
+
+    <hr>
+    <h3>SIMBOLOS</h3>
+    <div id="div-figuras">
+      <button id="marcador" class="td-btn" data-tip="Marcador"><img src="../images/marker-icon.png" alt=""></button>
+      <button id="caries" class="td-btn" data-tip="Caries"><img src="../images/caries.png" alt=""></button>
+      <button id="extraccion" class="td-btn" data-tip="Extraccion"><img src="../images/extracion.png" alt=""></button>
+      <button id="ausente" class="td-btn" data-tip="Diente Ausente"><img src="../images/ausente.png" alt=""></button>
+      <button id="puenteFijo" class="td-btn" data-tip="Puente Fijo"><img id="img-puentefijo"
+          src="../images/puentefijo.png" alt=""></button>
+      <button id="lineaV" class="td-btn" data-tip="Diastema"><img src="../images/paralelasV.png" alt=""></button>
+      <button id="lineaH" class="td-btn" data-tip="Por Definir"><img src="../images/paralelasH.png" alt=""></button>
+      <button id="implante" class="td-btn" data-tip="Implante"><img src="../images/implante.png" alt=""></button>
+      <button id="removible" class="td-btn" data-tip="Removible"><img id="img-removible" src="../images/removible.png"
+          alt=""></button>
+      <button id="hipersense" class="td-btn" data-tip="Hipersensibilidad"><img id="img-hipersense"
+          src="../images/hipersense.png" alt=""></button>
+      <button id="apical" class="td-btn" data-tip="Proceso Apical"><img src="../images/apical.png" alt=""></button>
+      <button id="fistula" class="td-btn" data-tip="Fistula"><img src="../images/fistula.png" alt=""></button>
+      <button id="extrusion" class="td-btn" data-tip="Extrusion"><img src="../images/extrusion.png" alt=""></button>
+      <button id="infraoclusion" class="td-btn" data-tip="Infraoclusion"><img src="../images/infraoclusion.png"
+          alt=""></button>
+      <button id="inclinacion" class="td-btn" data-tip="Inclinacion"><img src="../images/inclinacion.png"
+          alt=""></button>
+      <button id="rotacion" class="td-btn" data-tip="Rotacion"><img id="img-rotacion" src="../images/rotacion.png"
+          alt=""></button>
+      <button id="empaq-alimento" class="td-btn" data-tip="Empaquetamiento de Alimentos"><img
+          src="../images/empaq-alimentos.png" alt=""></button>
+      <button id="profundidad-sondaje" class="td-btn" data-tip="Profundidad de Sondaje">PS</button>
+      <button id="frenillo" class="td-btn" data-tip="Frenillo">Y</button>
+      <button id="nivel-insersion" class="td-btn" data-tip="Nivel de Insersion Clinica">NIC</button>
+      <button id="sangramiento-sondaje" class="td-btn" data-tip="Sangramiento al Sondaje">SS.</button>
+      <button id="mucosa-masticadora" class="td-btn" data-tip="Mucosa Masticadora">MM</button>
+      <button id="defecto-mucogingival" class="td-btn" data-tip="Defecto Mucogingival">DMG</button>
+      <button id="movilidad-dentaria" class="td-btn" data-tip="Movilidad Dentaria">MOV</button>
+      <button id="protesis-defectuosa" class="td-btn" data-tip="Protesis Defectuosa">PD</button>
+      <button id="compromiso-furcacion" class="td-btn" data-tip="Compromiso Furcacion">CF</button>
+      <button id="clear" class="td-btn" data-tip="Borrar Todo"><img src="../images/broom-icon.png" alt=""></button>
+      <button id="simbolox17" class="td-btn" data-tip="Deshacer"><img src="../images/tools-icon.png" alt=""></button>
+
+      <button id="eraser" class="td-btn" data-tip="Por Definir"><img src="../images/tools-icon.png" alt=""></button>
+
+      <button id="download" class="td-btn" data-tip="Descargar">
+        <a id="downloadToImage"><img src="../images/download-icon.png" alt=""></a>
+      </button>
+
+    </div>
+    <hr>
+    <div class="guardar">
+      <a id="saveToImage">Guardar</a>
+
+    </div>
+    <span id="progress"></span>
+    <span id="myH3"></span>
+
+  </div>
+  <!--MY CUSTOM LOADING SPINNER -->
+  <div class="myspinner-container">
+    <div class="myspinner-text" data-spintext="Guardando! Espere. No Cierre esta Ventana"></div>
+    <div class="myspinner-sector myspinner-sector-red"></div>
+    <div class="myspinner-sector myspinner-sector-blue"></div>
+    <div class="myspinner-sector myspinner-sector-green"></div>
+  </div>
+  <!--END OF MY CUSTOM LOADINF SPINNER -->
+</body>
+
+</html>

@@ -1,0 +1,435 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  padding: 0;
+  margin: 10px 0px 15px 230px;
+  color: #095484;
+}
+
+h3 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+button {
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid rgb(133, 129, 129);
+}
+
+button:hover {
+  border-color: #008800;
+}
+
+canvas {
+  cursor: crosshair;
+}
+
+#h2-nombre {
+  margin-left: 65px;
+}
+
+#btn-cerrar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: teal;
+  font-weight: bolder;
+  font-size: 20px;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+div#sidebar {
+  position: absolute;
+  left: 0;
+  width: 310px;
+  min-height: 480px;
+  padding: 10px;
+  top: 60px;
+  background-color: rgb(184, 179, 179);
+  border: 1px solid rgb(122, 121, 121);
+}
+
+canvas#canvas {
+  left: 350px;
+  top: 60px;
+}
+
+.colorButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-color {
+  width: 25px;
+  height: 20px;
+  margin: 2px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+#btncolor-blanco {
+  background-color: #ffffff;
+}
+
+#btncolor-negro {
+  background-color: #000000;
+}
+#btncolor-azul {
+  background-color: #0000ff;
+}
+#btncolor-naranja {
+  background-color: #e68106;
+}
+#btncolor-rojo {
+  background-color: #ff0000;
+}
+#btncolor-verde {
+  background-color: #008800;
+}
+
+label {
+  font-weight: bolder;
+}
+
+.div-color-actual {
+  width: 85px;
+}
+
+#color-actual {
+  border: 2px solid rgb(197, 67, 197);
+  border-radius: 5px;
+  width: 80px;
+  pointer-events: none;
+}
+
+#myH3 {
+  font-size: 12px;
+  padding: 3px;
+}
+
+#div-figuras {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.btn {
+  margin-bottom: 10px;
+  width: 48%;
+  height: 40px;
+  color: dark;
+}
+
+.td-btn {
+  width: 45px;
+  height: 40px;
+  margin: 3px;
+  color: #0000ff;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+}
+
+.td-btn.activo {
+  border: 4px ridge fuchsia;
+}
+
+/* tooltip for buttons */
+
+.td-btn::before,
+.td-btn::after {
+  --scale: 0;
+  --tooltip-color: #333;
+  --arrow-size: 10px;
+  position: absolute;
+  top: -0.25rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 150ms transform;
+  transform-origin: bottom center;
+}
+
+.td-btn::before {
+  --translate-y: calc(-100% - var(--arrow-size));
+  content: attr(data-tip);
+  background: #333;
+  color: white;
+  padding: 0.5rem;
+  min-width: 110px;
+  max-width: 100%;
+  border-radius: 0.3rem;
+  text-align: center;
+  z-index: 99;
+}
+
+.td-btn:hover::before,
+.td-btn:hover::after {
+  --scale: 1;
+}
+
+.td-btn::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  border-top-color: var(--tooltip-color);
+  transform-origin: top center;
+}
+
+/* fin de tooltip for buttons */
+
+input {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.toolsButtons .btn,
+#equis,
+#linea {
+  width: 48%;
+}
+
+.sizeButtons .btn {
+  width: 48%;
+}
+
+a#saveToImage {
+  border-radius: 5px;
+  font-size: 25px;
+  font-weight: 700;
+  position: relative;
+  top: 40px;
+  padding: 20px;
+  border: 1px solid rgb(137, 137, 148);
+  cursor: pointer;
+  background-color: aqua;
+  font-weight: bold;
+  color: rgb(51, 51, 53);
+  text-decoration: none;
+}
+
+a:hover {
+  color: orangered;
+}
+
+.guardar {
+  text-align: center;
+}
+
+#progress {
+  position: relative;
+  top: 70px;
+  left: 40px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+
+
+.pruebas {
+  background-color: rgb(121, 113, 113);
+}
+
+.btn.activo {
+  background-color: springgreen;
+}
+
+#myH3 {
+  display: none;
+}
+
+#img-hipersense {
+  height: 30px;
+}
+
+#img-puentefijo {
+  width: 31px;
+}
+
+#img-removible {
+  position: relative;
+  left: -4px;
+}
+#img-rotacion {
+  height: 31px;
+}
+
+/* ----- MY CUSTOM LOADING SPINNER  */
+
+.myspinner-container {
+  /* display: flex; */
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  top: 100px;
+  display: none;
+  z-index: 999;
+}
+
+.myspinner-sector {
+  border-radius: 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 15px solid transparent;
+  border-top: 15px solid green;
+  mix-blend-mode: overlay;
+}
+
+.myspinner-text {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.myspinner-text::before {
+  color: darkred;
+  font-weight: 800;
+  content: attr(data-spintext);
+}
+
+.myspinner-sector-blue {
+  animation: myRotate 1s ease-out infinite;
+  border-top: 15px solid lightseagreen;
+}
+
+.myspinner-sector-red {
+  animation: myRotate 1.5s ease-in infinite;
+  border-top: 15px solid lightcoral;
+}
+
+.myspinner-sector-green {
+  animation: myRotate 0.5s ease-in-out infinite;
+  border-top: 15px solid lightgreen;
+}
+
+@keyframes myRotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes myLoading {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* ----- END OF MY CUSTOM LOADING SPINNER  */
+
+/*MEDIA QUERIES FEBB */
+@media screen and (max-width: 600px) {
+  #h2-nombre {
+    font-size: 12px;
+  }
+
+  a {
+    padding: 10px;
+    font-size: 15px;
+    top: 0px;
+    margin-bottom: 15px;
+  }
+
+  div#sidebar {
+    width: 160px;
+    height: 100%;
+    top: 40px;
+  }
+
+  .btn-color {
+    width: 18px;
+  }
+
+  a {
+    top: 20px;
+  }
+
+  h3 {
+    display: none;
+  }
+
+  #label-seleccionado {
+    display: none;
+  }
+
+  .div-color-actual {
+    margin-top: 7px;
+    margin-bottom: 0px;
+  }
+
+  hr {
+    margin-top: 2px;
+  }
+
+  #h2-nombre {
+    margin-left: 40px;
+  }
+
+  h3 {
+    font-size: 12px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  .colorButtons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #div-figuras {
+    display: flex;
+  }
+
+  canvas#canvas {
+    left: 190px;
+    top: 40px;
+  }
+
+  #progress {
+    top: 35px;
+    left: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  #btn-cerrar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    top: 5px;
+    left: 5px;
+  }
+}
+/*FIN DEL MEDIA QUERIES FEBB */
