@@ -16,6 +16,10 @@ canvas#canvas {
   cursor: crosshair;
 }
 
+#div-figuras > button > img {
+  pointer-events: none;
+}
+
 .titulo-odograma {
   width: 100%;
   text-align: center;
@@ -28,15 +32,12 @@ canvas#canvas {
   gap: 2rem;
 }
 
-h3 {
-  margin-bottom: 10px;
-  text-align: center;
-}
-
 button {
   border-radius: 5px;
   outline: none;
   border: 1px solid rgb(133, 129, 129);
+  pointer-events: all;
+  cursor: pointer;
 }
 
 #btn-cerrar {
@@ -46,7 +47,7 @@ button {
   pointer-events: all;
   cursor: pointer;
   color: rgb(51, 51, 53);
-  padding: 5px;
+  padding: 15px;
 }
 
 div#sidebar {
@@ -106,11 +107,6 @@ label {
   pointer-events: none;
   color: #fff;
   font-size: 12px;
-}
-
-#myH3 {
-  font-size: 12px;
-  padding: 3px;
 }
 
 #div-figuras {
@@ -373,6 +369,7 @@ a:hover {
   }
   #btn-cerrar {
     font-size: 14px;
+    padding: 5px;
   }
 }
 /*FIN DEL MEDIA QUERIES FEBB */
