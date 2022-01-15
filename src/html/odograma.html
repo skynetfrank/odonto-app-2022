@@ -10,8 +10,16 @@
 </head>
 
 <body>
-  <h2 id="h2-nombre">Examen Clinico Intraoral - Odontograma</h2>
-  <button id="btn-cerrar">X</button>
+  <div class="myspinner-container">
+    <div class="myspinner-text" data-spintext="Guardando! Espere. No Cierre esta Ventana"></div>
+    <div class="myspinner-sector myspinner-sector-red"></div>
+    <div class="myspinner-sector myspinner-sector-blue"></div>
+    <div class="myspinner-sector myspinner-sector-green"></div>
+  </div>
+  <div class="titulo-odograma">
+
+    <h2 id="h2-nombre">Examen Clinico Intraoral - </h2>
+  </div>
   <div id="sidebar">
 
     <div class="colorButtons">
@@ -24,8 +32,7 @@
         <button id="btncolor-verde" class="btn-color"></button>
       </div>
       <div class="div-color-actual">
-        <label for="color-actual" id="label-seleccionado">seleccionado</label>
-        <button id="color-actual" class="btn-color"></button>
+        <button id="color-actual" class="btn-color">actual</button>
       </div>
 
     </div>
@@ -67,11 +74,7 @@
       <button id="movilidad-dentaria" class="td-btn" data-tip="Movilidad Dentaria">MOV</button>
       <button id="protesis-defectuosa" class="td-btn" data-tip="Protesis Defectuosa">PD</button>
       <button id="compromiso-furcacion" class="td-btn" data-tip="Compromiso Furcacion">CF</button>
-      <button id="clear" class="td-btn" data-tip="Borrar Todo"><img src="../images/broom-icon.png" alt=""></button>
-      <button id="simbolox17" class="td-btn" data-tip="Deshacer"><img src="../images/tools-icon.png" alt=""></button>
-
-      <button id="eraser" class="td-btn" data-tip="Por Definir"><img src="../images/tools-icon.png" alt=""></button>
-
+      <button id="clear" class="td-btn" data-tip="Deshacer Todo"><img src="../images/broom-icon.png" alt=""></button>
       <button id="download" class="td-btn" data-tip="Descargar">
         <a id="downloadToImage"><img src="../images/download-icon.png" alt=""></a>
       </button>
@@ -79,21 +82,17 @@
     </div>
     <hr>
     <div class="guardar">
+      <button id="btn-cerrar">Volver</button>
       <a id="saveToImage">Guardar</a>
-
     </div>
     <span id="progress"></span>
     <span id="myH3"></span>
 
   </div>
-  <!--MY CUSTOM LOADING SPINNER -->
-  <div class="myspinner-container">
-    <div class="myspinner-text" data-spintext="Guardando! Espere. No Cierre esta Ventana"></div>
-    <div class="myspinner-sector myspinner-sector-red"></div>
-    <div class="myspinner-sector myspinner-sector-blue"></div>
-    <div class="myspinner-sector myspinner-sector-green"></div>
+  <div class="canvas-container">
+
+
   </div>
-  <!--END OF MY CUSTOM LOADINF SPINNER -->
 </body>
 
 </html>

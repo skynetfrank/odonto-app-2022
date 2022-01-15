@@ -4,10 +4,28 @@ body {
   box-sizing: border-box;
 }
 
-h1 {
-  padding: 0;
-  margin: 10px 0px 15px 230px;
-  color: #095484;
+.canvas-container {
+  width: 530px;
+  height: 425px;
+  position: relative;
+  left: 350px;
+}
+
+canvas#canvas {
+  left: 0px;
+  cursor: crosshair;
+}
+
+.titulo-odograma {
+  width: 100%;
+  text-align: center;
+}
+
+.guardar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
 }
 
 h3 {
@@ -21,46 +39,25 @@ button {
   border: 1px solid rgb(133, 129, 129);
 }
 
-button:hover {
-  border-color: #008800;
-}
-
-canvas {
-  cursor: crosshair;
-}
-
-#h2-nombre {
-  margin-left: 65px;
-}
-
 #btn-cerrar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: teal;
+  background-color: rgba(0, 255, 255, 0.822);
   font-weight: bolder;
   font-size: 20px;
   pointer-events: all;
   cursor: pointer;
+  color: rgb(51, 51, 53);
+  padding: 5px;
 }
 
 div#sidebar {
   position: absolute;
-  left: 0;
   width: 310px;
-  min-height: 480px;
+  min-height: 410px;
+  left: 10px;
   padding: 10px;
   top: 60px;
   background-color: rgb(184, 179, 179);
   border: 1px solid rgb(122, 121, 121);
-}
-
-canvas#canvas {
-  left: 350px;
-  top: 60px;
 }
 
 .colorButtons {
@@ -83,7 +80,7 @@ canvas#canvas {
 }
 
 #btncolor-negro {
-  background-color: #000000;
+  background-color: #030303bd;
 }
 #btncolor-azul {
   background-color: #0000ff;
@@ -102,15 +99,13 @@ label {
   font-weight: bolder;
 }
 
-.div-color-actual {
-  width: 85px;
-}
-
 #color-actual {
-  border: 2px solid rgb(197, 67, 197);
+  border: 1px solid rgba(0, 0, 0, 0.63);
   border-radius: 5px;
   width: 80px;
   pointer-events: none;
+  color: #fff;
+  font-size: 12px;
 }
 
 #myH3 {
@@ -122,14 +117,6 @@ label {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 10px;
-}
-
-.btn {
-  margin-bottom: 10px;
-  width: 48%;
-  height: 40px;
-  color: dark;
 }
 
 .td-btn {
@@ -143,51 +130,8 @@ label {
 }
 
 .td-btn.activo {
-  border: 4px ridge fuchsia;
+  border: 4px ridge orange;
 }
-
-/* tooltip for buttons */
-
-.td-btn::before,
-.td-btn::after {
-  --scale: 0;
-  --tooltip-color: #333;
-  --arrow-size: 10px;
-  position: absolute;
-  top: -0.25rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
-  transition: 150ms transform;
-  transform-origin: bottom center;
-}
-
-.td-btn::before {
-  --translate-y: calc(-100% - var(--arrow-size));
-  content: attr(data-tip);
-  background: #333;
-  color: white;
-  padding: 0.5rem;
-  min-width: 110px;
-  max-width: 100%;
-  border-radius: 0.3rem;
-  text-align: center;
-  z-index: 99;
-}
-
-.td-btn:hover::before,
-.td-btn:hover::after {
-  --scale: 1;
-}
-
-.td-btn::after {
-  --translate-y: calc(-1 * var(--arrow-size));
-  content: '';
-  border: var(--arrow-size) solid transparent;
-  border-top-color: var(--tooltip-color);
-  transform-origin: top center;
-}
-
-/* fin de tooltip for buttons */
 
 input {
   width: 50%;
@@ -204,20 +148,12 @@ input {
   width: 48%;
 }
 
-.sizeButtons .btn {
-  width: 48%;
-}
-
 a#saveToImage {
   border-radius: 5px;
-  font-size: 25px;
-  font-weight: 700;
-  position: relative;
-  top: 40px;
-  padding: 20px;
-  border: 1px solid rgb(137, 137, 148);
+  font-size: 20px;
+  padding: 15px;
   cursor: pointer;
-  background-color: aqua;
+  background-color: rgba(0, 255, 255, 0.822);
   font-weight: bold;
   color: rgb(51, 51, 53);
   text-decoration: none;
@@ -227,26 +163,12 @@ a:hover {
   color: orangered;
 }
 
-.guardar {
-  text-align: center;
-}
-
 #progress {
   position: relative;
   top: 70px;
   left: 40px;
   font-size: 20px;
   font-weight: 800;
-}
-
-
-
-.pruebas {
-  background-color: rgb(121, 113, 113);
-}
-
-.btn.activo {
-  background-color: springgreen;
 }
 
 #myH3 {
@@ -277,8 +199,8 @@ a:hover {
   position: relative;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   top: 100px;
   display: none;
   z-index: 999;
@@ -295,7 +217,7 @@ a:hover {
 }
 
 .myspinner-text {
-  font-size: 1.5em;
+  font-size: 1em;
   text-align: center;
 }
 
@@ -347,74 +269,88 @@ a:hover {
 
 /* ----- END OF MY CUSTOM LOADING SPINNER  */
 
+/* tooltip for buttons */
+
+.td-btn::before,
+.td-btn::after {
+  --scale: 0;
+  --tooltip-color: #333;
+  --arrow-size: 10px;
+  position: absolute;
+  top: -0.25rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 150ms transform;
+  transform-origin: bottom center;
+}
+
+.td-btn::before {
+  --translate-y: calc(-100% - var(--arrow-size));
+  content: attr(data-tip);
+  background: #333;
+  color: white;
+  padding: 0.5rem;
+  min-width: 110px;
+  max-width: 100%;
+  border-radius: 0.3rem;
+  text-align: center;
+  z-index: 99;
+}
+
+.td-btn:hover::before,
+.td-btn:hover::after {
+  --scale: 1;
+}
+
+.td-btn::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  border-top-color: var(--tooltip-color);
+  transform-origin: top center;
+}
+
+/* fin de tooltip for buttons */
+
 /*MEDIA QUERIES FEBB */
 @media screen and (max-width: 600px) {
-  #h2-nombre {
+  .canvas-container {
+    width: 360px;
+    overflow-x: scroll;
+    left: 0;
+  }
+  .titulo-odograma > h2 {
     font-size: 12px;
   }
 
-  a {
-    padding: 10px;
-    font-size: 15px;
-    top: 0px;
-    margin-bottom: 15px;
+  div#sidebar {
+    width: 328px;
+    min-height: 240px;
+    top: 465px;
+    left: 0;
   }
 
-  div#sidebar {
-    width: 160px;
-    height: 100%;
-    top: 40px;
+  .td-btn {
+    width: 40px;
+    height: 37px;
+    margin: 2px;
   }
 
   .btn-color {
     width: 18px;
   }
 
-  a {
-    top: 20px;
-  }
-
   h3 {
     display: none;
-  }
-
-  #label-seleccionado {
-    display: none;
-  }
-
-  .div-color-actual {
-    margin-top: 7px;
-    margin-bottom: 0px;
-  }
-
-  hr {
-    margin-top: 2px;
-  }
-
-  #h2-nombre {
-    margin-left: 40px;
-  }
-
-  h3 {
-    font-size: 12px;
-  }
-
-  label {
-    font-size: 12px;
-  }
-
-  .colorButtons {
-    display: flex;
-    flex-direction: column;
   }
 
   #div-figuras {
-    display: flex;
+    justify-content: space-between;
   }
 
   canvas#canvas {
-    left: 190px;
-    top: 40px;
+    left: 5px;
+    top: 5px;
   }
 
   #progress {
@@ -424,12 +360,19 @@ a:hover {
     font-weight: 600;
   }
 
+  a#saveToImage {
+    padding: 5px;
+    font-size: 14px;
+  }
+  hr {
+    margin: 5px 0;
+  }
+
+  h2 {
+    margin: 3px 0;
+  }
   #btn-cerrar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    top: 5px;
-    left: 5px;
+    font-size: 14px;
   }
 }
 /*FIN DEL MEDIA QUERIES FEBB */

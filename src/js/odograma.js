@@ -9,11 +9,8 @@ const uploadProgress = document.getElementById('progress');
 const mySpinner = document.querySelector('.myspinner-container');
 const btnCerrar = document.getElementById('btn-cerrar');
 const storageRef = ref(cloudstorage, 'odogramas/' + idPacienteLocal + '.jpg');
-mySpinner.style.display = 'none';
 
-btnCerrar.addEventListener('click', () => {
-  window.history.back();
-});
+mySpinner.style.display = 'none';
 
 function formatearFecha(nfecha) {
   var info = nfecha.split('-').reverse().join('/');
@@ -40,7 +37,6 @@ const DIENTE_AUSENTE = 7;
 const MARCAR_BOX_UP = 8;
 const MARCAR_BOX_DOWN = 9;
 const MARCAR_IMPLANTE = 10;
-const MARCAR_BORRAR = 11;
 const MARCAR_LIMPIAR = 12;
 const MARCAR_PUENTE_FIJO = 13;
 const MARCAR_REMOVIBLE = 14;
@@ -67,37 +63,29 @@ const SIN_SELECCION = 0;
 var isMouseDown = false;
 var isStorage = false; //switche si existe el odograma en firebase storage
 var canvas = document.createElement('canvas');
-var body = document.getElementsByTagName('body')[0];
+//var body = document.getElementsByTagName('body')[0];
+var canvasContainer = document.querySelector('.canvas-container');
+
 var ctx = canvas.getContext('2d');
 var linesArray = [];
 var currentSize = 3;
-var currentColor = 'rgba(0, 0, 255, 0.7)';
+var currentColor = 'black';
 var currentAction = SIN_SELECCION;
-var currentBg = 'white';
-var odogramaOriginal = document.getElementById('img-hidden');
-var cargarImagen = document.getElementById('cargarImg');
-var recortarImagen = document.getElementById('recortarImg');
 var h3 = document.getElementById('myH3');
 
 var odograma = new Image();
-//asignar ubicacion donde esta la imagen del odograma
-// odograma.src = "images/odograma1.jpg";
 
 //Verificar si existe un odograma en storage - sino crear uno nuevo
 window.addEventListener('load', () => {
-  console.log('load externa before getDownloadUrl');
   getDownloadURL(storageRef)
     .then(function (url) {
-      console.log('url:', url);
       odograma.src = url;
       odograma.crossOrigin = 'Anonymous';
-      alert('odograma found');
       isStorage = true;
     })
     .catch(function (error) {
       if (error.code === 'storage/object-not-found') {
-        alert('Paciente sin Odograma Anterior. Se la asignara un Odograma nuevo.');
-        odograma.src = '../images/36ffb5df858f0f7ae7df.jpg';
+        odograma.src = '../images/8c428cd3be9707b6e77d.jpg';
         odograma.crossOrigin = 'Anonymous';
         isStorage = false;
       }
@@ -107,41 +95,30 @@ window.addEventListener('load', () => {
 odograma.addEventListener('load', () => {
   createCanvas();
   if (!isStorage) {
-    ctx.font = '15px Arial';
+    ctx.font = '12px Arial';
     ctx.fillStyle = '#000000';
     ctx.fillText(
-      'Paciente: ' +
-        nombrePaciente +
-        ' ' +
-        apellidoPaciente +
-        ' ' +
-        ' ' +
-        '  ID: ' +
-        idPacienteLocal +
-        ' ' +
-        ' Creado el: ' +
-        fecha,
-      20,
-      485
+      'Odograma: ' + nombrePaciente + ' ' + apellidoPaciente + ' ' + fecha + '  ' + 'ID: ' + idPacienteLocal,
+      10,
+      418
     );
   }
-  document.getElementById('h2-nombre').innerHTML += ' ' + nombrePaciente + ' ' + apellidoPaciente;
+  document.querySelector('.titulo-odograma > h2').innerHTML += ' ' + nombrePaciente + ' ' + apellidoPaciente;
   document.getElementById('marcador').focus();
 });
-// INITIAL LAUNCH
 
 // CREATE CANVAS
 
 function createCanvas() {
   canvas.id = 'canvas';
-  canvas.width = 600;
-  canvas.height = 500;
+  canvas.width = 530;
+  canvas.height = 425;
   canvas.style.zIndex = 8;
   canvas.style.position = 'absolute';
   canvas.style.border = '1px solid rgb(121, 113, 113)';
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  body.appendChild(canvas);
+  canvasContainer.appendChild(canvas);
   ctx.drawImage(odograma, 0, 0);
 }
 
@@ -154,13 +131,12 @@ function guardarLocal(link, canvas, filename) {
   link.download = filename;
 }
 
-//boton guardar odograma en firebase
+//boton guardar odograma
 document.getElementById('saveToImage').addEventListener('click', function () {
   guardarStorage(this, 'canvas', idPacienteLocal + '.jpg');
 });
-//FIN GUARDAR CANVAS
 
-// DOWNLOAD CANVAS
+//Upload a firebase storage
 function guardarStorage(link, canvas, filename) {
   link.href = document.getElementById(canvas).toDataURL('image/jpeg', 1.0);
   mySpinner.style.display = 'flex';
@@ -183,10 +159,12 @@ function guardarStorage(link, canvas, filename) {
 document.getElementById('btncolor-blanco').addEventListener('click', () => {
   currentColor = '#FFFFFF';
   document.getElementById('color-actual').style.backgroundColor = currentColor;
+  document.getElementById('color-actual').style.color = 'black';
 });
 document.getElementById('btncolor-negro').addEventListener('click', () => {
   currentColor = 'rgba(0, 0, 0, 0.5)';
   document.getElementById('color-actual').style.backgroundColor = currentColor;
+  
 });
 document.getElementById('btncolor-azul').addEventListener('click', () => {
   currentColor = 'rgba(0, 0, 255, 0.7)';
@@ -244,12 +222,6 @@ document.getElementById('implante').addEventListener('click', () => {
   currentAction = MARCAR_IMPLANTE;
   btnOff();
   document.getElementById('implante').classList.toggle('activo');
-});
-
-document.getElementById('eraser').addEventListener('click', () => {
-  currentAction = MARCAR_BORRAR;
-  btnOff();
-  document.getElementById('eraser').classList.toggle('activo');
 });
 
 document.getElementById('clear').addEventListener('click', () => {
@@ -1028,3 +1000,7 @@ function btnOff() {
     }
   });
 }
+
+btnCerrar.addEventListener('click', () => {
+  window.history.back();
+});
