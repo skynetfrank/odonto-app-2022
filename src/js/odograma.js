@@ -119,15 +119,6 @@ function createCanvas() {
   ctx.drawImage(odograma, 0, 0);
 }
 
-document.getElementById('downloadToImage').addEventListener('click', () => {
-  guardarLocal(document.getElementById('downloadToImage'), 'canvas', idPacienteLocal + '.jpg');
-});
-
-function guardarLocal(link, canvas, filename) {
-  link.href = document.getElementById(canvas).toDataURL('image/jpeg', 1.0);
-  link.download = filename;
-}
-
 //boton guardar odograma
 document.getElementById('saveToImage').addEventListener('click', function () {
   guardarStorage(this, 'canvas', idPacienteLocal + '.jpg');
@@ -138,18 +129,18 @@ function guardarStorage(link, canvas, filename) {
   link.href = document.getElementById(canvas).toDataURL('image/jpeg', 1.0);
   mySpinner.style.display = 'flex';
 
-  //EXPERIMENTAL SAVE TO FIREBASE
   const uploadTask = uploadString(storageRef, link.href.substring(23), 'base64', {
     contentType: 'image/jpg',
   })
     .then(result => {
-      uploadProgress.innerHTML = 'Odograma Guardado!';
-      mySpinner.style.display = 'none';
       setTimeout(() => {
-        uploadProgress.innerHTML = '';
-      }, 5000);
+        mySpinner.style.display = 'none';
+      }, 2000);
     })
-    .catch(error => alert('Ocurrio un error al guardar..', error.message));
+    .catch(error => {
+      mySpinner.style.display = 'none';
+      alert('Ocurrio un error al guardar..');
+    });
 }
 
 // BUTTON COLORES EVENT HANDLERS
@@ -194,8 +185,18 @@ botoneraColores.addEventListener('click', e => {
 botonera.addEventListener('click', e => {
   e.preventDefault();
   let boton = e.target.id;
-
+  console.log('target', e.target.id);
   switch (boton) {
+    case 'download':
+      const link = document.getElementById('downloadToImage');
+      link.href = canvas.toDataURL('image/jpeg', 1.0);
+      const filename = idPacienteLocal + '.jpg';
+      link.download = filename;
+      console.log('link', link);
+      console.log('link.href', link.href);
+      console.log('filename', filename);
+
+      break;
     case 'caries':
       currentAction = MARCAR_CARIES;
       break;
@@ -208,10 +209,10 @@ botonera.addEventListener('click', e => {
     case 'ausente':
       currentAction = DIENTE_AUSENTE;
       break;
-    case 'lineaH ':
+    case 'lineaH':
       currentAction = LINEA_HORIZONTAL;
       break;
-    case 'lineaV ':
+    case 'lineaV':
       currentAction = LINEA_VERTICAL;
       break;
     case 'implante':
@@ -366,18 +367,6 @@ function mousemove(canvas, evt) {
   }
 }
 
-// STORE DATA
-
-function store(x, y, s, c) {
-  var line = {
-    x: x,
-    y: y,
-    size: s,
-    color: c,
-  };
-  linesArray.push(line);
-}
-
 // ON MOUSE UP
 
 function mouseup(evt) {
@@ -525,35 +514,35 @@ function mouseup(evt) {
   }
 
   if (currentAction === MARCAR_PROFUNDIDAD_SONDAJE) {
-    ctx.fillText('PS', x - 7, y + 5);
+    ctx.fillText('PS', x - 10, y + 5);
   }
 
   if (currentAction === MARCAR_INSERSION_CLINICA) {
-    ctx.fillText('NIC', x - 7, y + 5);
+    ctx.fillText('N.I.C', x - 20, y + 5);
   }
 
   if (currentAction === MARCAR_SANGRAMIENTO_SONDAJE) {
-    ctx.fillText('S.S', x - 7, y + 5);
+    ctx.fillText('S.S', x - 12, y + 5);
   }
 
   if (currentAction === MARCAR_MUCOSA_MASTICADORA) {
-    ctx.fillText('M.M', x - 5, y);
+    ctx.fillText('M.M', x - 15, y + 5);
   }
 
   if (currentAction === MARCAR_DEFECTO_MUCOGINGIVAL) {
-    ctx.fillText('D.M.G', x - 8, y);
+    ctx.fillText('D.M.G', x - 25, y + 5);
   }
 
   if (currentAction === MARCAR_MOVILIDAD_DENTARIA) {
-    ctx.fillText('M.O.V.', x - 8, y);
+    ctx.fillText('M.O.V.', x - 25, y + 5);
   }
 
   if (currentAction === MARCAR_COMPROMISO_FURCACION) {
-    ctx.fillText('C.F.', x - 7, y + 5);
+    ctx.fillText('C.F.', x - 15, y + 5);
   }
 
   if (currentAction === MARCAR_PROTESIS_DEFECTUOSA) {
-    ctx.fillText('P.D.', x - 7, y + 5);
+    ctx.fillText('P.D.', x - 13, y + 5);
   }
 
   if (currentAction === MARCAR_FRENILLO) {

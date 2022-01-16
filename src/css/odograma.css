@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: lightcoral;
 }
 
 .canvas-container {
@@ -16,7 +17,8 @@ canvas#canvas {
   cursor: crosshair;
 }
 
-#div-figuras > button > img {
+#div-figuras > button > img,
+#div-figuras > button > a > img {
   pointer-events: none;
 }
 
@@ -32,7 +34,8 @@ canvas#canvas {
   gap: 2rem;
 }
 
-button {
+button,
+a#saveToImage {
   border-radius: 5px;
   outline: none;
   border: 1px solid rgb(133, 129, 129);
@@ -40,20 +43,20 @@ button {
   cursor: pointer;
 }
 
-#btn-cerrar {
+#btn-cerrar,
+a#saveToImage {
   background-color: rgba(0, 255, 255, 0.822);
-  font-weight: bolder;
+  font-weight: bold;
   font-size: 20px;
-  pointer-events: all;
-  cursor: pointer;
   color: rgb(51, 51, 53);
   padding: 15px;
+  margin-top: 30px;
 }
 
 div#sidebar {
   position: absolute;
   width: 310px;
-  min-height: 410px;
+  min-height: 415px;
   left: 10px;
   padding: 10px;
   top: 60px;
@@ -138,37 +141,8 @@ input {
   margin-bottom: 10px;
 }
 
-.toolsButtons .btn,
-#equis,
-#linea {
-  width: 48%;
-}
-
-a#saveToImage {
-  border-radius: 5px;
-  font-size: 20px;
-  padding: 15px;
-  cursor: pointer;
-  background-color: rgba(0, 255, 255, 0.822);
-  font-weight: bold;
-  color: rgb(51, 51, 53);
-  text-decoration: none;
-}
-
 a:hover {
   color: orangered;
-}
-
-#progress {
-  position: relative;
-  top: 70px;
-  left: 40px;
-  font-size: 20px;
-  font-weight: 800;
-}
-
-#myH3 {
-  display: none;
 }
 
 #img-hipersense {
@@ -192,12 +166,13 @@ a:hover {
 .myspinner-container {
   /* display: flex; */
   margin: 0 auto;
-  position: relative;
+  position: absolute;
   justify-content: center;
   align-items: center;
   width: 150px;
   height: 150px;
-  top: 100px;
+  top: 200px;
+  left: calc(100% / 2 - 150px / 2);
   display: none;
   z-index: 999;
 }
@@ -213,12 +188,12 @@ a:hover {
 }
 
 .myspinner-text {
-  font-size: 1em;
+  font-size: 1.5em;
   text-align: center;
 }
 
 .myspinner-text::before {
-  color: darkred;
+  color: black;
   font-weight: 800;
   content: attr(data-spintext);
 }
@@ -317,13 +292,13 @@ a:hover {
   }
   .titulo-odograma > h2 {
     font-size: 12px;
+    margin-top: 15px;
   }
 
   div#sidebar {
-    width: 328px;
     min-height: 240px;
     top: 465px;
-    left: 0;
+    left: 15px;
   }
 
   .td-btn {
@@ -349,16 +324,11 @@ a:hover {
     top: 5px;
   }
 
-  #progress {
-    top: 35px;
-    left: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  a#saveToImage {
-    padding: 5px;
+  a#saveToImage,
+  #btn-cerrar {
+    padding: 5px 10px;
     font-size: 14px;
+    margin-top: 0;
   }
   hr {
     margin: 5px 0;
@@ -366,10 +336,6 @@ a:hover {
 
   h2 {
     margin: 3px 0;
-  }
-  #btn-cerrar {
-    font-size: 14px;
-    padding: 5px;
   }
 }
 /*FIN DEL MEDIA QUERIES FEBB */
