@@ -138,6 +138,7 @@ menuLinks[2].addEventListener('click', () => {
   menuLinks[2].style.color = 'lime';
   menuLinks[1].style.color = 'white';
   menuLinks[0].style.color = 'white';
+  window.open('dashboard.html', '_self');
 });
 
 imgLogo.addEventListener('click', () => {
