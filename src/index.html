@@ -7,6 +7,8 @@
   <meta name="description" content="Administrador-Web para consultorio virtual de odontologia">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <title>Consultorio Virtual: Admin</title>
 </head>
 
@@ -19,10 +21,13 @@
     <img src="images/paciente-info-icon.png" alt="info">
     <img src="images/odograma1.jpg" alt="odograma">
     <img src="images/mask-icon24.png" alt="odograma">
-
+    <img src="images/clock-icon.png" alt="clock">
   </div>
-  <div class="spinner">
-    <span class="spinner-rotate"></span>
+  <div class="myspinner-container">
+    <div class="myspinner-text" data-spintext="Guardando! Espere.."></div>
+    <div class="myspinner-sector myspinner-sector-red"></div>
+    <div class="myspinner-sector myspinner-sector-blue"></div>
+    <div class="myspinner-sector myspinner-sector-green"></div>
   </div>
 
   <nav>
@@ -153,7 +158,92 @@
 
   </section>
 
-  <section id="seccion__dashboard"></section>
+  <section id="seccion__dashboard">
+    <main>
+      <div class="dash-container">
+        <!--4 cards top-->
+        <div class="dash-card total1">
+          <div class="dash-info">
+            <div class="dash-info-detail">
+              <h3>Ingresos</h3>
+              <p>acumulados</p>
+              <h2 id="total-ingresos">$1.234,00</h2>
+            </div>
+            <div class="dash-info-image">
+              <i class="fas fa-money-check-alt"></i>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card total2">
+          <div class="dash-info">
+            <div class="dash-info-detail">
+              <h3>Actividad</h3>
+              <p>consultas</p>
+              <h2 id="total-procedimientos">934</h2>
+            </div>
+            <div class="dash-info-image">
+              <i class="fas fa-syringe"></i>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card total3">
+          <div class="dash-info">
+            <div class="dash-info-detail">
+              <h3>Pacientes</h3>
+              <p>registrados</p>
+              <h2 id="total-pacientes"></h2>
+            </div>
+            <div class="dash-info-image">
+              <i class="fas fa-head-side-mask"></i>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card total4">
+          <div class="dash-info">
+            <div class="dash-info-detail">
+              <h3>Citas Web</h3>
+              <p>solicitadas</p>
+              <h2 id="total-citas">56</h2>
+            </div>
+            <div class="dash-info-image">
+              <i class="fas fa-hospital-user"></i>
+            </div>
+          </div>
+        </div>
+        <!--2 cards bottom-->
+        <div class="dash-card detail">
+          <!-- table pacientes aqui-->
+          <table id="tabla-dash-pacientes" class="striped highlight" data-cols-width="10,20,15,10,15,15,
+        12,25,10,10,25,25,10,10,10,25,10,25,25,25,25,25,25,25,25,25,25,25,10,25,25">
+            <thead>
+              <tr>
+                <th id="th-id-hidden">id</th>
+                <th><img src='images/mask-icon16.png' /></th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Celular</th>
+                <th>Telefono Local</th>
+              </tr>
+            </thead>
+            <tbody id="dash-pacientes-tbody">
+            </tbody>
+          </table>
+        </div>
+        <div class="dash-card customer">
+          <h2>Citas Pendientes</h2>
+        </div>
+      </div>
+    </main>
+    <div class="foot">
+      <p> powered by&copy;Reactor-Sistemas v20jun21-03:00pm</p>
+    </div>
+
+
+
+
+
+  </section>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>

@@ -82,37 +82,6 @@ body {
 
 /* FIN DE CUSTOM FEBB INPUTS */
 
-/*------ PRE LOADER SPINNER ---------*/
-
-.spinner {
-  display: none;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  z-index: 999999;
-  color: black;
-}
-
-.spinner:before {
-  content: '';
-  position: absolute;
-  top: 250px;
-  left: 50%;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 1px solid #575757;
-  border-top-color: #ffffff;
-  animation: spinner 0.9s linear infinite;
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/*------ FIN DE PRE LOADER SPINNER ---------*/
-
 /* ----- MY CUSTOM LOADING SPINNER  */
 
 .myspinner-container {
@@ -151,17 +120,17 @@ body {
 
 .myspinner-sector-blue {
   animation: myRotate 1s ease-out infinite;
-  border-top: 15px solid lightseagreen;
+  border-top: 15px solid #2d972e;
 }
 
 .myspinner-sector-red {
   animation: myRotate 1.5s ease-in infinite;
-  border-top: 15px solid lightcoral;
+  border-top: 15px solid #ffa705;
 }
 
 .myspinner-sector-green {
   animation: myRotate 0.5s ease-in-out infinite;
-  border-top: 15px solid lightgreen;
+  border-top: 15px solid #9132bd;
 }
 
 @keyframes myRotate {
@@ -647,8 +616,6 @@ table.info {
   SECTION AGENDA TIMELINE 
 ============================*/
 
-/* TIMELINE */
-
 .timeline {
   color: #fff;
   overflow-x: hidden;
@@ -962,7 +929,258 @@ h3 {
   color: #ff7979;
 }
 
+/*DASHBOARD  */
+
+main {
+  min-height: 95vh;
+  padding: 1rem;
+  color: #201f2b;
+}
+
+.dash-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 0.5fr 0.5fr;
+  grid-template-rows: auto;
+  gap: 0.5rem;
+  grid-template-areas:
+    'total1 total2 total3 total4 total4'
+    'detail detail detail customer customer'
+    'detail detail detail customer customer'
+    'foot foot foot foot foot';
+}
+
+h2 {
+  font-size: 18px;
+  padding: 15px 0;
+  color: #201f2b;
+}
+
+.dash-card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.dash-card.detail {
+  padding: 0;
+}
+
+.total1 {
+  grid-area: total1;
+  background-color: #2d972e;
+  color: #fff;
+}
+
+.total2 {
+  grid-area: total2;
+  background-color: #ffa705;
+  color: #fff;
+}
+
+.total3 {
+  grid-area: total3;
+  background-color: #9132bd;
+  color: #fff;
+}
+
+.total4 {
+  grid-area: total4;
+  background-color: #15a1fe;
+  color: #fff;
+}
+
+.detail {
+  grid-area: detail;
+  overflow-x: auto;
+}
+
+.customer {
+  grid-area: customer;
+  overflow-x: auto;
+}
+
+.foot {
+  grid-area: foot;
+  background-color: black;
+  color: #b4b4b9;
+  text-align: center;
+  font-size: 12px;
+  padding: 5px;
+}
+
+.dash-info {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dash-info-detail h2 {
+  font-size: 25px;
+}
+
+.dash-info-detail p {
+  font-size: 14px;
+}
+
+.dash-info-image {
+  font-size: 40px;
+  color: #2d2b98;
+}
+
+.dash-detail-header {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dash-detail-header h2 {
+  font-size: 20px;
+  padding: 0px 0 2px 0;
+}
+
+.td-id-hidden,
+#th-id-hidden {
+  display: none;
+}
+
+.detail table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #15a1fe;
+  table-layout: auto;
+}
+td {
+  word-wrap: break-word;
+}
+
+.ocultar-td {
+  display: none;
+}
+
+.detail table:nth-child(odd) {
+  background-color: #f8f8fb;
+}
+
+.detail table th {
+  background-color: #4db6ac;
+}
+
+.detail table th,
+.detail table td {
+  padding: 0.2rem;
+  text-align: center;
+  font-size: 14px;
+}
+
+.detail table tr:hover {
+  background-color: #f2f2f2;
+  font-weight: 700;
+}
+
+.detail td i {
+  width: 30px;
+  height: 30px;
+  padding: 8px;
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 3px;
+}
+
+.td-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+}
+
+.dash-status {
+  padding: 0.3rem 0.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 0.7rem;
+}
+
+.onprogress {
+  background-color: #fff2d7;
+  color: #ffa705;
+}
+
+.confirmed {
+  background-color: #d7effc;
+  color: #15a1fe;
+}
+
+.fullfilled {
+  background-color: #dcedde;
+  color: #37aa38;
+}
+
+.dash-customer-wrapper {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr 0.4fr;
+  grid-auto-flow: column;
+  margin: 10px 0;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.dash-card.customer {
+  background-color: #ffa705;
+}
+
+.dash-card.customer h2 {
+  padding-top: 0;
+  text-align: center;
+  font-size: 15px;
+}
+.dash-card.customer h1 {
+  text-align: center;
+}
+
+.dash-customer-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dash-customer-name,
+.dash-customer-date {
+  font-size: 0.9rem;
+}
+
+.dash-customer-date {
+  text-align: left;
+  color: #9092a9;
+}
+
+.fa-search {
+  background: #ffa705;
+  pointer-events: all;
+}
+
+#btn-control-paciente {
+  pointer-events: all;
+}
+
 /************************** MEDIA QUERIES *****************************************************/
+/* DASHBOARD MADE RESPONSIVE YO! */
+
+@media screen and (max-width: 980px) {
+  .dash-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'total1 total2'
+      'total3 total4'
+      'detail detail'
+      'customer customer';
+  }
+}
 
 @media (max-width: 760px) {
   nav #hamburguesa {
@@ -1102,6 +1320,16 @@ h3 {
 
   .nav-toggle {
     margin: 15px 15px 15px 5px;
+  }
+  .dash-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'total1'
+      'total2'
+      'total3'
+      'total4'
+      'detail'
+      'customer';
   }
 }
 

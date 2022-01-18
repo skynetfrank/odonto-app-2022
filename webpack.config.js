@@ -12,7 +12,6 @@ module.exports = {
     agregarcontrol: './src/js/agregar-control.js',
     editarcontrol: './src/js/editar-control.js',
     odograma: './src/js/odograma.js',
-    dashboard: './src/js/dashboard.js',
   },
   // The location of the build folder described above
   output: {
@@ -93,11 +92,7 @@ module.exports = {
       filename: './odograma.html',
       chunks: ['odograma'],
     }),
-    new HtmlWebpackPlugin({
-      template: './src/html/dashboard.html',
-      filename: './dashboard.html',
-      chunks: ['dashboard'],
-    }),
+
     new MiniCssExtractPlugin(),
   ],
 };
