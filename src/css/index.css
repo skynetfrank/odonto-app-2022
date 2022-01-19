@@ -87,12 +87,12 @@ body {
 .myspinner-container {
   /* display: flex; */
   margin: 0 auto;
-  position: relative;
+  position: absolute;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 200px;
-  top: 100px;
+  width: 150px;
+  height: 150px;
+  top: 200px;
   display: none;
   z-index: 999;
 }
@@ -280,7 +280,6 @@ section {
   color: #0361df;
   line-height: 1;
   border-radius: 25px;
-  outline: none;
   cursor: pointer;
   transition: 0.3s;
   margin: 20px 0px;
@@ -334,7 +333,6 @@ table.highlight > tbody > tr:hover {
 
 table.vhighlight > tbody > tr > td:hover {
   background-color: #4dd0e1;
-  font-weight: 700;
 }
 
 #td-id-hidden,
@@ -440,7 +438,6 @@ button.volver-info {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  outline: none;
   border: 2px solid #0457c3;
   background-color: bisque;
   pointer-events: all;
@@ -1048,7 +1045,7 @@ h2 {
 .detail table {
   width: 100%;
   border-collapse: collapse;
-  background: #15a1fe;
+  background: #fff;
   table-layout: auto;
 }
 td {
@@ -1059,8 +1056,8 @@ td {
   display: none;
 }
 
-.detail table:nth-child(odd) {
-  background-color: #f8f8fb;
+.detail table tbody tr:nth-child(even) {
+  background-color: #e5e2e2;
 }
 
 .detail table th {
@@ -1076,7 +1073,6 @@ td {
 
 .detail table tr:hover {
   background-color: #f2f2f2;
-  font-weight: 700;
 }
 
 .detail td i {
@@ -1094,7 +1090,6 @@ td {
   height: 30px;
   border-radius: 50%;
   border: none;
-  outline: none;
 }
 
 .dash-status {
@@ -1122,7 +1117,7 @@ td {
 
 .dash-customer-wrapper {
   display: grid;
-  grid-template-columns: 0.3fr 1fr 0.4fr;
+  grid-template-columns: 0.3fr 1fr;
   grid-auto-flow: column;
   margin: 10px 0;
   align-items: flex-start;
@@ -1330,6 +1325,13 @@ td {
       'total4'
       'detail'
       'customer';
+  }
+
+  .detail table th,
+  .detail table td {
+    padding: 0.2rem 0;
+    text-align: center;
+    font-size: 8px;
   }
 }
 

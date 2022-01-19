@@ -4,7 +4,6 @@ import {
   doc,
   getDoc,
   query,
-  getDocs,
   deleteDoc,
   where,
   onSnapshot,
@@ -13,8 +12,9 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
+import { dateToAMD, strToDMA } from './js/utilities';
 
-import estilos from './css/index.css';
+import './css/index.css';
 
 const hamburguesa = document.getElementById('hamburguesa');
 const barraMenu = document.getElementById('barra__menu');
@@ -32,7 +32,6 @@ const imgLogo = document.querySelector('.img-logo');
 const buscador = document.querySelector('.search__input');
 const tablaContainer = document.querySelector('.tabla-container');
 const infoContainer = document.querySelector('.info-container');
-const tablaInfo = document.getElementById('tabla-info-paciente');
 const btnCerrarInfo = document.querySelector('.volver-info');
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.nav');
@@ -45,24 +44,14 @@ const cardPacientes = document.getElementById('total-pacientes');
 const cardCitas = document.getElementById('total-citas');
 const mySpinner = document.querySelector('.myspinner-container');
 var usuariosWeb = [];
-var pacientex = [];
 
-//funcion para convertir fecha a formato DD-MM-AAAA
-function formatearFecha(nfecha) {
-  var info = nfecha.split('-').reverse().join('-');
-  return info;
-}
-
-//funcion para convertir fecha a formato AAAA-MM-DD
-function convertirFecha(cfecha) {
-  let year = cfecha.getFullYear(); // YYYY
-  let month = ('0' + (cfecha.getMonth() + 1)).slice(-2); // MM
-  let day = ('0' + cfecha.getDate()).slice(-2); // DD
-  return year + '-' + month + '-' + day;
-}
+window.addEventListener('load', () => {
+  console.log('Se ha cargado la pagina');
+});
 
 onAuthStateChanged(auth, user => {
   if (user) {
+    console.log('Se disparo el auth state changed');
     sesion.style.display = 'none';
     logout.style.display = 'inline-block';
     document.getElementById('usuario').innerText = user.email;
@@ -70,6 +59,7 @@ onAuthStateChanged(auth, user => {
       link.style.pointerEvents = 'all';
       link.style.color = 'white';
     });
+    barraMenu.classList.toggle('mostrar');
     menuLinks[0].click();
     populateTabla();
     getUsuarios();
@@ -101,8 +91,8 @@ formSesion.addEventListener('submit', e => {
 });
 
 forgotPassword.addEventListener('click', e => {
-  const email = formSesion.email.value;
   e.preventDefault();
+  const email = formSesion.email.value;
   sendPasswordResetEmail(auth, email)
     .then(() => {
       alert('Se ha enviado un correo de restablecimiento de contraseña al email: ' + email);
@@ -351,7 +341,7 @@ menuLinks[1].addEventListener('click', () => {
 
 function populateAgenda() {
   let timeLista = document.getElementById('ul-timeline');
-  let fecha = convertirFecha(new Date());
+  let fecha = dateToAMD(new Date());
   const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
   const allCitas = onSnapshot(consultaAgenda, snapshot => {
     //aqui se itera sobre el cursor resultado (snapshot)
@@ -363,7 +353,7 @@ function populateAgenda() {
       let fila = `<li>
           <div> 
                <span class="header-cita">           
-                 <h1>Dia: ${formatearFecha(data.fecha)}</h1>
+                 <h1>Dia: ${strToDMA(data.fecha)}</h1>
                  <h1>Hora: ${data.hora}</h1>
                </span>
 
@@ -399,7 +389,7 @@ function populateAgenda() {
 
 //funcion para obtener el resto de horas que quedan sin apartar en el dia
 function horario() {
-  const fecha = convertirFecha(new Date()); //fecha de hoy
+  const fecha = dateToAMD(new Date()); //fecha de hoy
   const listaHoras = document.getElementById('listaHoras');
   //array de horas por defecto de 7 a 7 (formato militar)
   var horas = ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
@@ -407,7 +397,7 @@ function horario() {
   const q = query(citasRef, where('fecha', '==', fecha));
 
   onSnapshot(q, snapshot => {
-    fechaAgenda.innerHTML = formatearFecha(fecha);
+    fechaAgenda.innerHTML = strToDMA(fecha);
     //aqui se itera sobre el cursor resultado (snapshot)
 
     snapshot.forEach(doc => {
@@ -523,7 +513,6 @@ function isElementInViewport(el) {
 }
 
 function callbackFunc() {
-  console.log('callbackFunc=>executed');
   var items = document.querySelectorAll('.timeline li');
   for (var i = 0; i < items.length; i++) {
     if (isElementInViewport(items[i])) {
@@ -538,7 +527,7 @@ function callbackFunc() {
 }
 
 function setInViewClass() {
-  document.querySelector('#ul-timeline li:first-child').classList.add('in-view');
+  document.querySelector('#ul-timeline li:first-child')?.classList.add('in-view');
   window.scroll(0, 5);
 }
 
@@ -558,16 +547,10 @@ function populateTablaDash() {
                         <td><img src='../images/0f10931cfc0a3ee46188.png'/></td>
                         <td>${data.nombre}</td>
                         <td>${data.apellido}</td>
-                        <td data-a-h="center">${data.edad}</td>
+                        <td>${data.edad}</td>
                         <td>${data.celular}</td>
-                        <td class="ocultar-td">${data.tlflocal}</td>
-                        <td class="ver-paciente" data-exclude="true">                       
-                           <button class="td-btn" id="btn-control-paciente" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                               <i class="fas fa-search"></i>
-                           </button>                        
-                        </td>
+                        <td>${data.tlflocal}</td>                       
                      </tr>`;
-
       table.innerHTML += row;
     });
   });
@@ -586,18 +569,21 @@ function getDatos() {
     });
   });
 
-  onSnapshot(collection(db, 'cntrolasistencias'), snapshot => {
+  onSnapshot(collection(db, 'controlasistencias'), snapshot => {
     let ingresos = 0;
     snapshot.forEach(doc => {
+      const montoDolares = parseFloat(doc.data().montoUsd);
+      console.log('montoDolares', montoDolares);
       cardActividad.innerHTML = snapshot.docs.length;
-      ingresos += doc.data().montoUSD;
-      cardIngresos.innerHTML = ingresos.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      ingresos += montoDolares;
+      console.log('Ingresos', ingresos);
     });
+    cardIngresos.innerHTML = ingresos;
   });
 }
 
 function getAgenda() {
-  let fecha = convertirFecha(new Date());
+  let fecha = dateToAMD(new Date());
   const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
   let divCitasPendientes = document.querySelector('.dash-card.customer');
 
@@ -612,9 +598,8 @@ function getAgenda() {
               <img class="dash-customer-image" src="images/5ded0f468f52742d8b92.png" alt="clock">
               <div class="dash-customer-name">
               <h4>${found.nombre} ${found.apellido}</h4>
-              <p>Dia: ${formatearFecha(data.fecha)}</p>
-              <p>Hora: ${data.hora}</p>
-              <p>${data.msg}</p>             
+              <p>Dia: ${strToDMA(data.fecha)}</p>
+              <p>Hora: ${data.hora}</p>                    
            </div>
         </div>          
           `;

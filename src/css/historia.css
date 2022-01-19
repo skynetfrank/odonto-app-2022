@@ -135,24 +135,17 @@ option {
 .input-container {
   position: relative;
   margin: 0 0 5px 0;
-  min-width: 203px;
 }
 
 .input-container.large {
   min-width: 50%;
 }
 
-.input-container.pagos {
-  width: 150px;
-  min-width: 150px;
-}
-
 .input {
-  width: calc(100% - 40px);
-  outline: none;
+  width: 180px;
   border: 1px solid rgb(6, 173, 173);
   background-color: rgb(250, 246, 246);
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem;
   color: orangered;
   font-weight: 500;
   font-size: 0.95rem;
@@ -160,6 +153,10 @@ option {
   border-radius: 10px;
   transition: 0.3s;
   margin-bottom: 5px;
+}
+
+.input-container.pagos > input {
+  width: 125px;
 }
 
 textarea.input {
@@ -176,8 +173,7 @@ textarea.input {
   top: 45%;
   left: 15px;
   transform: translateY(-50%);
-  padding: 0 0.4rem;
-  color: #666;
+  color: rgb(182, 181, 181);
   pointer-events: none;
   z-index: 999;
   transition: 0.5s;
@@ -289,10 +285,6 @@ label.check.no-margin {
   margin: 7px 0px;
 }
 
-p.no-margin {
-  margin: 0;
-}
-
 .flexor {
   display: flex;
   justify-content: center;
@@ -324,12 +316,11 @@ h6 {
 }
 
 .fechacontrolasistencia {
-  padding: 5px;
+  padding: 0 5px;
   border: 1px solid #28bbac;
   border-radius: 5px;
   font-size: 20px;
   color: #265a6e;
-  margin-top: 10px;
 }
 
 /* reingenieria hasta aqui */
@@ -644,17 +635,16 @@ button.volver.control {
 
 /********* MEDIA QUERIES **********************/
 @media (max-width: 760px) {
-  .input-container,
-  .input-container.pagos {
-    min-width: 50%;
+  .input {
+    width: 130px;
   }
 
   select:not(.selector-conceptos) {
-    width: 100px;
+    width: 95px;
   }
 
   .historia-container {
-    width: 90%;
+    width: 95%;
   }
 
   h1,
