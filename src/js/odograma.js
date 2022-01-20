@@ -1,6 +1,7 @@
 import historias from '../css/odograma.css';
 import { cloudstorage } from '../js/firebaseconfig';
 import { ref, getDownloadURL, uploadString } from 'firebase/storage';
+import { dateToAMD, strToDMA } from '../js/utilities';
 
 const idPacienteLocal = JSON.parse(localStorage.getItem('pacienteActual'));
 const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
@@ -8,24 +9,12 @@ const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
 const mySpinner = document.querySelector('.myspinner-container');
 const btnCerrar = document.getElementById('btn-cerrar');
 const storageRef = ref(cloudstorage, 'odogramas/' + idPacienteLocal + '.jpg');
-const botonera = document.getElementById('div-figuras');
+const botonera = document.getElementById('botonera-grafica');
 const botoneraColores = document.getElementById('botonera-colores');
 
 mySpinner.style.display = 'none';
 
-function formatearFecha(nfecha) {
-  var info = nfecha.split('-').reverse().join('/');
-  return info;
-}
-
-//funcion para convertir fecha a formato AAAA-MM-DD
-function convertirFecha(cfecha) {
-  let year = cfecha.getFullYear(); // YYYY
-  let month = ('0' + (cfecha.getMonth() + 1)).slice(-2); // MM
-  let day = ('0' + cfecha.getDate()).slice(-2); // DD
-  return year + '-' + month + '-' + day;
-}
-let fecha = formatearFecha(convertirFecha(new Date()));
+let fecha = strToDMA(dateToAMD(new Date()));
 
 //SETTING CONSTANTES
 const MARCAR_EXTRACCION = 1;
@@ -66,7 +55,6 @@ var isStorage = false; //switche si existe el odograma en firebase storage
 var canvas = document.createElement('canvas');
 var canvasContainer = document.querySelector('.canvas-container');
 var ctx = canvas.getContext('2d');
-var linesArray = [];
 var currentSize = 3;
 var currentColor = 'black';
 var currentAction = SIN_SELECCION;
@@ -92,15 +80,16 @@ window.addEventListener('load', () => {
 odograma.addEventListener('load', () => {
   createCanvas();
   if (!isStorage) {
-    ctx.font = '12px Arial';
+    ctx.font = '16px Arial bold';
     ctx.fillStyle = '#000000';
-    ctx.fillText(
-      'Odograma: ' + nombrePaciente + ' ' + apellidoPaciente + ' ' + fecha + '  ' + 'ID: ' + idPacienteLocal,
-      10,
-      418
-    );
+    ctx.fillText('Examen Clinico Intraoral - ' + fecha, 15, 20);
+    ctx.font = '14px Arial bold';
+    ctx.fillText('ID: ' + idPacienteLocal, 325, 20);
+    ctx.font = '12px Arial bold';
+    ctx.fillText('fecha: ' + fecha, 425, 450);
+    ctx.fillText('Odograma: ' + nombrePaciente + ' ' + apellidoPaciente, 15, 450);
   }
-  document.querySelector('.titulo-odograma > h2').innerHTML += ' ' + nombrePaciente + ' ' + apellidoPaciente;
+  // document.querySelector('.titulo-odograma > h2').innerHTML += ' ' + nombrePaciente + ' ' + apellidoPaciente;
   document.getElementById('marcador').focus();
 });
 
@@ -109,7 +98,7 @@ odograma.addEventListener('load', () => {
 function createCanvas() {
   canvas.id = 'canvas';
   canvas.width = 530;
-  canvas.height = 425;
+  canvas.height = 460;
   canvas.style.zIndex = 8;
   canvas.style.position = 'absolute';
   canvas.style.border = '1px solid rgb(121, 113, 113)';
@@ -121,12 +110,12 @@ function createCanvas() {
 
 //boton guardar odograma
 document.getElementById('saveToImage').addEventListener('click', function () {
-  guardarStorage(this, 'canvas', idPacienteLocal + '.jpg');
+  guardarStorage(this, canvas, idPacienteLocal + '.jpg');
 });
 
 //Upload a firebase storage
 function guardarStorage(link, canvas, filename) {
-  link.href = document.getElementById(canvas).toDataURL('image/jpeg', 1.0);
+  link.href = canvas.toDataURL('image/jpeg', 1.0);
   mySpinner.style.display = 'flex';
 
   const uploadTask = uploadString(storageRef, link.href.substring(23), 'base64', {
@@ -153,7 +142,6 @@ botoneraColores.addEventListener('click', e => {
     case 'btncolor-blanco':
       currentColor = '#FFFFFF';
       document.getElementById('color-actual').style.backgroundColor = currentColor;
-      document.getElementById('color-actual').style.color = 'black';
       break;
     case 'btncolor-negro':
       currentColor = 'rgba(0, 0, 0, 0.5)';
@@ -195,7 +183,6 @@ botonera.addEventListener('click', e => {
       console.log('link', link);
       console.log('link.href', link.href);
       console.log('filename', filename);
-
       break;
     case 'caries':
       currentAction = MARCAR_CARIES;
@@ -635,7 +622,7 @@ function ausente(posx, posy) {
 }
 
 function btnActivo(id) {
-  let comandos = document.getElementsByClassName('td-btn');
+  let comandos = document.getElementsByClassName('btn-dibujo');
   Array.from(comandos).forEach(el => {
     el.classList.remove('activo');
   });

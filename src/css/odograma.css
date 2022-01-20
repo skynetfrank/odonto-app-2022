@@ -2,72 +2,70 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: lightcoral;
+  background-color: #0361df;
+  outline: none;
 }
 
 .canvas-container {
   width: 530px;
-  height: 425px;
+  height: 465px;
   position: relative;
-  left: 350px;
+  left: 340px;
+  margin: 2px;
 }
 
 canvas#canvas {
-  left: 0px;
   cursor: crosshair;
 }
 
-#div-figuras > button > img,
-#div-figuras > button > a > img {
-  pointer-events: none;
+div#draw-panel {
+  position: absolute;
+  width: 310px;
+  min-height: 440px;
+  padding: 10px;
+  background-color: rgb(184, 179, 179);
+  left: 8px;
+  top: 3px;
 }
 
-.titulo-odograma {
-  width: 100%;
-  text-align: center;
+.color-panel {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50px;
 }
 
 .guardar {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: space-around;
+}
+
+img {
+  pointer-events: none;
 }
 
 button,
 a#saveToImage {
   border-radius: 5px;
-  outline: none;
   border: 1px solid rgb(133, 129, 129);
   pointer-events: all;
   cursor: pointer;
+  color: #ffffff;
 }
 
 #btn-cerrar,
 a#saveToImage {
-  background-color: rgba(0, 255, 255, 0.822);
+  background-color: rgba(6, 194, 194, 0.822);
   font-weight: bold;
   font-size: 20px;
-  color: rgb(51, 51, 53);
   padding: 15px;
   margin-top: 30px;
 }
 
-div#sidebar {
-  position: absolute;
-  width: 310px;
-  min-height: 415px;
-  left: 10px;
-  padding: 10px;
-  top: 60px;
-  background-color: rgb(184, 179, 179);
-  border: 1px solid rgb(122, 121, 121);
-}
-
-.colorButtons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+#btn-cerrar:hover,
+a#saveToImage:hover {
+  background-color: rgba(0, 255, 255, 0.822);
+  color: black;
 }
 
 .btn-color {
@@ -75,7 +73,6 @@ div#sidebar {
   height: 20px;
   margin: 2px;
   border: none;
-  outline: none;
   cursor: pointer;
 }
 
@@ -109,16 +106,15 @@ label {
   width: 80px;
   pointer-events: none;
   color: #fff;
-  font-size: 12px;
 }
 
-#div-figuras {
+#botonera-grafica {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
-.td-btn {
+.btn-dibujo {
   width: 45px;
   height: 40px;
   margin: 3px;
@@ -128,37 +124,8 @@ label {
   position: relative;
 }
 
-.td-btn.activo {
+.btn-dibujo.activo {
   border: 4px ridge orange;
-}
-
-input {
-  width: 50%;
-  margin-bottom: 10px;
-}
-
-.input-group {
-  margin-bottom: 10px;
-}
-
-a:hover {
-  color: orangered;
-}
-
-#img-hipersense {
-  height: 30px;
-}
-
-#img-puentefijo {
-  width: 31px;
-}
-
-#img-removible {
-  position: relative;
-  left: -4px;
-}
-#img-rotacion {
-  height: 31px;
 }
 
 /* ----- MY CUSTOM LOADING SPINNER  */
@@ -242,8 +209,8 @@ a:hover {
 
 /* tooltip for buttons */
 
-.td-btn::before,
-.td-btn::after {
+.t-tip::before,
+.t-tip::after {
   --scale: 0;
   --tooltip-color: #333;
   --arrow-size: 10px;
@@ -255,7 +222,7 @@ a:hover {
   transform-origin: bottom center;
 }
 
-.td-btn::before {
+.t-tip::before {
   --translate-y: calc(-100% - var(--arrow-size));
   content: attr(data-tip);
   background: #333;
@@ -268,12 +235,12 @@ a:hover {
   z-index: 99;
 }
 
-.td-btn:hover::before,
-.td-btn:hover::after {
+.t-tip:hover::before,
+.t-tip:hover::after {
   --scale: 1;
 }
 
-.td-btn::after {
+.t-tip::after {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';
   border: var(--arrow-size) solid transparent;
@@ -284,44 +251,34 @@ a:hover {
 /* fin de tooltip for buttons */
 
 /*MEDIA QUERIES FEBB */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 760px) {
   .canvas-container {
-    width: 360px;
+    width: 100vw;
     overflow-x: scroll;
     left: 0;
-  }
-  .titulo-odograma > h2 {
-    font-size: 12px;
-    margin-top: 15px;
+    margin: 0;
   }
 
-  div#sidebar {
-    min-height: 240px;
-    top: 465px;
-    left: 15px;
+  .color-panel {
+    height: 25px;
   }
 
-  .td-btn {
-    width: 40px;
+  div#draw-panel {
+    min-height: 255px;
+    top: 461px;
+    width: calc(100vw - 10px);
+    left: 0;
+    right: 0;
+  }
+
+  .btn-dibujo {
+    width: 45px;
     height: 37px;
     margin: 2px;
   }
 
   .btn-color {
-    width: 18px;
-  }
-
-  h3 {
-    display: none;
-  }
-
-  #div-figuras {
-    justify-content: space-between;
-  }
-
-  canvas#canvas {
-    left: 5px;
-    top: 5px;
+    width: 25px;
   }
 
   a#saveToImage,
@@ -332,10 +289,6 @@ a:hover {
   }
   hr {
     margin: 5px 0;
-  }
-
-  h2 {
-    margin: 3px 0;
   }
 }
 /*FIN DEL MEDIA QUERIES FEBB */
