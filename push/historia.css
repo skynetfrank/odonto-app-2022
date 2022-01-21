@@ -22,7 +22,7 @@ div {
 
 .historia-container > form {
   background: #fff;
-  padding: 10px 15px;
+  padding: 10px;
   position: relative;
 }
 
@@ -271,7 +271,7 @@ textarea.input {
 
 p {
   display: inline-block;
-  margin: 0 5px 7px 0;
+  margin: 0 5px 3px 0;
   font-weight: bold;
   color: #265a6e;
   width: fit-content;
@@ -316,7 +316,7 @@ h6 {
 }
 
 .fechacontrolasistencia {
-  padding: 0 5px;
+  padding: 5px;
   border: 1px solid #28bbac;
   border-radius: 5px;
   font-size: 20px;
@@ -635,21 +635,32 @@ button.volver.control {
 
 /********* MEDIA QUERIES **********************/
 @media (max-width: 760px) {
-  .input {
-    width: 130px;
+  .inputs-collection {
+    justify-content: space-evenly;
+  }
+
+  .input-container {
+    width: 50%;
+  }
+
+  .input,
+  .input-container.pagos > input {
+    width: 85%;
   }
 
   select:not(.selector-conceptos) {
-    width: 95px;
+    width: 30%;
   }
 
   .historia-container {
     width: 95%;
   }
 
-  h1,
-  .fechacontrolasistencia,
-  h5,
+  .fechacontrolasistencia {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+
   h3,
   h6 {
     font-size: 1rem;
@@ -694,15 +705,19 @@ button.volver.control {
   }
 
   .img-slider .navigation {
-    bottom: 0;
+    bottom: -35px;
+  }
+  .menu-control {
+    bottom: -10px;
   }
 
   textarea {
     height: 4em;
   }
 
-  h1 {
-    margin-bottom: 0;
+  h1,
+  h5 {
+    font-size: 1.5rem;
   }
   .historia-container.agregar {
     position: relative;
@@ -711,6 +726,9 @@ button.volver.control {
 
   .historia-container.agregar > form {
     padding: 10px;
+  }
+  .fechacontrolasistencia.control {
+    margin-top: 30px;
   }
 }
 

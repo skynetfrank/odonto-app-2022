@@ -120,11 +120,11 @@ function blurFunc() {
 //fin del codigo para los custom inputs de la seccion contacto
 
 selectorEvaluacion.addEventListener('change', () => {
-  textboxEvaluacion.value += ' - ' + selectorEvaluacion.value + '\r\n';
+  textboxEvaluacion.value += '- ' + selectorEvaluacion.value + '\r\n';
 });
 
 selectorTratamiento.addEventListener('change', () => {
-  textboxTratamiento.value += ' - ' + selectorTratamiento.value + '\r\n';
+  textboxTratamiento.value += '- ' + selectorTratamiento.value + '\r\n';
 });
 
 btnCerrar.addEventListener('click', () => {

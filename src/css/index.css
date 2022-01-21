@@ -250,6 +250,12 @@ section {
   color: rgb(207, 206, 204);
 }
 
+.version {
+  font-size: 10px;
+  color: rgb(207, 206, 204);
+  margin-top: 10px;
+}
+
 .login__container {
   position: relative;
   max-width: 300px;

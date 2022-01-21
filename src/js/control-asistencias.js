@@ -90,6 +90,8 @@ function addSlide(datos, id) {
   var selectEval = document.createElement('select');
   selectEval.classList.add('selector-conceptos');
   selectEval.classList.add('selector-evaluacion');
+  selectEval.classList.add('hidden');
+
   var opcion1 = document.createElement('option');
   var opcion2 = document.createElement('option');
   var opcion3 = document.createElement('option');
@@ -114,6 +116,7 @@ function addSlide(datos, id) {
   var selectTrat = document.createElement('select');
   selectTrat.classList.add('selector-conceptos');
   selectTrat.classList.add('selector-tratamiento');
+  selectTrat.classList.add('hidden');
 
   var opcion11 = document.createElement('option');
   var opcion12 = document.createElement('option');
@@ -146,6 +149,7 @@ function addSlide(datos, id) {
   infoDiv.appendChild(controlDiv).classList.add('div-control-asistencia');
   inputFecha.setAttribute('type', 'date');
   inputFecha.classList.add('fechacontrolasistencia');
+  inputFecha.classList.add('control');
   inputFecha.value = datos.fecha;
 
   flexorDiv.appendChild(inputFecha);
