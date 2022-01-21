@@ -105,7 +105,7 @@ function createCanvas() {
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   canvasContainer.appendChild(canvas);
-  ctx.drawImage(odograma, 0, 0);
+  ctx.drawImage(odograma, 0, 30);
 }
 
 //boton guardar odograma
@@ -139,10 +139,6 @@ botoneraColores.addEventListener('click', e => {
   let botonColor = e.target.id;
 
   switch (botonColor) {
-    case 'btncolor-blanco':
-      currentColor = '#FFFFFF';
-      document.getElementById('color-actual').style.backgroundColor = currentColor;
-      break;
     case 'btncolor-negro':
       currentColor = 'rgba(0, 0, 0, 0.9)';
       document.getElementById('color-actual').style.backgroundColor = currentColor;

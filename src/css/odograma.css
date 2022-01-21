@@ -32,12 +32,11 @@ div#draw-panel {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 50px;
 }
 
 .guardar {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 img {
@@ -53,13 +52,20 @@ a#saveToImage {
   color: #ffffff;
 }
 
-#btn-cerrar,
 a#saveToImage {
   background-color: rgba(6, 194, 194, 0.822);
   font-weight: bold;
   font-size: 20px;
   padding: 15px;
   margin-top: 30px;
+}
+
+#btn-cerrar {
+  background-color: rgba(6, 194, 194, 0.822);
+  padding: 5px 15px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  margin-top: 0;
 }
 
 #btn-cerrar:hover,
@@ -74,10 +80,6 @@ a#saveToImage:hover {
   margin: 2px;
   border: none;
   cursor: pointer;
-}
-
-#btncolor-blanco {
-  background-color: #ffffff;
 }
 
 #btncolor-negro {
@@ -100,12 +102,17 @@ label {
   font-weight: bolder;
 }
 
+#botonera-colores {
+  display: flex;
+  align-items: center;
+}
+
 #color-actual {
   border: 1px solid rgba(0, 0, 0, 0.63);
   border-radius: 5px;
-  width: 80px;
+  width: 60px;
   pointer-events: none;
-  color: #fff;
+  background-color: #333;
 }
 
 #botonera-grafica {
@@ -281,12 +288,12 @@ label {
     width: 25px;
   }
 
-  a#saveToImage,
-  #btn-cerrar {
-    padding: 5px 10px;
-    font-size: 14px;
-    margin-top: 0;
+  a#saveToImage {
+    padding: 10px 15px;
+    font-size: 1rem;
+    margin-top: 5px;
   }
+
   hr {
     margin: 5px 0;
   }

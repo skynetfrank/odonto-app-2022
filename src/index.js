@@ -63,6 +63,8 @@ onAuthStateChanged(auth, user => {
     imgLogo.click();
     sesion.style.display = 'flex';
     logout.style.display = 'none';
+    seccionDashboard.style.display = 'none';
+    seccionAgenda.style.display = 'none';
     document.getElementById('usuario').innerText = '';
     menuLinks.forEach(link => {
       link.style.pointerEvents = 'none';
@@ -159,7 +161,7 @@ const populateTabla = () => {
                         <td data-label="Telefono">${data.celular}</td>
                         <td data-label="" class="ver-paciente">  
                            <button class="td-btn t-tip top" id="btn-info-paciente" tip="Ver Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                             <span class="img-btn"><img src="images/a2b9e883de68572b7d20.png" alt="control"</span>
+                             <span class="img-btn"><img src="images/d8a6a12fcc0070195b64.png" alt="control"</span>
                            </button> 
                            <button  class="td-btn t-tip top" id="btn-ver-paciente" tip="Editar Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
                              <span class="img-btn"><img src="images/26790e10b578c609f86f.png" alt="control"</span>
