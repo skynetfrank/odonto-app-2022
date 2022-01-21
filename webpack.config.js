@@ -1,5 +1,7 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -57,6 +59,9 @@ module.exports = {
     port: 3001,
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [{ from: 'push', to: 'push' }],
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: './index.html',
@@ -67,15 +72,16 @@ module.exports = {
       filename: './historia.html',
       chunks: ['historia'],
     }),
-    new HtmlWebpackPlugin({
-      template: './src/html/control-asistencias.html',
-      filename: './control-asistencias.html',
-      chunks: ['controles'],
-    }),
+
     new HtmlWebpackPlugin({
       template: './src/html/editar-historia.html',
       filename: './editar-historia.html',
       chunks: ['editarhistoria'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/html/control-asistencias.html',
+      filename: './control-asistencias.html',
+      chunks: ['controles'],
     }),
     new HtmlWebpackPlugin({
       template: './src/html/agregar-control.html',
@@ -92,7 +98,17 @@ module.exports = {
       filename: './odograma.html',
       chunks: ['odograma'],
     }),
-
+    new HtmlWebpackTagsPlugin({
+      files: [
+        './historia.html',
+        './editar-historia.html',
+        './editar-control.html',
+        './control-asistencias.html',
+        './agregar-control.html',
+      ],
+      tags: ['push/historia.css'],
+      append: true,
+    }),
     new MiniCssExtractPlugin(),
   ],
 };

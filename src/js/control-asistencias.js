@@ -1,4 +1,3 @@
-import historias from '../css/historia.css';
 import { db } from '../js/firebaseconfig';
 import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 

@@ -80,12 +80,12 @@ window.addEventListener('load', () => {
 odograma.addEventListener('load', () => {
   createCanvas();
   if (!isStorage) {
-    ctx.font = '16px Arial bold';
+    ctx.font = 'bold 16px Arial';
     ctx.fillStyle = '#000000';
     ctx.fillText('Examen Clinico Intraoral - ' + fecha, 15, 20);
-    ctx.font = '14px Arial bold';
+    ctx.font = 'bold 14px Arial';
     ctx.fillText('ID: ' + idPacienteLocal, 325, 20);
-    ctx.font = '12px Arial bold';
+    ctx.font = 'bold 12px Arial';
     ctx.fillText('fecha: ' + fecha, 425, 450);
     ctx.fillText('Odograma: ' + nombrePaciente + ' ' + apellidoPaciente, 15, 450);
   }
@@ -144,11 +144,11 @@ botoneraColores.addEventListener('click', e => {
       document.getElementById('color-actual').style.backgroundColor = currentColor;
       break;
     case 'btncolor-negro':
-      currentColor = 'rgba(0, 0, 0, 0.5)';
+      currentColor = 'rgba(0, 0, 0, 0.9)';
       document.getElementById('color-actual').style.backgroundColor = currentColor;
       break;
     case 'btncolor-azul':
-      currentColor = 'rgba(0, 0, 255, 0.7)';
+      currentColor = 'rgba(0, 0, 255, 0.9)';
       document.getElementById('color-actual').style.backgroundColor = currentColor;
       break;
     case 'btncolor-naranja':
@@ -180,6 +180,7 @@ botonera.addEventListener('click', e => {
       link.href = canvas.toDataURL('image/jpeg', 1.0);
       const filename = idPacienteLocal + '.jpg';
       link.download = filename;
+      link.click();
       console.log('link', link);
       console.log('link.href', link.href);
       console.log('filename', filename);
@@ -206,7 +207,8 @@ botonera.addEventListener('click', e => {
       currentAction = MARCAR_IMPLANTE;
       break;
     case 'clear':
-      createCanvas();
+      //todo: verificar que no se borre data anterior ver metodo
+      //createCanvas();
       break;
     case 'puenteFijo':
       currentAction = MARCAR_PUENTE_FIJO;

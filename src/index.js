@@ -120,9 +120,10 @@ menuLinks[0].addEventListener('click', () => {
   seccionPacientes.style.display = 'block';
   infoContainer.style.display = 'none';
   tablaContainer.style.display = 'block';
-  menuLinks[0].style.color = 'lime';
+  /* menuLinks[0].style.color = 'lime';
   menuLinks[1].style.color = 'white';
-  menuLinks[2].style.color = 'white';
+  menuLinks[2].style.color = 'white'; */
+  menuActivo(menuLinks[0]);
 });
 
 //nav menu Dashboard
@@ -131,9 +132,9 @@ menuLinks[2].addEventListener('click', () => {
   seccionPacientes.style.display = 'none';
   seccionAgenda.style.display = 'none';
   seccionDashboard.style.display = 'block';
-  menuLinks[2].style.color = 'lime';
+  /*  menuLinks[2].style.color = 'lime';
   menuLinks[1].style.color = 'white';
-  menuLinks[0].style.color = 'white';
+  menuLinks[0].style.color = 'white'; */
   getDatos();
   getAgenda();
   populateTablaDash();
@@ -332,9 +333,10 @@ menuLinks[1].addEventListener('click', () => {
   seccionPacientes.style.display = 'none';
   seccionDashboard.style.display = 'none';
   seccionAgenda.style.display = 'block';
-  menuLinks[1].style.color = 'lime';
+  /* menuLinks[1].style.color = 'lime';
   menuLinks[0].style.color = 'white';
-  menuLinks[2].style.color = 'white';
+  menuLinks[2].style.color = 'white'; */
+  menuActivo(menuLinks[1]);
   horario();
   populateAgenda();
 }); //FINDE LISTENER PARA AGENDA
@@ -607,3 +609,11 @@ function getAgenda() {
     });
   });
 } //fin de getAgenda
+
+function menuActivo(id) {
+  Array.from(menuLinks).forEach(el => {
+    el.classList.remove('activo');
+  });
+  id.classList.toggle('activo');
+  console.log('a activo de return', id);
+}

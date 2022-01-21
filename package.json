@@ -12,10 +12,12 @@
   "author": "Ing. Franklin Bolivar",
   "license": "MIT",
   "devDependencies": {
+    "copy-webpack-plugin": "^10.2.1",
     "css-loader": "^6.5.1",
     "file-loader": "^6.2.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
+    "html-webpack-tags-plugin": "^3.0.2",
     "image-webpack-loader": "^8.0.1",
     "mini-css-extract-plugin": "^2.4.4",
     "webpack": "^5.63.0",

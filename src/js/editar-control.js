@@ -1,7 +1,5 @@
-import historias from '../css/historia.css';
 import { db } from '../js/firebaseconfig';
 import { collection, doc, query, where, updateDoc, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
-
 const idControlLocal = JSON.parse(localStorage.getItem('controltoupdate'));
 const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
 const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
