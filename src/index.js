@@ -43,15 +43,11 @@ const cardActividad = document.getElementById('total-procedimientos');
 const cardPacientes = document.getElementById('total-pacientes');
 const cardCitas = document.getElementById('total-citas');
 const mySpinner = document.querySelector('.myspinner-container');
+const allSections = document.querySelectorAll('section');
 var usuariosWeb = [];
-
-window.addEventListener('load', () => {
-  console.log('Se ha cargado la pagina');
-});
 
 onAuthStateChanged(auth, user => {
   if (user) {
-    console.log('Se disparo el auth state changed');
     sesion.style.display = 'none';
     logout.style.display = 'inline-block';
     document.getElementById('usuario').innerText = user.email;
@@ -112,39 +108,27 @@ menu.forEach(item => {
   });
 });
 
-//nav menu Pacientes
 menuLinks[0].addEventListener('click', () => {
-  seccionInicio.style.display = 'none';
-  seccionAgenda.style.display = 'none';
-  seccionDashboard.style.display = 'none';
-  seccionPacientes.style.display = 'block';
-  infoContainer.style.display = 'none';
   tablaContainer.style.display = 'block';
-  /* menuLinks[0].style.color = 'lime';
-  menuLinks[1].style.color = 'white';
-  menuLinks[2].style.color = 'white'; */
-  menuActivo(menuLinks[0]);
+  infoContainer.style.display = 'none';
+  menuActivo(menuLinks[0], seccionPacientes);
 });
 
-//nav menu Dashboard
+menuLinks[1].addEventListener('click', () => {
+  menuActivo(menuLinks[1], seccionAgenda);
+  horario();
+  populateAgenda();
+});
+
 menuLinks[2].addEventListener('click', () => {
-  seccionInicio.style.display = 'none';
-  seccionPacientes.style.display = 'none';
-  seccionAgenda.style.display = 'none';
-  seccionDashboard.style.display = 'block';
-  /*  menuLinks[2].style.color = 'lime';
-  menuLinks[1].style.color = 'white';
-  menuLinks[0].style.color = 'white'; */
+  menuActivo(menuLinks[2], seccionDashboard);
   getDatos();
   getAgenda();
   populateTablaDash();
 });
 
 imgLogo.addEventListener('click', () => {
-  seccionInicio.style.display = 'block';
-  seccionPacientes.style.display = 'none';
-  seccionAgenda.style.display = 'none';
-  seccionDashboard.style.display = 'none';
+  menuActivo(menuLinks[3], seccionInicio);
 });
 
 logout.addEventListener('click', () => {
@@ -166,7 +150,6 @@ const populateTabla = () => {
 
     snapshot.forEach(doc => {
       let data = doc.data();
-
       let row = `<tr> 
                         <td id="td-titulo">Paciente</td>   
                         <td id="td-id-hidden">${doc.id}</td>                          
@@ -192,10 +175,8 @@ const populateTabla = () => {
                            </button>
                         </td>
                      </tr>`;
-
       //filtrar datos en base al buscador
       table.innerHTML += row;
-
       //seleccionar todos los botones de la tabla
       const btnVerPaciente = document.querySelectorAll('.td-btn');
       //loop de botones de la tabla
@@ -220,7 +201,7 @@ const populateTabla = () => {
             window.open('odograma.html', '_self');
           }
           if (e.target.id == 'btn-eliminar-paciente') {
-            deleteAsistencia(pacienteSeleccionado);
+            deletePaciente(pacienteSeleccionado);
           }
         });
       }); //fin del  forEach para loop de todos los botones de la table
@@ -228,7 +209,7 @@ const populateTabla = () => {
   });
 }; //FIN DE POPULATE TABLA
 
-function deleteAsistencia(id) {
+function deletePaciente(id) {
   const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
   if (eliminar) {
     const docRef = doc(db, 'pacientes', id);
@@ -240,7 +221,7 @@ function deleteAsistencia(id) {
         alert('Error: ', error.message);
       });
   }
-} //FIN DE DELETEASISTENCIA
+}
 
 buscador.addEventListener('change', e => {
   const textoBusqueda = e.target.value.toLowerCase();
@@ -272,7 +253,6 @@ function verInfoPaciente(id) {
       const historia = doc.data();
       let row = `<tr class="pad-left"> 
                          <td id="td-titulo-info">Historia: ${' ' + historia.nombre + ' ' + historia.apellido}
-                        
                          </td> 
                          <td data-label="Cedula">${historia.cedula}</td>  
                          <td data-label="Fecha de Nacimiento">${historia.fnacimiento}</td>
@@ -308,8 +288,6 @@ function verInfoPaciente(id) {
                            historia.texthabitos
                          }</td>                                                               
                   </tr>`;
-
-      //filtrar datos en base al buscador
       tableInfo.innerHTML += row;
     })
     .catch(error => console.log(error.message));
@@ -320,33 +298,11 @@ btnCerrarInfo.addEventListener('click', () => {
   tablaContainer.style.display = 'block';
 });
 
-//***************************AGENDA CODE **************************************** */
-//***************************AGENDA CODE **************************************** */
-//***************************AGENDA CODE **************************************** */
-//***************************AGENDA CODE **************************************** */
-
-const btnUpdateAgenda = document.getElementById('update-agenda');
-
-//INICIO DEL LISTENER PARA LA AGENDA
-menuLinks[1].addEventListener('click', () => {
-  seccionInicio.style.display = 'none';
-  seccionPacientes.style.display = 'none';
-  seccionDashboard.style.display = 'none';
-  seccionAgenda.style.display = 'block';
-  /* menuLinks[1].style.color = 'lime';
-  menuLinks[0].style.color = 'white';
-  menuLinks[2].style.color = 'white'; */
-  menuActivo(menuLinks[1]);
-  horario();
-  populateAgenda();
-}); //FINDE LISTENER PARA AGENDA
-
 function populateAgenda() {
   let timeLista = document.getElementById('ul-timeline');
   let fecha = dateToAMD(new Date());
   const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
   const allCitas = onSnapshot(consultaAgenda, snapshot => {
-    //aqui se itera sobre el cursor resultado (snapshot)
     timeLista.innerHTML = '';
     snapshot.forEach(doc => {
       let data = doc.data();
@@ -376,8 +332,6 @@ function populateAgenda() {
 
       //seleccionar todos los botones eliminar cita
       const allButtons = document.querySelectorAll('.btn-eliminar-cita');
-      //loop de botones de la tabla
-
       allButtons.forEach(boton => {
         boton.addEventListener('click', e => {
           let idCita = e.target.dataset.idcita;
@@ -400,8 +354,6 @@ function horario() {
 
   onSnapshot(q, snapshot => {
     fechaAgenda.innerHTML = strToDMA(fecha);
-    //aqui se itera sobre el cursor resultado (snapshot)
-
     snapshot.forEach(doc => {
       let position = horas.indexOf(doc.data().hora);
       if (position >= 0) {
@@ -419,11 +371,8 @@ function horario() {
         `;
       }
     });
-
     //seleccionar todos los botones eliminar cita
     const allHoras = document.querySelectorAll('.btn-bloquear');
-    //loop de botones de la tabla
-
     allHoras.forEach(boton => {
       boton.addEventListener('click', e => {
         let horaX = e.target.dataset.idhora;
@@ -431,9 +380,7 @@ function horario() {
       });
     }); //fin del  forEach para loop de todos los botones de la table
   });
-}
-
-//END OF HORARIO()
+} //END OF HORARIO()
 
 function bloquearHora(fechaBloquear, horaBloquear) {
   addDoc(collection(db, 'citas'), {
@@ -447,8 +394,6 @@ function bloquearHora(fechaBloquear, horaBloquear) {
   });
   window.scroll(0, 5);
 }
-
-//***********************SIDEBAR AGENDA *****************************************/
 
 navToggle.addEventListener('click', () => {
   navShow();
@@ -494,7 +439,6 @@ function deleteCita(id) {
 
 function getUsuarios() {
   onSnapshot(collection(db, 'users'), snapshot => {
-    //aqui se itera sobre el cursor resultado (snapshot)
     snapshot.forEach(usuario => {
       let currentID = usuario.id;
       let appObj = { ...usuario.data(), ['id']: currentID };
@@ -575,10 +519,8 @@ function getDatos() {
     let ingresos = 0;
     snapshot.forEach(doc => {
       const montoDolares = parseFloat(doc.data().montoUsd);
-      console.log('montoDolares', montoDolares);
       cardActividad.innerHTML = snapshot.docs.length;
       ingresos += montoDolares;
-      console.log('Ingresos', ingresos);
     });
     cardIngresos.innerHTML = ingresos;
   });
@@ -610,10 +552,13 @@ function getAgenda() {
   });
 } //fin de getAgenda
 
-function menuActivo(id) {
+function menuActivo(menulink, seccion) {
   Array.from(menuLinks).forEach(el => {
-    el.classList.remove('activo');
+    el.style.color = 'white';
   });
-  id.classList.toggle('activo');
-  console.log('a activo de return', id);
+  Array.from(allSections).forEach(el => {
+    el.style.display = 'none';
+  });
+  menulink.style.color = 'lime';
+  seccion.style.display = 'block';
 }
