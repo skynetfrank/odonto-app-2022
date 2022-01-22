@@ -26,6 +26,105 @@ body {
   display: none;
 }
 
+/* Efectos 2022 */
+.pulsate-bck {
+  -webkit-animation: pulsate-bck 0.7s ease-in-out infinite both;
+  animation: pulsate-bck 0.7s ease-in-out infinite both;
+}
+@-webkit-keyframes pulsate-bck {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes pulsate-bck {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation vibrate-1
+ * ----------------------------------------
+ */
+.vibrate-1 {
+  -webkit-animation: vibrate-1 0.3s linear infinite both;
+  animation: vibrate-1 0.3s linear infinite both;
+}
+
+@-webkit-keyframes vibrate-1 {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    -webkit-transform: translate(2px, 2px);
+    transform: translate(2px, 2px);
+  }
+  80% {
+    -webkit-transform: translate(2px, -2px);
+    transform: translate(2px, -2px);
+  }
+  100% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+}
+@keyframes vibrate-1 {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    -webkit-transform: translate(2px, 2px);
+    transform: translate(2px, 2px);
+  }
+  80% {
+    -webkit-transform: translate(2px, -2px);
+    transform: translate(2px, -2px);
+  }
+  100% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+}
+
+/* Fin de Efectos 2022  */
+
 /* CUSTOM FEBB INPUTS */
 .input__div {
   height: 35px;
@@ -198,6 +297,7 @@ nav ul li a {
   font-weight: bold;
   border-radius: 5px;
   margin: 0 10px;
+  display: inline-block;
 }
 nav a:hover {
   transition: 0.2s;

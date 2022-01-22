@@ -63,8 +63,6 @@ onAuthStateChanged(auth, user => {
     imgLogo.click();
     sesion.style.display = 'flex';
     logout.style.display = 'none';
-    seccionDashboard.style.display = 'none';
-    seccionAgenda.style.display = 'none';
     document.getElementById('usuario').innerText = '';
     menuLinks.forEach(link => {
       link.style.pointerEvents = 'none';
@@ -557,10 +555,13 @@ function getAgenda() {
 function menuActivo(menulink, seccion) {
   Array.from(menuLinks).forEach(el => {
     el.style.color = 'white';
+    el.classList.remove('pulsate-bck');
   });
   Array.from(allSections).forEach(el => {
     el.style.display = 'none';
   });
   menulink.style.color = 'lime';
+  menulink.classList.add('pulsate-bck');
+  //menulink.style.color = 'lime';
   seccion.style.display = 'block';
 }
