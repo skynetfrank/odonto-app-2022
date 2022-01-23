@@ -55,20 +55,28 @@ onAuthStateChanged(auth, user => {
       link.style.pointerEvents = 'all';
       link.style.color = 'white';
     });
+    imgLogo.style.pointerEvents = 'all';
     barraMenu.classList.toggle('mostrar');
     menuLinks[0].click();
     populateTabla();
     getUsuarios();
   } else {
-    imgLogo.click();
+    seccionActiva(seccionInicio);
     sesion.style.display = 'flex';
     logout.style.display = 'none';
     document.getElementById('usuario').innerText = '';
+    imgLogo.style.pointerEvents = 'none';
     menuLinks.forEach(link => {
+      link.classList.remove('pulsate-bck');
       link.style.pointerEvents = 'none';
-      link.style.color = 'rgb(170, 168, 168)';
+      link.style.color = 'grey';
     });
   }
+});
+
+imgLogo.addEventListener('click', () => {
+  seccionActiva(seccionInicio);
+  menuActivo(menuLinks[3]);
 });
 
 formSesion.addEventListener('submit', e => {
@@ -77,12 +85,27 @@ formSesion.addEventListener('submit', e => {
   const pw = formSesion.password.value;
   signInWithEmailAndPassword(auth, email, pw)
     .then(cred => {
+      const admin = cred.user.email;
+      if (admin != 'admin@demo.com') {
+        logout.click();
+        alert('Acceso denegado... Ud. no es Administrador');
+      }
       formSesion.reset();
     })
     .catch(err => {
-      if (err.message == 'auth/network-request-failed') {
+      console.log('code:', err.code, 'message:', err.message);
+      if (err.code == 'auth/network-request-failed') {
         alert('No esta conectado a Internet...conectese');
-      } else alert(err.message);
+      }
+      if (err.code === 'auth/user-not-found') {
+        alert('Usuario No existe.. Registrese');
+      }
+      if (err.code == 'auth/invalid-email') {
+        alert('El email esta mal escrito. Verifique!');
+      }
+      if (err.code == 'auth/wrong-password') {
+        alert('La clave que ingreso no es correcta. Verifique.');
+      }
     });
 });
 
@@ -111,30 +134,29 @@ menu.forEach(item => {
 menuLinks[0].addEventListener('click', () => {
   tablaContainer.style.display = 'block';
   infoContainer.style.display = 'none';
-  menuActivo(menuLinks[0], seccionPacientes);
+  menuActivo(menuLinks[0]);
+  seccionActiva(seccionPacientes);
 });
 
 menuLinks[1].addEventListener('click', () => {
-  menuActivo(menuLinks[1], seccionAgenda);
+  menuActivo(menuLinks[1]);
+  seccionActiva(seccionAgenda);
   horario();
   populateAgenda();
 });
 
 menuLinks[2].addEventListener('click', () => {
-  menuActivo(menuLinks[2], seccionDashboard);
+  menuActivo(menuLinks[2]);
+  seccionActiva(seccionDashboard);
   getDatos();
   getAgenda();
   populateTablaDash();
 });
 
-imgLogo.addEventListener('click', () => {
-  menuActivo(menuLinks[3], seccionInicio);
-});
-
 logout.addEventListener('click', () => {
   signOut(auth)
     .then(() => {
-      imgLogo.click();
+      alert('Ha cerrado la sesion! ...Hasta luego.');
     })
     .catch(err => {
       alert('Ocurrio un error al cerrar la sesion!');
@@ -159,7 +181,7 @@ const populateTabla = () => {
                         <td data-label="Telefono">${data.celular}</td>
                         <td data-label="" class="ver-paciente">  
                            <button class="td-btn t-tip top" id="btn-info-paciente" tip="Ver Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                             <span class="img-btn"><img src="images/d8a6a12fcc0070195b64.png" alt="control"</span>
+                             <span class="img-btn"><img src="images/6723388c86c0ed2b02e0.png" alt="control"</span>
                            </button> 
                            <button  class="td-btn t-tip top" id="btn-ver-paciente" tip="Editar Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
                              <span class="img-btn"><img src="images/26790e10b578c609f86f.png" alt="control"</span>
@@ -231,7 +253,7 @@ buscador.addEventListener('change', e => {
     const row = tableCell[1].closest('tr');
     const columnaNombre = tableCell[1].textContent.toLowerCase().replace(',', '');
     const columnaApellido = tableCell[2].textContent.toLowerCase().replace(',', '');
-    row.style.display = 'block';
+    //row.style.display = 'block';
     if (columnaNombre.search(textoBusqueda) === -1) {
       // row.style.visibility = 'collapse';
       if (columnaApellido.search(textoBusqueda) === -1) {
@@ -552,16 +574,18 @@ function getAgenda() {
   });
 } //fin de getAgenda
 
-function menuActivo(menulink, seccion) {
+function menuActivo(menulink) {
   Array.from(menuLinks).forEach(el => {
     el.style.color = 'white';
     el.classList.remove('pulsate-bck');
   });
+  menulink.style.color = 'lime';
+  menulink.classList.add('pulsate-bck');
+}
+
+function seccionActiva(seccion) {
   Array.from(allSections).forEach(el => {
     el.style.display = 'none';
   });
-  menulink.style.color = 'lime';
-  menulink.classList.add('pulsate-bck');
-  //menulink.style.color = 'lime';
   seccion.style.display = 'block';
 }

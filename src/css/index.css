@@ -292,12 +292,13 @@ nav li {
 }
 
 nav ul li a {
-  color: white;
+  color: grey;
   font-size: 18px;
   font-weight: bold;
   border-radius: 5px;
   margin: 0 10px;
   display: inline-block;
+  pointer-events: all;
 }
 nav a:hover {
   transition: 0.2s;
@@ -548,6 +549,7 @@ button.volver-info {
   background-color: bisque;
   pointer-events: all;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .td-btn.offset {
@@ -584,8 +586,8 @@ button.volver-info {
   display: none;
   padding: 0.3rem;
   font-size: 12px;
-  min-width: 120px;
-  max-width: 100%;
+  min-width: 80px;
+  max-width: fit-content;
   border-radius: 0.3rem;
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0.9;
@@ -1192,8 +1194,8 @@ td {
 }
 
 .td-btn {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
 }
