@@ -13,6 +13,13 @@ const selectorTratamiento = document.getElementById('selector-tratamiento');
 const textboxEvaluacion = document.getElementById('evaluaciongeneral');
 const textboxTratamiento = document.getElementById('tratamientoaplicado');
 const fechaNacimiento = document.getElementById('fnacimiento');
+const inputEdad = document.getElementById('edad');
+const inputPeso = document.getElementById('peso');
+const inputEstatura = document.getElementById('estatura');
+const inputCelular = document.getElementById('celular');
+const inputLocal = document.getElementById('tlflocal');
+const inputCedula = document.getElementById('cedula');
+
 //trigger focus event on element
 const eventoFocus = new FocusEvent('focus', {
   view: window,
@@ -29,10 +36,10 @@ function dolarToday() {
       inputCambio.dispatchEvent(eventoFocus);
       inputBolivares.dispatchEvent(eventoFocus);
       historia['cambiodia'].value = cambio;
-      historia['montopagadobs'].value = parseFloat(cambio) * parseFloat(dolares);
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     })
     .catch(err => {
-      alert('La api de Dolar Today No esta disponible');
+      alert('Dolar-Today No esta disponible');
     });
 }
 
@@ -61,12 +68,75 @@ fechaNacimiento.addEventListener('blur', e => {
       edad--;
     }
   }
+  document.getElementById('edad').dispatchEvent(eventoFocus);
   document.getElementById('edad').value = edad;
+});
+
+inputCambio.addEventListener('blur', () => {
+  const cambio = historia['cambiodia'].value;
+  const dolares = document.getElementById('montopagado').value;
+  inputBolivares.dispatchEvent(eventoFocus);
+  historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
 });
 
 inputDolares.addEventListener('blur', e => {
   e.preventDefault();
   dolarToday();
+});
+
+inputEdad.addEventListener('blur', e => {
+  e.preventDefault();
+  const valor = parseInt(inputEdad.value);
+  if (valor < 2 || valor > 99) {
+    inputEdad.value = '';
+    alert('La edad debe estar entre 2 y 99 años');
+  }
+});
+
+inputPeso.addEventListener('blur', e => {
+  e.preventDefault();
+  const valor = parseInt(inputPeso.value);
+  if (valor < 5 || valor > 250) {
+    inputPeso.value = '';
+    alert('El peso debe estar entre 5 y 250 kgs.');
+  }
+});
+
+inputEstatura.addEventListener('blur', e => {
+  e.preventDefault();
+  const valor = parseInt(inputEstatura.value);
+  if (valor < 0.5 || valor > 2.3) {
+    inputEstatura.value = '';
+    alert('La Estatura debe estar entre 0.5 y 2.30 mts');
+  }
+});
+
+inputCelular.addEventListener('change', e => {
+  e.preventDefault();
+  const celularRegex = /^(0414|0424|0412|0416|0426)[-][0-9]{3}[-][0-9]{2}[-][0-9]{2}$/g;
+  if (!validarInput(inputCelular.value, celularRegex)) {
+    alert('Ejemplo: 0412-555-55-55');
+    inputCelular.value = '';
+  }
+});
+
+inputLocal.addEventListener('change', e => {
+  e.preventDefault();
+  const telefonoRegex = /^[0-9]{4}[-][0-9]{3}[-][0-9]{2}[-][0-9]{2}$/g;
+  validarInput(inputLocal.value, telefonoRegex) ? '' : (inputLocal.value = '');
+  if (!validarInput(inputLocal.value, telefonoRegex)) {
+    alert('Ejemplo: 0212-555-55-55');
+    inputCelular.value = '';
+  }
+});
+
+inputCedula.addEventListener('change', e => {
+  e.preventDefault();
+  const cedulaRegex = /^[V|E|J|P][-][0-9]{5,9}$/;
+  if (!validarInput(inputCedula.value, cedulaRegex)) {
+    alert('Ejemplo: V-999999999');
+    inputCedula.value = '';
+  }
 });
 
 localStorage.clear();
@@ -139,7 +209,7 @@ historia.addEventListener('submit', async e => {
   const tratamientoaplicado = historia['tratamientoaplicado'].value;
   const formadepago = historia['formadepago'].value;
   const banco = historia['select-banco'].value;
-  const tipopago = parseInt(historia['tipo-pago'].value).toFixed(2);
+  const tipopago = historia['tipo-pago'].value;
   const referenciapago = historia['referenciapago'].value;
   const montopagado = parseInt(historia['montopagado'].value).toFixed(2);
   const montopagadobs = parseInt(historia['montopagadobs'].value).toFixed(2);
@@ -225,7 +295,7 @@ historia.addEventListener('submit', async e => {
 
   alert('Paciente Agregado con exito!');
   historia.reset();
-  window.scrollTo(0, 0);
+  window.history.back();
 }); //end of formulario submit
 
 btnCerrar.addEventListener('click', () => {
@@ -258,3 +328,7 @@ selectorEvaluacion.addEventListener('change', () => {
 selectorTratamiento.addEventListener('change', () => {
   textboxTratamiento.value += ' - ' + selectorTratamiento.value + '\r\n';
 });
+
+function validarInput(valor, exp) {
+  return valor.match(exp) ? true : false;
+}

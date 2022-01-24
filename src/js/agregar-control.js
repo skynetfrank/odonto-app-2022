@@ -18,19 +18,27 @@ const textboxTratamiento = document.getElementById('tratamientoaplicado');
 
 document.getElementById('paciente').innerText = nombrePaciente + ' ' + apellidoPaciente;
 
+const eventoFocus = new FocusEvent('focus', {
+  view: window,
+  bubbles: true,
+  cancelable: true,
+});
+
 function dolarToday() {
   fetch('https://s3.amazonaws.com/dolartoday/data.json')
     .then(res => res.json())
     .then(data => {
+      console.log('dolar today data', data);
       const cambio = data.USD.dolartoday;
       const dolares = document.getElementById('montopagado').value;
       inputCambio.dispatchEvent(eventoFocus);
       inputBolivares.dispatchEvent(eventoFocus);
       historia['cambiodia'].value = cambio;
-      historia['montopagadobs'].value = parseFloat(cambio) * parseFloat(dolares);
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     })
     .catch(err => {
       alert('La api de Dolar Today No esta disponible');
+      console.log('error dolar today:', err.message);
     });
 }
 
@@ -39,6 +47,12 @@ inputDolares.addEventListener('blur', e => {
   dolarToday();
 });
 
+inputCambio.addEventListener('blur', () => {
+   const cambio = historia['cambiodia'].value;
+   const dolares = document.getElementById('montopagado').value;
+   inputBolivares.dispatchEvent(eventoFocus);
+   historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
+});
 //localStorage.clear();
 var date = new Date();
 document.querySelector('.fechacontrolasistencia').value =
@@ -60,7 +74,7 @@ historia.addEventListener('submit', async e => {
   const tratamientoaplicado = historia['tratamientoaplicado'].value;
   const formadepago = historia['formadepago'].value;
   const banco = historia['select-banco'].value;
-  const tipopago = parseInt(historia['tipo-pago'].value).toFixed(2);
+  const tipopago = historia['tipo-pago'].value;
   const referenciapago = historia['referenciapago'].value;
   const montopagado = parseInt(historia['montopagado'].value).toFixed(2);
   const montopagadobs = parseInt(historia['montopagadobs'].value).toFixed(2);
@@ -93,7 +107,7 @@ historia.addEventListener('submit', async e => {
 
   alert('Paciente Agregado con exito!');
   historia.reset();
-  window.scrollTo(0, 0);
+  window.history.back();
 }); //end of formulario submit
 /* 
 btnCerrar.addEventListener('click', () => {

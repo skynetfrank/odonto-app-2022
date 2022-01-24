@@ -16,6 +16,13 @@ const textboxTratamiento = document.getElementById('tratamientoaplicado');
 console.log('ID Paciente passed through LocalStoraged:', idPacienteLocal);
 const controlesRef = collection(db, 'controlasistencias');
 const myQuery = query(controlesRef, where('idPaciente', '==', idPacienteLocal), where('esCita1', '==', true));
+const inputEdad = document.getElementById('edad');
+const inputPeso = document.getElementById('peso');
+const inputEstatura = document.getElementById('estatura');
+const inputCelular = document.getElementById('celular');
+const inputLocal = document.getElementById('tlflocal');
+const inputCedula = document.getElementById('cedula');
+const fechaNacimiento = document.getElementById('fnacimiento');
 //trigger focus event on element
 
 function formatearFecha(nfecha) {
@@ -27,6 +34,35 @@ const eventoFocus = new FocusEvent('focus', {
   view: window,
   bubbles: true,
   cancelable: true,
+});
+
+fechaNacimiento.addEventListener('blur', e => {
+  e.preventDefault();
+  const fechaActual = new Date();
+  const anoActual = parseInt(fechaActual.getFullYear());
+  const mesActual = parseInt(fechaActual.getMonth() + 1);
+  const diaActual = parseInt(fechaActual.getDate());
+
+  const anoNacimiento = parseInt(String(fechaNacimiento.value).substring(0, 4));
+  const mesNacimiento = parseInt(String(fechaNacimiento.value).substring(5, 7));
+  const diaNacimiento = parseInt(String(fechaNacimiento.value).substring(8, 10));
+
+  let edad = 0;
+
+  console.log('actual:', diaActual, mesActual, anoActual);
+  console.log('Nacimiento:', diaNacimiento, mesNacimiento, anoNacimiento);
+  console.log('edad en input', document.getElementById('fnacimiento').value);
+
+  edad = anoActual - anoNacimiento;
+  if (mesActual < mesNacimiento) {
+    edad--;
+  } else if (mesActual == mesNacimiento) {
+    if (diaActual < diaNacimiento) {
+      edad--;
+    }
+  }
+  document.getElementById('edad').dispatchEvent(eventoFocus);
+  document.getElementById('edad').value = edad;
 });
 
 function dolarToday() {
@@ -48,6 +84,61 @@ function dolarToday() {
 inputDolares.addEventListener('blur', e => {
   e.preventDefault();
   dolarToday();
+});
+
+inputEdad.addEventListener('blur', e => {
+  e.preventDefault();
+  const valor = parseInt(inputEdad.value);
+  if (valor < 2 || valor > 99) {
+    inputEdad.value = '';
+    alert('La edad debe estar entre 2 y 99 años');
+  }
+});
+
+inputPeso.addEventListener('blur', e => {
+  e.preventDefault();
+  const valor = parseInt(inputPeso.value);
+  if (valor < 5 || valor > 250) {
+    inputPeso.value = '';
+    alert('El peso debe estar entre 5 y 250 kgs.');
+  }
+});
+
+inputEstatura.addEventListener('blur', e => {
+  e.preventDefault();
+  const valor = parseInt(inputEstatura.value);
+  if (valor < 0.5 || valor > 2.3) {
+    inputEstatura.value = '';
+    alert('La Estatura debe estar entre 0.5 y 2.30 mts');
+  }
+});
+
+inputCelular.addEventListener('change', e => {
+  e.preventDefault();
+  const celularRegex = /^(0414|0424|0412|0416|0426)[-][0-9]{3}[-][0-9]{2}[-][0-9]{2}$/g;
+  if (!validarInput(inputCelular.value, celularRegex)) {
+    alert('Ejemplo: 0412-555-55-55');
+    inputCelular.value = '';
+  }
+});
+
+inputLocal.addEventListener('change', e => {
+  e.preventDefault();
+  const telefonoRegex = /^[0-9]{4}[-][0-9]{3}[-][0-9]{2}[-][0-9]{2}$/g;
+  validarInput(inputLocal.value, telefonoRegex) ? '' : (inputLocal.value = '');
+  if (!validarInput(inputLocal.value, telefonoRegex)) {
+    alert('Ejemplo: 0212-555-55-55');
+    inputCelular.value = '';
+  }
+});
+
+inputCedula.addEventListener('change', e => {
+  e.preventDefault();
+  const cedulaRegex = /^[V|E|J|P][-][0-9]{5,9}$/;
+  if (!validarInput(inputCedula.value, cedulaRegex)) {
+    alert('Ejemplo: V-999999999');
+    inputCedula.value = '';
+  }
 });
 
 localStorage.clear();
@@ -177,7 +268,7 @@ window.addEventListener('DOMContentLoaded', () => {
       antecedenteFam == 'Tuberculosis'
         ? document.getElementById('checktuberculosis').setAttribute('checked', 'true')
         : '';
-      antecedenteFam == 'HIV' ? document.getElementById('checkhiv').setAttribute('checked', 'true') : '';
+      antecedenteFam == 'H.I.V.' ? document.getElementById('checkhiv').setAttribute('checked', 'true') : '';
       antecedenteFam == 'Diabetes' ? document.getElementById('checkdiabetes').setAttribute('checked', 'true') : '';
       antecedenteFam == 'Cardiovasculares'
         ? document.getElementById('checkcardiovasculares').setAttribute('checked', 'true')
@@ -397,3 +488,7 @@ selectorEvaluacion.addEventListener('change', () => {
 selectorTratamiento.addEventListener('change', () => {
   textboxTratamiento.value += ' - ' + selectorTratamiento.value + '\r\n';
 });
+
+function validarInput(valor, exp) {
+  return valor.match(exp) ? true : false;
+}

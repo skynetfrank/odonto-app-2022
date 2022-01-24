@@ -65,12 +65,12 @@
           <span>Contacto</span>
         </div>
         <div class="input-container">
-          <input type="number" id="edad" value="" class="input" step="1" min="4" max="99" />
+          <input type="number" id="edad" value="" class="input" step="1" min="2" max="99" />
           <label for="">Edad (años)</label>
           <span>Edad (años)</span>
         </div>
         <div class="input-container">
-          <input type="number" id="estatura" value="" class="input" step="0.01" min="0.50" max="2.5" />
+          <input type="number" id="estatura" value="" class="input" step="0.01" min="0.50" max="2.20" />
           <label for="">Estatura (Mts)</label>
           <span>Estatura (Mts)</span>
         </div>
@@ -274,16 +274,15 @@
             <option value="" disabled selected>Conceptos:</option>
             <option value="Concepto de evaluacion y Diagnostico de Paciente #1">Concepto de evaluacion y Diagnostico de
               Paciente #1</option>
-            <option value="eval-concept2">Concepto de evaluacion y Diagnostico de Paciente #2</option>
-            <option value="eval-concept3">Concepto de evaluacion y Diagnostico de Paciente #3</option>
-            <option value="eval-concept4">Concepto de evaluacion y Diagnostico de Paciente #4</option>
-            <option value="eval-concept5">Concepto de evaluacion y Diagnostico de Paciente #5</option>
-            <option value="eval-concept6">Concepto de evaluacion y Diagnostico de Paciente #6</option>
-            <option value="eval-concept7">Concepto de evaluacion y Diagnostico de Paciente #7</option>
-            <option value="eval-concept8">Concepto de evaluacion y Diagnostico de Paciente #8</option>
-            <option value="Concepto de evaluacion y Diagnostico de Paciente #9">Concepto de evaluacion y Diagnostico de
-              Paciente #9</option>
-            <option value="eval-concept10">Concepto de evaluacion y Diagnostico de Paciente #10</option>
+            <option value="evaluacion-concepto2">Concepto de evaluacion y Diagnostico de Paciente #2</option>
+            <option value="evaluacion-concepto3">Concepto de evaluacion y Diagnostico de Paciente #3</option>
+            <option value="evaluacion-concepto4">Concepto de evaluacion y Diagnostico de Paciente #4</option>
+            <option value="evaluacion-concepto5">Concepto de evaluacion y Diagnostico de Paciente #5</option>
+            <option value="evaluacion-concepto6">Concepto de evaluacion y Diagnostico de Paciente #6</option>
+            <option value="evaluacion-concepto7">Concepto de evaluacion y Diagnostico de Paciente #7</option>
+            <option value="evaluacion-concepto8">Concepto de evaluacion y Diagnostico de Paciente #8</option>
+            <option value="evaluacion-concepto9">Concepto de evaluacion y Diagnostico de Paciente #9</option>
+            <option value="evaluacion-concepto10">Concepto de evaluacion y Diagnostico de Paciente #10</option>
           </select>
         </div>
         <h6>Tratamientos Aplicados</h6>
@@ -291,16 +290,16 @@
           <textarea rows="6" id="tratamientoaplicado" name="tratamientoaplicado"></textarea>
           <select id="selector-tratamiento" class="selector-conceptos">
             <option value="" disabled selected>Conceptos:</option>
-            <option value="eval-concept1">Concepto de tratamiento aplicado a Paciente #1</option>
-            <option value="eval-concept2">Concepto de tratamiento aplicado a Paciente #2</option>
-            <option value="eval-concept3">Concepto de tratamiento aplicado a Paciente #3</option>
-            <option value="eval-concept4">Concepto de tratamiento aplicado a Paciente #4</option>
-            <option value="eval-concept5">Concepto de tratamiento aplicado a Paciente #5</option>
-            <option value="eval-concept6">Concepto de tratamiento aplicado a Paciente #6</option>
-            <option value="eval-concept7">Concepto de tratamiento aplicado a Paciente #7</option>
-            <option value="eval-concept8">Concepto de tratamiento aplicado a Paciente #8</option>
-            <option value="eval-concept9">Concepto de tratamiento aplicado a Paciente #9</option>
-            <option value="eval-concept10">Concepto de tratamiento aplicado a Paciente #10</option>
+            <option value="Tratamiento-concepto1">Concepto de tratamiento aplicado a Paciente #1</option>
+            <option value="Tratamiento-concepto2">Concepto de tratamiento aplicado a Paciente #2</option>
+            <option value="Tratamiento-concepto3">Concepto de tratamiento aplicado a Paciente #3</option>
+            <option value="Tratamiento-concepto4">Concepto de tratamiento aplicado a Paciente #4</option>
+            <option value="Tratamiento-concepto5">Concepto de tratamiento aplicado a Paciente #5</option>
+            <option value="Tratamiento-concepto6">Concepto de tratamiento aplicado a Paciente #6</option>
+            <option value="Tratamiento-concepto7">Concepto de tratamiento aplicado a Paciente #7</option>
+            <option value="Tratamiento-concepto8">Concepto de tratamiento aplicado a Paciente #8</option>
+            <option value="Tratamiento-concepto9">Concepto de tratamiento aplicado a Paciente #9</option>
+            <option value="Tratamiento-concepto10">Concepto de tratamiento aplicado a Paciente #10</option>
           </select>
         </div>
 
@@ -323,17 +322,20 @@
             <option value="Banesco">Banesco Banco Universal</option>
             <option value="Venezuela">Banco de Venezuela</option>
             <option value="Mercantil">Banco Mercantil</option>
+            <option value="Provincial">Banco Provincial</option>
+            <option value="Caribe">Banco del Caribe</option>
             <option value="BNC">BNC Nacional de Credito</option>
             <option value="Tesoro">Banco del Tesoro</option>
+            <option value="Bancamiga">Bancamiga</option>
             <option value="BVC">Banco Vzlno. d/Credito</option>
-            <option value="BOD">BANCO BOD</option>
+            <option value="BOD">Banco BOD</option>
             <option value="Otro">Otro</option>
           </select>
           <select id="tipo-pago">
             <option value="" disabled selected>Tipo</option>
-            <option value="Total-Consulta">Pago Total de Consulta</option>
-            <option value="Abono a Cuenta">Pago Abono a Cuenta</option>
-            <option value="Saldo Pendiente">Pago Saldo Pendiente</option>
+            <option value="Total">Pago Total de Consulta</option>
+            <option value="Abono">Pago Abono a Cuenta</option>
+            <option value="Saldo">Pago Saldo Pendiente</option>
           </select>
 
 

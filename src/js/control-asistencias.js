@@ -98,13 +98,32 @@ function addSlide(datos, id) {
   var opcion4 = document.createElement('option');
   var opcion5 = document.createElement('option');
   var opcion6 = document.createElement('option');
+  var opcion7 = document.createElement('option');
+  var opcion8 = document.createElement('option');
+  var opcion9 = document.createElement('option');
+  var opcion10 = document.createElement('option');
 
-  opcion1.text = 'concepto de evaluacion de paciente #1';
-  opcion2.text = 'concepto de evaluacion de paciente #1';
-  opcion3.text = 'concepto de evaluacion de paciente #1';
-  opcion4.text = 'concepto de evaluacion de paciente #1';
-  opcion5.text = 'concepto de evaluacion de paciente #1';
-  opcion6.text = 'concepto de evaluacion de paciente #1';
+  opcion1.text = 'Concepto de evaluacion y Diagnostico de Paciente #1';
+  opcion2.text = 'Concepto de evaluacion y Diagnostico de Paciente #2';
+  opcion3.text = 'Concepto de evaluacion y Diagnostico de Paciente #3';
+  opcion4.text = 'Concepto de evaluacion y Diagnostico de Paciente #4';
+  opcion5.text = 'Concepto de evaluacion y Diagnostico de Paciente #5';
+  opcion6.text = 'Concepto de evaluacion y Diagnostico de Paciente #6';
+  opcion7.text = 'Concepto de evaluacion y Diagnostico de Paciente #7';
+  opcion8.text = 'Concepto de evaluacion y Diagnostico de Paciente #8';
+  opcion9.text = 'Concepto de evaluacion y Diagnostico de Paciente #9';
+  opcion10.text = 'Concepto de evaluacion y Diagnostico de Paciente #10';
+
+  opcion1.value = 'evaluacion-concepto1';
+  opcion2.value = 'evaluacion-concepto2';
+  opcion3.value = 'evaluacion-concepto3';
+  opcion4.value = 'evaluacion-concepto4';
+  opcion5.value = 'evaluacion-concepto5';
+  opcion6.value = 'evaluacion-concepto6';
+  opcion7.value = 'evaluacion-concepto7';
+  opcion8.value = 'evaluacion-concepto8';
+  opcion9.value = 'evaluacion-concepto9';
+  opcion10.value = 'evaluacion-concepto10';
 
   selectEval.add(opcion1);
   selectEval.add(opcion2);
@@ -112,6 +131,10 @@ function addSlide(datos, id) {
   selectEval.add(opcion4);
   selectEval.add(opcion5);
   selectEval.add(opcion6);
+  selectEval.add(opcion7);
+  selectEval.add(opcion8);
+  selectEval.add(opcion9);
+  selectEval.add(opcion10);
 
   var selectTrat = document.createElement('select');
   selectTrat.classList.add('selector-conceptos');
@@ -124,13 +147,32 @@ function addSlide(datos, id) {
   var opcion14 = document.createElement('option');
   var opcion15 = document.createElement('option');
   var opcion16 = document.createElement('option');
+  var opcion17 = document.createElement('option');
+  var opcion18 = document.createElement('option');
+  var opcion19 = document.createElement('option');
+  var opcion20 = document.createElement('option');
 
-  opcion11.text = 'concepto de tratamiento de paciente #1';
-  opcion12.text = 'concepto de tratamiento de paciente #1';
-  opcion13.text = 'concepto de tratamiento de paciente #1';
-  opcion14.text = 'concepto de tratamiento de paciente #1';
-  opcion15.text = 'concepto de tratamiento de paciente #1';
-  opcion16.text = 'concepto de tratamiento de paciente #1';
+  opcion11.text = 'Concepto de tratamiento aplicado a Paciente #1';
+  opcion12.text = 'Concepto de tratamiento aplicado a Paciente #2';
+  opcion13.text = 'Concepto de tratamiento aplicado a Paciente #3';
+  opcion14.text = 'Concepto de tratamiento aplicado a Paciente #4';
+  opcion15.text = 'Concepto de tratamiento aplicado a Paciente #5';
+  opcion16.text = 'Concepto de tratamiento aplicado a Paciente #6';
+  opcion17.text = 'Concepto de tratamiento aplicado a Paciente #7';
+  opcion18.text = 'Concepto de tratamiento aplicado a Paciente #8';
+  opcion19.text = 'Concepto de tratamiento aplicado a Paciente #9';
+  opcion20.text = 'Concepto de tratamiento aplicado a Paciente #10';
+
+  opcion11.value = 'Tratamiento-concepto1';
+  opcion12.value = 'Tratamiento-concepto2';
+  opcion13.value = 'Tratamiento-concepto3';
+  opcion14.value = 'Tratamiento-concepto4';
+  opcion15.value = 'Tratamiento-concepto5';
+  opcion16.value = 'Tratamiento-concepto6';
+  opcion17.value = 'Tratamiento-concepto7';
+  opcion18.value = 'Tratamiento-concepto8';
+  opcion19.value = 'Tratamiento-concepto9';
+  opcion20.value = 'Tratamiento-concepto10';
 
   selectTrat.add(opcion11);
   selectTrat.add(opcion12);
@@ -138,6 +180,10 @@ function addSlide(datos, id) {
   selectTrat.add(opcion14);
   selectTrat.add(opcion15);
   selectTrat.add(opcion16);
+  selectTrat.add(opcion17);
+  selectTrat.add(opcion18);
+  selectTrat.add(opcion19);
+  selectTrat.add(opcion20);
 
   selectTrat.setAttribute('disabled', 'disabled');
   selectEval.setAttribute('disabled', 'disabled');
@@ -216,16 +262,22 @@ function addSlide(datos, id) {
   var bopcion6 = document.createElement('option');
   var bopcion7 = document.createElement('option');
   var bopcion8 = document.createElement('option');
+  var bopcion9 = document.createElement('option');
+  var bopcion10 = document.createElement('option');
+  var bopcion11 = document.createElement('option');
 
-  bopcion0.text = 'BANCO';
+  bopcion0.text = 'Banco';
   bopcion1.text = 'Banesco Banco Universal';
   bopcion2.text = 'Banco de Venezuela';
   bopcion3.text = 'Banco Mercantil';
-  bopcion4.text = 'Banco del Tesoro';
-  bopcion5.text = 'Banco Vzlno. de Credito';
-  bopcion6.text = 'Banco BOD';
-  bopcion7.text = 'Banco del Caribe';
-  bopcion8.text = 'Otro';
+  bopcion4.text = 'Banco Provincial';
+  bopcion5.text = 'Banco del Caribe';
+  bopcion6.text = 'Banco Nacional de Credito';
+  bopcion7.text = 'Banco del Tesoro';
+  bopcion8.text = 'Bancamiga';
+  bopcion9.text = 'Banco Vzlno. de Credito';
+  bopcion10.text = 'Banco BOD';
+  bopcion11.text = 'Otro';
 
   bopcion0.value = '';
   bopcion0.selected = 'selected';
@@ -233,11 +285,14 @@ function addSlide(datos, id) {
   bopcion1.value = 'Banesco';
   bopcion2.value = 'Venezuela';
   bopcion3.value = 'Mercantil';
-  bopcion4.value = 'Tesoro';
-  bopcion5.value = 'BVC';
-  bopcion6.value = 'BOD';
-  bopcion7.value = 'Caribe';
-  bopcion8.value = 'Otro';
+  bopcion4.value = 'Provincial';
+  bopcion5.value = 'Caribe';
+  bopcion6.value = 'BNC';
+  bopcion7.value = 'Tesoro';
+  bopcion8.value = 'Bancamiga';
+  bopcion9.value = 'BVC';
+  bopcion10.value = 'BOD';
+  bopcion11.value = 'Otro';
 
   selectBanco.add(bopcion0);
   selectBanco.add(bopcion1);
@@ -248,6 +303,9 @@ function addSlide(datos, id) {
   selectBanco.add(bopcion5);
   selectBanco.add(bopcion7);
   selectBanco.add(bopcion8);
+  selectBanco.add(bopcion9);
+  selectBanco.add(bopcion10);
+  selectBanco.add(bopcion11);
 
   selectBanco.value = datos.banco;
 
@@ -262,9 +320,9 @@ function addSlide(datos, id) {
   tpopcion2.text = 'Pago Abono a Cuenta';
   tpopcion3.text = 'Pago Saldo Pendiente';
 
-  tpopcion1.value = 'Total-Consulta';
-  tpopcion2.value = 'Abono a Cuenta';
-  tpopcion3.value = 'Saldo Pendiente';
+  tpopcion1.value = 'Total';
+  tpopcion2.value = 'Abono';
+  tpopcion3.value = 'Saldo';
 
   selectTipoPago.add(tpopcion1);
   selectTipoPago.add(tpopcion2);

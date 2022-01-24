@@ -105,7 +105,11 @@ function createCanvas() {
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   canvasContainer.appendChild(canvas);
-  ctx.drawImage(odograma, 0, 30);
+  if (!isStorage) {
+    ctx.drawImage(odograma, 0, 30);
+  } else {
+    ctx.drawImage(odograma, 0, 0);
+  }
 }
 
 //boton guardar odograma

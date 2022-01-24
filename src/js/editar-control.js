@@ -36,7 +36,7 @@ function dolarToday() {
       inputCambio.dispatchEvent(eventoFocus);
       inputBolivares.dispatchEvent(eventoFocus);
       historia['cambiodia'].value = cambio;
-      historia['montopagadobs'].value = parseFloat(cambio) * parseFloat(dolares);
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     })
     .catch(err => {
       alert('La api de Dolar Today No esta disponible');
@@ -46,6 +46,13 @@ function dolarToday() {
 inputDolares.addEventListener('blur', e => {
   e.preventDefault();
   dolarToday();
+});
+
+inputCambio.addEventListener('blur', () => {
+  const cambio = historia['cambiodia'].value;
+  const dolares = document.getElementById('montopagado').value;
+  inputBolivares.dispatchEvent(eventoFocus);
+  historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
 });
 
 var date = new Date();
