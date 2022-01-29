@@ -532,6 +532,7 @@ button.volver-info {
   height: 40px;
   border-radius: 50%;
   border: 2px solid #0457c3;
+  margin-right: 10px;
 }
 
 .btn-add-paciente > img {
@@ -663,7 +664,7 @@ button.volver-info {
   border-right-color: rgba(0, 0, 0, 0.8);
 }
 
-#info-container {
+.excel-container {
   display: none;
 }
 

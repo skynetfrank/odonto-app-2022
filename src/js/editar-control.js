@@ -13,6 +13,7 @@ const selectorEvaluacion = document.getElementById('selector-evaluacion');
 const selectorTratamiento = document.getElementById('selector-tratamiento');
 const textboxEvaluacion = document.getElementById('evaluaciongeneral');
 const textboxTratamiento = document.getElementById('tratamientoaplicado');
+const inputFormapago = document.getElementById('formadepago');
 
 document.getElementById('paciente').innerText = nombrePaciente + ' ' + apellidoPaciente;
 
@@ -53,6 +54,12 @@ inputCambio.addEventListener('blur', () => {
   const dolares = document.getElementById('montopagado').value;
   inputBolivares.dispatchEvent(eventoFocus);
   historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
+});
+inputFormapago.addEventListener('change', e => {
+  e.preventDefault();
+  if ((document.getElementById('formadepago').value = 'efectivo')) {
+    document.getElementById('referenciapago').value = 'cash$';
+  }
 });
 
 var date = new Date();

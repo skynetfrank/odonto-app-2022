@@ -58,6 +58,23 @@ module.exports = {
   devServer: {
     port: 3001,
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'node_vendors',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+        },
+        common: {
+          name: 'common_code',
+          test: /[\\/]src[\\/]commons[\\/]/,
+          chunks: 'all',
+          minSize: 0,
+        },
+      },
+    },
+  },
   plugins: [
     new CopyPlugin({
       patterns: [{ from: 'push', to: 'push' }],

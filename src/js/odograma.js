@@ -1,7 +1,7 @@
 import historias from '../css/odograma.css';
 import { cloudstorage } from '../js/firebaseconfig';
 import { ref, getDownloadURL, uploadString } from 'firebase/storage';
-import { dateToAMD, strToDMA } from '../js/utilities';
+import { dateToAMD, strToDMA } from '../commons/utilities';
 
 const idPacienteLocal = JSON.parse(localStorage.getItem('pacienteActual'));
 const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));

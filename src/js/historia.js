@@ -19,6 +19,7 @@ const inputEstatura = document.getElementById('estatura');
 const inputCelular = document.getElementById('celular');
 const inputLocal = document.getElementById('tlflocal');
 const inputCedula = document.getElementById('cedula');
+const inputFormapago = document.getElementById('formadepago');
 
 //trigger focus event on element
 const eventoFocus = new FocusEvent('focus', {
@@ -39,7 +40,9 @@ function dolarToday() {
       historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     })
     .catch(err => {
-      alert('Dolar-Today No esta disponible');
+      alert('Dolar-Today No esta disponible, ingrese el cambio de forma manual');
+      historia['cambiodia'].value = 0;
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     });
 }
 
@@ -152,6 +155,15 @@ function autoCapital(cadena) {
   return cadena.charAt(0).toUpperCase() + cadena.slice(1);
 }
 
+inputFormapago.addEventListener('change', e => {
+  e.preventDefault();
+  document.getElementById('referenciapago').dispatchEvent(eventoFocus);
+  if (inputFormapago.value == 'Efectivo') {
+    document.getElementById('referenciapago').value = 'cash$';
+  } else {
+    document.getElementById('referenciapago').value = '';
+  }
+});
 historia.addEventListener('submit', async e => {
   e.preventDefault();
   const nombre = autoCapital(historia['nombre'].value);

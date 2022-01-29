@@ -13,6 +13,7 @@ const selectorEvaluacion = document.getElementById('selector-evaluacion');
 const selectorTratamiento = document.getElementById('selector-tratamiento');
 const textboxEvaluacion = document.getElementById('evaluaciongeneral');
 const textboxTratamiento = document.getElementById('tratamientoaplicado');
+const inputFormapago = document.getElementById('formadepago');
 
 //trigger focus event on element
 
@@ -48,10 +49,10 @@ inputDolares.addEventListener('blur', e => {
 });
 
 inputCambio.addEventListener('blur', () => {
-   const cambio = historia['cambiodia'].value;
-   const dolares = document.getElementById('montopagado').value;
-   inputBolivares.dispatchEvent(eventoFocus);
-   historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
+  const cambio = historia['cambiodia'].value;
+  const dolares = document.getElementById('montopagado').value;
+  inputBolivares.dispatchEvent(eventoFocus);
+  historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
 });
 //localStorage.clear();
 var date = new Date();
@@ -65,6 +66,12 @@ document.querySelector('.fechacontrolasistencia').value =
 function autoCapital(cadena) {
   return cadena.charAt(0).toUpperCase() + cadena.slice(1);
 }
+inputFormapago.addEventListener('change', e => {
+  e.preventDefault();
+  if ((document.getElementById('formadepago').value = 'efectivo')) {
+    document.getElementById('referenciapago').value = 'cash$';
+  }
+});
 
 historia.addEventListener('submit', async e => {
   e.preventDefault();
@@ -99,22 +106,15 @@ historia.addEventListener('submit', async e => {
 
   addDoc(collection(db, 'controlasistencias'), controlAsistencia)
     .then(result => {
-      console.log('SE HA AGREGADO UN NUEVO CONTROL DE ASISTENCIAS');
+      historia.reset();
+      alert('Nuevo Control de Asistencias Agregado con exito');
+      window.history.back();
     })
     .catch(err => {
       console.log('Hubo un error al agregar control de asistencias', err.message);
     });
-
-  alert('Paciente Agregado con exito!');
-  historia.reset();
-  window.history.back();
 }); //end of formulario submit
-/* 
-btnCerrar.addEventListener('click', () => {
-  window.history.back();
-});
- */
-//codigo para los custom inputs de la seccion contacto
+
 inputs.forEach(input => {
   input.addEventListener('focus', focusFunc);
   input.addEventListener('blur', blurFunc);

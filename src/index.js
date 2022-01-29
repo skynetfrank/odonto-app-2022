@@ -12,7 +12,8 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
-import { dateToAMD, strToDMA } from './js/utilities';
+import TableToExcel from '@linways/table-to-excel';
+import { dateToAMD, strToDMA } from './commons/utilities';
 
 import './css/index.css';
 
@@ -44,7 +45,150 @@ const cardPacientes = document.getElementById('total-pacientes');
 const cardCitas = document.getElementById('total-citas');
 const mySpinner = document.querySelector('.myspinner-container');
 const allSections = document.querySelectorAll('section');
+const btnExcel = document.getElementById('btn-excel');
+const consulta = query(collection(db, 'pacientes'), orderBy('nombre', 'asc'));
 var usuariosWeb = [];
+
+const populateTabla = () => {
+  const pacientesData = onSnapshot(consulta, snapshot => {
+    let pacientesTbody = document.getElementById('pacientes-tbody');
+    let dashboardTbody = document.getElementById('dash-pacientes-tbody');
+    let excelTbody = document.getElementById('excel-body');
+    pacientesTbody.innerHTML = '';
+    dashboardTbody.innerHTML = '';
+    excelTbody.innerHTML = '';
+    cardPacientes.innerHTML = snapshot.docs.length;
+
+    snapshot.forEach(doc => {
+      let data = doc.data();
+      // **************************TABLA SECTION PACIENTES **************************************
+      let prow = `<tr> 
+                        <td id="td-titulo">Paciente</td>   
+                        <td id="td-id-hidden">${doc.id}</td>                          
+                        <td data-label="Nombre">${data.nombre}</td>
+                        <td data-label="Apellido">${data.apellido}</td>
+                        <td data-label="Edad">${data.edad}</td>
+                        <td data-label="Telefono">${data.celular}</td>
+                        <td data-label="" class="ver-paciente">  
+                           <button class="td-btn t-tip top" id="btn-info-paciente" tip="Ver Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
+                             <span class="img-btn"><img src="images/6723388c86c0ed2b02e0.png" alt="control"</span>
+                           </button> 
+                           <button  class="td-btn t-tip top" id="btn-ver-paciente" tip="Editar Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
+                             <span class="img-btn"><img src="images/26790e10b578c609f86f.png" alt="control"</span>
+                           </button>        
+                           <button class="td-btn t-tip top" id="btn-control-paciente" tip="Control de Asistencia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
+                             <span class="img-btn"><img src="images/051ef99d37ac35349b05.png" alt="control"</span>
+                           </button>                       
+                           <button  class="td-btn t-tip top" id="btn-odograma" tip="Ver/Editar Odograma" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
+                             <span class="img-btn"><img src="images/34042cb0b9d6eb31f644.png" alt="odograma"</span>
+                           </button>                            
+                           <button  class="td-btn t-tip left" id="btn-eliminar-paciente" tip="Eliminar este Paciente" data-id=${doc.id}>
+                              <span class="img-btn"><img src="images/d17db51e63836a5fa5aa.png" alt="control"</span>
+                           </button>
+                        </td>
+                     </tr>`;
+
+      pacientesTbody.innerHTML += prow;
+      //seleccionar todos los botones de la tabla
+      const btnVerPaciente = document.querySelectorAll('.td-btn');
+      //loop de botones de la tabla
+      btnVerPaciente.forEach(boton => {
+        boton.addEventListener('click', e => {
+          let pacienteSeleccionado = e.target.dataset.id;
+          localStorage.setItem('pacienteActual', JSON.stringify(pacienteSeleccionado));
+          localStorage.setItem('nombrePaciente', JSON.stringify(e.target.dataset.nom));
+          localStorage.setItem('apellidoPaciente', JSON.stringify(e.target.dataset.ape));
+
+          if (e.target.id == 'btn-info-paciente') {
+            verInfoPaciente(pacienteSeleccionado);
+          }
+
+          if (e.target.id == 'btn-ver-paciente') {
+            window.open('editar-historia.html', '_self');
+          }
+          if (e.target.id == 'btn-control-paciente') {
+            window.open('control-asistencias.html', '_self');
+          }
+          if (e.target.id == 'btn-odograma') {
+            window.open('odograma.html', '_self');
+          }
+          if (e.target.id == 'btn-eliminar-paciente') {
+            deletePaciente(pacienteSeleccionado);
+          }
+        });
+      }); //fin del  forEach para loop de todos los botones de la table
+      // **********************>>>>> FIN DE CODIGO TABLA SECTION PACIENTES <<<<<<<<<****************
+
+      // **************************TABLA SECTION DASBOARD **************************************
+      let drow = `<tr> 
+                        <td class="td-id-hidden">${doc.id}</td> 
+                        <td><img src='../images/0f10931cfc0a3ee46188.png'/></td>
+                        <td>${data.nombre}</td>
+                        <td>${data.apellido}</td>
+                        <td>${data.edad}</td>
+                        <td>${data.celular}</td>
+                        <td>${data.tlflocal}</td>                       
+                     </tr>`;
+      dashboardTbody.innerHTML += drow;
+      // >>>>>>>>>>>>>>>>>>>>>> FIN DE CODIGO TABLA SECTION DASHBOARD <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+      // **************************TABLA DESCARGA A EXCEL **************************************
+      let myAlergias = [];
+      let myPersonales = [];
+      let myFamiliares = [];
+      data.alergias.forEach(el1 => {
+        el1 === '' ? '' : myAlergias.push(el1);
+      });
+
+      data.antecedentesPersonales.forEach(el2 => {
+        el2 === '' ? '' : myPersonales.push(el2);
+      });
+
+      data.antecedentesFamiliares.forEach(el3 => {
+        el3 === '' ? '' : myFamiliares.push(el3);
+      });
+
+      let excelrow = `<tr> 
+                        <td class="td-id-hidden">${doc.id}</td> 
+                        <td data-a-v="middle">${data.nombre}</td>
+                        <td data-a-v="middle">${data.apellido}</td>
+                        <td data-a-v="middle" data-a-h="center">${data.edad}</td>
+                        <td data-a-v="middle">${data.celular}</td>
+                        <td data-a-v="middle">${data.tlflocal}</td>
+                        <td data-a-v="middle">${data.fnacimiento}</td>
+                        <td data-a-v="middle">${data.email}</td>
+                        <td data-a-v="middle" data-a-h="center">${data.genero}</td>
+                        <td data-a-v="middle" data-a-h="center">${data.edocivil}</td>
+                        <td data-a-v="middle">${data.direccion1}</td>
+                        <td data-a-v="middle">${data.contacto}</td>
+                        <td data-a-v="middle" data-a-h="center">${data.estatura}</td>
+                        <td data-a-v="middle" data-a-h="center">${data.peso}</td>
+                        <td data-a-v="middle">${data.tratadopormedico == 'true' ? 'SI' : 'NO'}</td>
+                        <td data-a-v="middle">${data.tratadoporenfermedad}</td>
+                        <td data-a-v="middle">${data.checktomamedicamento == 'true' ? 'SI' : 'NO'}</td>
+                        <td data-a-v="middle">${data.cualesmedicamentos}</td>
+                        <td data-a-v="middle">${data.dosismeds}</td>
+                        <td data-a-v="middle" data-a-wrap="true">${myAlergias}</td>
+                        <td data-a-v="middle">${data.textalergicootros}</td>
+                        <td data-a-v="middle" data-a-wrap="true">${myPersonales}</td>
+                        <td data-a-v="middle">${data.texthabitos}</td>
+                        <td data-a-wrap="true">${myFamiliares}</td>
+                        <td data-a-v="middle">${data.otraenfermedad}</td>
+                        <td data-a-v="middle">${data.motivoprincipalconsulta}</td>
+                        <td data-a-v="middle">${data.fechaultimaconsulta}</td>
+                        <td data-a-v="middle">${data.motivoultimaconsulta}</td>
+                        <td data-a-v="middle">${data.checkcomplicaciones == 'true' ? 'SI' : 'NO'}</td>
+                        <td data-a-v="middle">${data.cualescomplicaciones}</td>
+                     </tr>`;
+
+      excelTbody.innerHTML += excelrow;
+      myAlergias = [];
+      myFamiliares = [];
+      myPersonales = [];
+      // >>>>>>>>>>>>>>>>>>>>>> FIN DE CODIGO TABLA DESCARGA A EXCEL <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    }); //fin de snapshot iterable
+  }); //fin de pacientesData
+}; //fin de populateTabla()
 
 onAuthStateChanged(auth, user => {
   if (user) {
@@ -93,7 +237,6 @@ formSesion.addEventListener('submit', e => {
       formSesion.reset();
     })
     .catch(err => {
-      console.log('code:', err.code, 'message:', err.message);
       if (err.code == 'auth/network-request-failed') {
         alert('No esta conectado a Internet...conectese');
       }
@@ -148,9 +291,8 @@ menuLinks[1].addEventListener('click', () => {
 menuLinks[2].addEventListener('click', () => {
   menuActivo(menuLinks[2]);
   seccionActiva(seccionDashboard);
+  populateAgenda();
   getDatos();
-  getAgenda();
-  populateTablaDash();
 });
 
 logout.addEventListener('click', () => {
@@ -163,104 +305,8 @@ logout.addEventListener('click', () => {
     });
 });
 
-const populateTabla = () => {
-  const consulta = query(collection(db, 'pacientes'), orderBy('nombre', 'asc'));
-  const allData = onSnapshot(consulta, snapshot => {
-    //aqui se itera sobre el cursor resultado (snapshot)
-    let table = document.getElementById('pacientes-tbody');
-    table.innerHTML = '';
-
-    snapshot.forEach(doc => {
-      let data = doc.data();
-      let row = `<tr> 
-                        <td id="td-titulo">Paciente</td>   
-                        <td id="td-id-hidden">${doc.id}</td>                          
-                        <td data-label="Nombre">${data.nombre}</td>
-                        <td data-label="Apellido">${data.apellido}</td>
-                        <td data-label="Edad">${data.edad}</td>
-                        <td data-label="Telefono">${data.celular}</td>
-                        <td data-label="" class="ver-paciente">  
-                           <button class="td-btn t-tip top" id="btn-info-paciente" tip="Ver Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                             <span class="img-btn"><img src="images/6723388c86c0ed2b02e0.png" alt="control"</span>
-                           </button> 
-                           <button  class="td-btn t-tip top" id="btn-ver-paciente" tip="Editar Historia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                             <span class="img-btn"><img src="images/26790e10b578c609f86f.png" alt="control"</span>
-                           </button>        
-                           <button class="td-btn t-tip top" id="btn-control-paciente" tip="Control de Asistencia" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                             <span class="img-btn"><img src="images/051ef99d37ac35349b05.png" alt="control"</span>
-                           </button>                       
-                           <button  class="td-btn t-tip top" id="btn-odograma" tip="Ver/Editar Odograma" data-id=${doc.id}  data-nom=${data.nombre} data-ape=${data.apellido}>
-                             <span class="img-btn"><img src="images/34042cb0b9d6eb31f644.png" alt="odograma"</span>
-                           </button>                            
-                           <button  class="td-btn t-tip left" id="btn-eliminar-paciente" tip="Eliminar este Paciente" data-id=${doc.id}>
-                              <span class="img-btn"><img src="images/d17db51e63836a5fa5aa.png" alt="control"</span>
-                           </button>
-                        </td>
-                     </tr>`;
-      //filtrar datos en base al buscador
-      table.innerHTML += row;
-      //seleccionar todos los botones de la tabla
-      const btnVerPaciente = document.querySelectorAll('.td-btn');
-      //loop de botones de la tabla
-      btnVerPaciente.forEach(boton => {
-        boton.addEventListener('click', e => {
-          let pacienteSeleccionado = e.target.dataset.id;
-          localStorage.setItem('pacienteActual', JSON.stringify(pacienteSeleccionado));
-          localStorage.setItem('nombrePaciente', JSON.stringify(e.target.dataset.nom));
-          localStorage.setItem('apellidoPaciente', JSON.stringify(e.target.dataset.ape));
-
-          if (e.target.id == 'btn-info-paciente') {
-            verInfoPaciente(pacienteSeleccionado);
-          }
-
-          if (e.target.id == 'btn-ver-paciente') {
-            window.open('editar-historia.html', '_self');
-          }
-          if (e.target.id == 'btn-control-paciente') {
-            window.open('control-asistencias.html', '_self');
-          }
-          if (e.target.id == 'btn-odograma') {
-            window.open('odograma.html', '_self');
-          }
-          if (e.target.id == 'btn-eliminar-paciente') {
-            deletePaciente(pacienteSeleccionado);
-          }
-        });
-      }); //fin del  forEach para loop de todos los botones de la table
-    });
-  });
-}; //FIN DE POPULATE TABLA
-
-function deletePaciente(id) {
-  const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
-  if (eliminar) {
-    const docRef = doc(db, 'pacientes', id);
-    deleteDoc(docRef)
-      .then(result => {
-        alert('Registro Eliminado');
-      })
-      .catch(error => {
-        alert('Error: ', error.message);
-      });
-  }
-}
-
-buscador.addEventListener('change', e => {
-  const textoBusqueda = e.target.value.toLowerCase();
-  const tableRows = document.querySelectorAll('#tabla-paciente > tbody > tr');
-  const searchableCells = Array.from(tableRows).map(row => row.querySelectorAll('td'));
-  for (const tableCell of searchableCells) {
-    const row = tableCell[1].closest('tr');
-    const columnaNombre = tableCell[1].textContent.toLowerCase().replace(',', '');
-    const columnaApellido = tableCell[2].textContent.toLowerCase().replace(',', '');
-    //row.style.display = 'block';
-    if (columnaNombre.search(textoBusqueda) === -1) {
-      // row.style.visibility = 'collapse';
-      if (columnaApellido.search(textoBusqueda) === -1) {
-        row.style.display = 'none';
-      }
-    }
-  }
+buscador.addEventListener('input', e => {
+  tableSearcher('tabla-paciente', e.target.value.toLowerCase());
 });
 
 function verInfoPaciente(id) {
@@ -323,8 +369,10 @@ btnCerrarInfo.addEventListener('click', () => {
 function populateAgenda() {
   let timeLista = document.getElementById('ul-timeline');
   let fecha = dateToAMD(new Date());
+  let divCitasPendientes = document.querySelector('.dash-card.customer');
   const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
   const allCitas = onSnapshot(consultaAgenda, snapshot => {
+    divCitasPendientes.innerHTML = '<h1>AGENDA</h1> <h2>Citas Pendientes</h2>';
     timeLista.innerHTML = '';
     snapshot.forEach(doc => {
       let data = doc.data();
@@ -360,6 +408,20 @@ function populateAgenda() {
           deleteCita(idCita);
         });
       });
+      // ************************* CODIGO DE LA AGENDA PENDIENTE DEL DASHBOARD ********************
+
+      let divCita = `
+           <div class="dash-customer-wrapper">
+              <img class="dash-customer-image" src="images/5ded0f468f52742d8b92.png" alt="clock">
+              <div class="dash-customer-name">
+              <h4>${found.nombre} ${found.apellido}</h4>
+              <p>Dia: ${strToDMA(data.fecha)}</p>
+              <p>Hora: ${data.hora}</p>                    
+           </div>
+        </div>          
+          `;
+      divCitasPendientes.innerHTML += divCita;
+      // ************************* FIN DEL CODIGO DE LA AGENDA PENDIENTE DEL DASHBOARD ***************
     }); //fin del  forEach para el snapshot
     setInViewClass();
   });
@@ -443,22 +505,6 @@ function hideNav() {
   navOverlay.classList.remove('open');
 }
 
-function deleteCita(id) {
-  const eliminar = confirm('Esta Seguro que desea eliminar esta Cita?');
-  if (eliminar) {
-    const docRef = doc(db, 'citas', id);
-    deleteDoc(docRef)
-      .then(result => {
-        horario();
-        alert('Cita Eliminada OK!');
-        window.scroll(0, 10);
-      })
-      .catch(error => {
-        alert('Error: ', error.message);
-      });
-  }
-} //FIN DE DELETE CITA
-
 function getUsuarios() {
   onSnapshot(collection(db, 'users'), snapshot => {
     snapshot.forEach(usuario => {
@@ -501,36 +547,7 @@ function setInViewClass() {
 
 //DASHBOARD CODE ****************************
 
-function populateTablaDash() {
-  const consulta = query(collection(db, 'pacientes'), orderBy('nombre', 'asc'));
-
-  const allData = onSnapshot(consulta, snapshot => {
-    let table = document.getElementById('dash-pacientes-tbody');
-    table.innerHTML = '';
-    cardPacientes.innerHTML = snapshot.docs.length;
-    snapshot.forEach(doc => {
-      let data = doc.data();
-      let row = `<tr> 
-                        <td class="td-id-hidden">${doc.id}</td> 
-                        <td><img src='../images/0f10931cfc0a3ee46188.png'/></td>
-                        <td>${data.nombre}</td>
-                        <td>${data.apellido}</td>
-                        <td>${data.edad}</td>
-                        <td>${data.celular}</td>
-                        <td>${data.tlflocal}</td>                       
-                     </tr>`;
-      table.innerHTML += row;
-    });
-  });
-}
-
 function getDatos() {
-  onSnapshot(collection(db, 'pacientes'), snapshot => {
-    snapshot.forEach(doc => {
-      cardPacientes.innerHTML = snapshot.docs.length;
-    });
-  });
-
   onSnapshot(collection(db, 'citas'), snapshot => {
     snapshot.forEach(doc => {
       cardCitas.innerHTML = snapshot.docs.length;
@@ -548,32 +565,6 @@ function getDatos() {
   });
 }
 
-function getAgenda() {
-  let fecha = dateToAMD(new Date());
-  const consultaAgenda = query(collection(db, 'citas'), where('fecha', '>=', fecha), orderBy('fecha', 'asc'));
-  let divCitasPendientes = document.querySelector('.dash-card.customer');
-
-  onSnapshot(consultaAgenda, querySnapshot => {
-    divCitasPendientes.innerHTML = '<h1>AGENDA</h1> <h2>Citas Pendientes</h2>';
-    querySnapshot.forEach(doc => {
-      let data = doc.data();
-      let found = usuariosWeb.find(p => p.id === data.paciente);
-
-      let divCita = `
-           <div class="dash-customer-wrapper">
-              <img class="dash-customer-image" src="images/5ded0f468f52742d8b92.png" alt="clock">
-              <div class="dash-customer-name">
-              <h4>${found.nombre} ${found.apellido}</h4>
-              <p>Dia: ${strToDMA(data.fecha)}</p>
-              <p>Hora: ${data.hora}</p>                    
-           </div>
-        </div>          
-          `;
-      divCitasPendientes.innerHTML += divCita;
-    });
-  });
-} //fin de getAgenda
-
 function menuActivo(menulink) {
   Array.from(menuLinks).forEach(el => {
     el.style.color = 'white';
@@ -588,4 +579,60 @@ function seccionActiva(seccion) {
     el.style.display = 'none';
   });
   seccion.style.display = 'block';
+}
+
+btnExcel.addEventListener('click', () => {
+  TableToExcel.convert(document.getElementById('tabla-excel'), {
+    name: 'pacientes.xlsx',
+    sheet: {
+      name: 'data',
+    },
+  });
+});
+
+function tableSearcher(tablename, keyword) {
+  const targetRows = document.querySelectorAll('#' + tablename + ' > tbody > tr');
+  if (targetRows.length == 0) {
+    return;
+  }
+  for (const tableCell of targetRows) {
+    const row = tableCell;
+    const value = tableCell.textContent.toLowerCase();
+    if (value.search(keyword) === -1) {
+      row.style.visibility = 'collapse';
+    }
+    if (keyword === '' || keyword === ' ') {
+      row.style.visibility = 'visible';
+    }
+  }
+}
+
+function deleteCita(id) {
+  const eliminar = confirm('Esta Seguro que desea eliminar esta Cita?');
+  if (eliminar) {
+    const docRef = doc(db, 'citas', id);
+    deleteDoc(docRef)
+      .then(result => {
+        horario();
+        alert('Cita Eliminada OK!');
+        window.scroll(0, 10);
+      })
+      .catch(error => {
+        alert('Error: ', error.message);
+      });
+  }
+} //FIN DE DELETE CITA
+
+function deletePaciente(id) {
+  const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
+  if (eliminar) {
+    const docRef = doc(db, 'pacientes', id);
+    deleteDoc(docRef)
+      .then(result => {
+        alert('Registro Eliminado');
+      })
+      .catch(error => {
+        alert('Error: ', error.message);
+      });
+  }
 }

@@ -62,6 +62,7 @@
       </div>
     </div>
   </section>
+
   <section id="seccion__pacientes">
     <div class="tabla-container">
       <div id="buscador">
@@ -71,6 +72,9 @@
         </div>
         <a class="btn-add-paciente t-tip right" tip="Agregar Paciente" href="historia.html">
           <img class="img-add-paciente" src="images/add-paciente-icon.png" alt=""></a>
+        <button class="btn-add-paciente t-tip right" id="btn-excel" tip="Descarga Tabla Excel">
+          <span class="img-btn"><img src="images/excel-icon.png" alt="excel"> </span>
+        </button>
       </div>
       <table class="table highlight" id="tabla-paciente">
         <thead>
@@ -148,6 +152,8 @@
       </div>
     </div>
     <!-- nav end -->
+
+
 
   </section>
   <section id="seccion__dashboard">
@@ -235,6 +241,103 @@
 
 
   </section>
+  <div class="excel-container">
+    <!-- table pacientes para descarga a excel aqui-->
+    <table id="tabla-excel" class="striped highlight" data-cols-width="0,15,15,5,15,15,
+          10,25,10,10,25,25,10,5,15,25,15,25,25,30,25,30,25,25,25,25,25,25,15,25">
+      <thead>
+        <tr>
+          <th id="th-id-hidden">id</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Nombre</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Apellido</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Edad</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Celular</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Telefono</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Fecha Nac.</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Email</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Genero</th>
+          <th data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid" data-b-a-c="ffffff">
+            Edo. civil</th>
+          <th data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid" data-b-a-c="ffffff">
+            Direccion</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Contacto</th>
+          <th data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid" data-b-a-c="ffffff">
+            Estatura</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Peso</th>
+          <th data-f-bold="true" data-a-wrap="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center"
+            data-b-a-s="solid" data-b-a-c="ffffff">
+            Tratado por Medico?</th>
+          <th data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid" data-b-a-c="ffffff">
+            Para que Enfermedad?</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Toma Medicamentos</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Cuales Medicamentos?</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            En que Dosis?</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Alergico a?</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Otras Alergias</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Antecedentes Personales</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Habitos</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Antecedentes Familiares</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Otra enfermedad?</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Motivo Esta Consulta</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Fecha Ultima consulta</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Motivo Ultima Consulta</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Complicaciones</th>
+          <th data-f-bold="true" data-fill-color="0457c3" data-f-color="ffffff" data-a-h="center" data-b-a-s="solid"
+            data-b-a-c="ffffff">
+            Cuales Complicaciones?</th>
+        </tr>
+      </thead>
+      <tbody id="excel-body">
+      </tbody>
+    </table>
+    <!-- fin de table pacientes aqui-->
+  </div>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
