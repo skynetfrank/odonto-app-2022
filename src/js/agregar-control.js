@@ -39,6 +39,8 @@ function dolarToday() {
     })
     .catch(err => {
       alert('La api de Dolar Today No esta disponible');
+      historia['cambiodia'].value = 0;
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
       console.log('error dolar today:', err.message);
     });
 }
@@ -68,8 +70,11 @@ function autoCapital(cadena) {
 }
 inputFormapago.addEventListener('change', e => {
   e.preventDefault();
-  if ((document.getElementById('formadepago').value = 'efectivo')) {
+  document.getElementById('referenciapago').dispatchEvent(eventoFocus);
+  if (inputFormapago.value == 'Efectivo') {
     document.getElementById('referenciapago').value = 'cash$';
+  } else {
+    document.getElementById('referenciapago').value = '';
   }
 });
 

@@ -1,10 +1,9 @@
 import { db } from '../js/firebaseconfig';
-import { collection, doc, query, where, updateDoc, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 const idControlLocal = JSON.parse(localStorage.getItem('controltoupdate'));
 const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
 const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
 const historia = document.getElementById('historia-form');
-const inputs = document.querySelectorAll('.input');
 const btnCerrar = document.querySelector('.volver');
 const inputDolares = document.getElementById('montopagado');
 const inputCambio = document.getElementById('cambiodia');
@@ -16,11 +15,6 @@ const textboxTratamiento = document.getElementById('tratamientoaplicado');
 const inputFormapago = document.getElementById('formadepago');
 
 document.getElementById('paciente').innerText = nombrePaciente + ' ' + apellidoPaciente;
-
-function formatearFecha(nfecha) {
-  var info = nfecha.split('-').reverse().join('/');
-  return info;
-}
 
 const eventoFocus = new FocusEvent('focus', {
   view: window,
@@ -41,6 +35,8 @@ function dolarToday() {
     })
     .catch(err => {
       alert('La api de Dolar Today No esta disponible');
+      historia['cambiodia'].value = 0;
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     });
 }
 
@@ -57,8 +53,11 @@ inputCambio.addEventListener('blur', () => {
 });
 inputFormapago.addEventListener('change', e => {
   e.preventDefault();
-  if ((document.getElementById('formadepago').value = 'efectivo')) {
+  document.getElementById('referenciapago').dispatchEvent(eventoFocus);
+  if (inputFormapago.value == 'Efectivo') {
     document.getElementById('referenciapago').value = 'cash$';
+  } else {
+    document.getElementById('referenciapago').value = '';
   }
 });
 

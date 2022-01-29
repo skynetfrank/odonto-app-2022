@@ -4,7 +4,6 @@ import { collection, doc, query, where, updateDoc, getDoc, getDocs, serverTimest
 const idPacienteLocal = JSON.parse(localStorage.getItem('pacienteActual'));
 const historia = document.getElementById('historia-form');
 const inputs = document.querySelectorAll('.input');
-const collectionRef = collection(db, 'pacientes');
 const btnCerrar = document.querySelector('.volver');
 const inputDolares = document.getElementById('montopagado');
 const inputCambio = document.getElementById('cambiodia');

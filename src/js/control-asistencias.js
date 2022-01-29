@@ -7,7 +7,6 @@ const nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
 const apellidoPaciente = JSON.parse(localStorage.getItem('apellidoPaciente'));
 var slides;
 var btns;
-var inputs;
 var navigation = document.querySelector('.navigation');
 const controlesRef = collection(db, 'controlasistencias');
 const myQuery = query(controlesRef, where('idPaciente', '==', idPacienteLocal), where('esCita1', '==', true));
@@ -462,7 +461,7 @@ function addSlide(datos, id) {
 }
 
 function deleteAsistencia(id) {
-  const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
+  const eliminar = confirm('Esta Seguro que quiere Eliminar este Registro?');
   if (eliminar) {
     const docRef = doc(db, 'controlasistencias', id);
     deleteDoc(docRef)
