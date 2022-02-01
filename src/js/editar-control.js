@@ -79,11 +79,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const controlRef = doc(db, 'controlasistencias', idControlLocal);
   getDoc(controlRef).then(doc => {
     const data = doc.data();
-    console.log('data a editar', data);
     document.querySelector('.fechacontrolasistencia').value = data.fecha;
     document.getElementById('evaluaciongeneral').value = data.evaluaciongeneral;
     document.getElementById('tratamientoaplicado').value = data.tratamientoaplicado;
-
     document.getElementById('formadepago').value = data.formadepago;
     document.getElementById('select-banco').value = data.banco;
     document.getElementById('tipo-pago').value = data.tipopago;
@@ -106,14 +104,13 @@ historia.addEventListener('submit', e => {
   const banco = historia['select-banco'].value;
   const tipopago = historia['tipo-pago'].value;
   const referenciapago = historia['referenciapago'].value;
-  const montopagado = historia['montopagado'].value;
-  const montopagadobs = historia['montopagadobs'].value;
-  const cambiodia = historia['cambiodia'].value;
+  const montopagado = parseFloat(historia['montopagado'].value).toFixed(2);
+  const montopagadobs = parseFloat(historia['montopagadobs'].value).toFixed(2);
+  const cambiodia = parseFloat(historia['cambiodia'].value).toFixed(2);
   //Crear Objeto para enviar a firebase con todos los campos
 
   const controlAsistencia = {
     fecha: fechacontrolasistencia,
-    esCita1: true,
     evaluaciongeneral: evaluaciongeneral,
     tratamientoaplicado: tratamientoaplicado,
     formadepago: formadepago,

@@ -223,9 +223,9 @@ historia.addEventListener('submit', async e => {
   const banco = historia['select-banco'].value;
   const tipopago = historia['tipo-pago'].value;
   const referenciapago = historia['referenciapago'].value;
-  const montopagado = parseInt(historia['montopagado'].value).toFixed(2);
-  const montopagadobs = parseInt(historia['montopagadobs'].value).toFixed(2);
-  const cambiodia = parseInt(historia['cambiodia'].value).toFixed(2);
+  const montopagado = parseFloat(historia['montopagado'].value).toFixed(2);
+  const montopagadobs = parseFloat(historia['montopagadobs'].value).toFixed(2);
+  const cambiodia = parseFloat(historia['cambiodia'].value).toFixed(2);
   //Crear Objeto para enviar a firebase con todos los campos
 
   const historiaPaciente = {

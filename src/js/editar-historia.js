@@ -73,12 +73,22 @@ function dolarToday() {
       inputCambio.dispatchEvent(eventoFocus);
       inputBolivares.dispatchEvent(eventoFocus);
       historia['cambiodia'].value = cambio;
-      historia['montopagadobs'].value = parseFloat(cambio) * parseFloat(dolares);
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     })
     .catch(err => {
       alert('La api de Dolar Today No esta disponible');
+      historia['cambiodia'].value = 0;
+      historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
     });
 }
+
+inputCambio.addEventListener('blur', () => {
+  const cambio = historia['cambiodia'].value;
+  const dolares = document.getElementById('montopagado').value;
+  inputBolivares.dispatchEvent(eventoFocus);
+  historia['montopagadobs'].value = (parseFloat(cambio) * parseFloat(dolares)).toFixed(2);
+});
+
 
 inputDolares.addEventListener('blur', e => {
   e.preventDefault();
@@ -243,8 +253,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('textalergicootros').value = data.textalergicootros;
 
-    data.checkcirugias == 'true' ? document.getElementById('checkalergicootros').setAttribute('checked', 'true') : '';
-
     data.antecedentesPersonales.forEach(antecedente => {
       antecedente == 'Cirugias' ? document.getElementById('checkcirugias').setAttribute('checked', 'true') : '';
       antecedente == 'Lesion-Cabeza' ? document.getElementById('checklesiones').setAttribute('checked', 'true') : '';
@@ -330,7 +338,6 @@ historia.addEventListener('submit', e => {
   const checkcodeina = historia['checkcodeina'].checked ? 'codeina' : '';
   const checklatex = historia['checklatex'].checked ? 'Latex' : '';
   const checkacrilico = historia['checkacrilico'].checked ? 'Acrilico' : '';
-  const checkalergicootros = historia['checkalergicootros'].checked ? 'true' : '';
   const textalergicootros = historia['textalergicootros'].value;
   const checkcirugias = historia['checkcirugias'].checked ? 'Cirugias' : '';
   const checklesiones = historia['checklesiones'].checked ? 'Lesion-Cabeza' : '';
@@ -362,9 +369,9 @@ historia.addEventListener('submit', e => {
   const banco = historia['select-banco'].value;
   const tipopago = historia['tipo-pago'].value;
   const referenciapago = historia['referenciapago'].value;
-  const montopagado = historia['montopagado'].value;
-  const montopagadobs = historia['montopagadobs'].value;
-  const cambiodia = historia['cambiodia'].value;
+  const montopagado = parseFloat(historia['montopagado'].value).toFixed(2);
+  const montopagadobs = parseFloat(historia['montopagadobs'].value).toFixed(2);
+  const cambiodia = parseFloat(historia['cambiodia'].value).toFixed(2);
   //Crear Objeto para enviar a firebase con todos los campos
 
   const historiaPaciente = {
@@ -388,7 +395,6 @@ historia.addEventListener('submit', e => {
     cualesmedicamentos,
     dosismeds,
     alergias: [checkaspirina, checkpenicilina, checkanestecialocal, checkcodeina, checklatex, checkacrilico],
-    checkalergicootros,
     textalergicootros,
     antecedentesPersonales: [
       checkcirugias,
@@ -423,7 +429,6 @@ historia.addEventListener('submit', e => {
 
   const controlAsistencia = {
     fecha: fechacontrolasistencia,
-    esCita1: true,
     evaluaciongeneral: evaluaciongeneral,
     tratamientoaplicado: tratamientoaplicado,
     formadepago: formadepago,

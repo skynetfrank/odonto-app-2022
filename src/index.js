@@ -3,6 +3,7 @@ import {
   addDoc,
   doc,
   getDoc,
+  getDocs,
   query,
   deleteDoc,
   where,
@@ -47,6 +48,7 @@ const mySpinner = document.querySelector('.myspinner-container');
 const allSections = document.querySelectorAll('section');
 const btnExcel = document.getElementById('btn-excel');
 const consulta = query(collection(db, 'pacientes'), orderBy('nombre', 'asc'));
+const fechaCorte = new Date(2021, 11, 31);
 var usuariosWeb = [];
 
 const populateTabla = () => {
@@ -599,10 +601,10 @@ function tableSearcher(tablename, keyword) {
     const row = tableCell;
     const value = tableCell.textContent.toLowerCase();
     if (value.search(keyword) === -1) {
-      row.style.visibility = 'collapse';
+      row.style.display = 'none';
     }
     if (keyword === '' || keyword === ' ') {
-      row.style.visibility = 'visible';
+      row.style.display = 'revert';
     }
   }
 }
@@ -627,12 +629,20 @@ function deletePaciente(id) {
   const eliminar = confirm('Esta Seguro que quiere Eliminar este Paciente?');
   if (eliminar) {
     const docRef = doc(db, 'pacientes', id);
-    deleteDoc(docRef)
-      .then(result => {
-        alert('Registro Eliminado');
-      })
-      .catch(error => {
-        alert('Error: ', error.message);
+    const queryControles = query(collection(db, 'controlasistencias'), where('idPaciente', '==', id));
+    deleteDoc(docRef);
+    //delete controles asociados al paciente
+    getDocs(queryControles).then(res => {
+      res.forEach(doc => {
+        deleteControl(doc.id);
       });
+    });
   }
+}
+
+function deleteControl(id) {
+  const ctrlRef = doc(db, 'controlasistencias', id);
+  deleteDoc(ctrlRef).then(result => {
+    alert('Paciente y Controles asociados Eliminados!');
+  });
 }

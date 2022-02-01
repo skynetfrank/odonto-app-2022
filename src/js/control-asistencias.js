@@ -74,7 +74,12 @@ function addSlide(datos, id) {
   var itemTextArea2 = document.createElement('div');
 
   var h61 = document.createElement('h6');
-  var h61Content = document.createTextNode('Evaluacion General');
+  if (datos.esCita1) {
+    var h61Content = document.createTextNode('Evaluacion General (1ra. Cita)');
+  } else {
+    var h61Content = document.createTextNode('Evaluacion General');
+  }
+
   var h62 = document.createElement('h6');
   var h62Content = document.createTextNode('Tratamiento Aplicado');
   h61.appendChild(h61Content);
