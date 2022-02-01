@@ -9,7 +9,7 @@ var slides;
 var btns;
 var navigation = document.querySelector('.navigation');
 const controlesRef = collection(db, 'controlasistencias');
-const myQuery = query(controlesRef, where('idPaciente', '==', idPacienteLocal), where('esCita1', '==', true));
+const myQuery = query(controlesRef, where('idPaciente', '==', idPacienteLocal));
 const btnAgregar = document.getElementById('btn-agregar');
 const btnEditar = document.getElementById('btn-editar');
 const btnEliminar = document.getElementById('btn-eliminar');
